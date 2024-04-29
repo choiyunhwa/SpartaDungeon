@@ -19,6 +19,7 @@ namespace SpartaDungeon
         private bool attackTurn = true; // false : Monster Turn, true : Player Turn
 
         private int tempPlayerHealth = 0;
+        private int tempEnemyHealth = 0;
 
         /// <summary>
         /// Setting the number of monsters ( 1 ~ 4 )
@@ -41,6 +42,7 @@ namespace SpartaDungeon
         public void BattleDungeon() //Player player
         {
             //tempPlayerHealth = player.health;
+            //tempEnemyHealth = Enemy.health;
 
             while (true) /*dieEnemyCount == enemys.Count || player.health <= 0*/
             {
