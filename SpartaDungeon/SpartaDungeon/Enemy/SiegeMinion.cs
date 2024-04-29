@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SpartaDungeon
 {
-    internal class Minion : IEnemy
+    public class SiegeMinion : IEnemy
     {
         public String name { get; set; }
         public int level { get; set; }
@@ -16,28 +15,28 @@ namespace SpartaDungeon
         public int damage { get; set; }
         public bool isDead { get; set; }
 
-        public Minion()
+        public SiegeMinion()
         {
-            name = "미니언";
-            level = 2;
-            maxHP = 15;
-            currentHP = 15;
-            damage = 5;
+            name = "대포미니언";
+            level = 5;
+            maxHP = 25;
+            currentHP = 25;
+            damage = 10;
             isDead = false;
         }
 
         public int Attack()
         {
-            int range = (int) (  ((float)damage / 10) + 0.5);
+            int range = (int)(((float)damage / 10) + 0.5);
             Random rand = new Random();
-            return rand.Next(damage - range , damage + range + 1);
+            return rand.Next(damage - range, damage + range + 1);
         }
-        
+
         public bool Die()
         {
-            if(currentHP == 0)
+            if (currentHP == 0)
                 return true;
-            
+
             else return false;
         }
     }

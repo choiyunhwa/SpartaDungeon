@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpartaDungeon
 {
-    internal class Dragon : IEnemy
+    public class Dragon : IEnemy
     {
         public String name { get; set; }
         public int level { get; set; }

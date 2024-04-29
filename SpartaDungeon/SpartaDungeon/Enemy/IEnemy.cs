@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpartaDungeon
 {
-    internal interface IEnemy
+    public interface IEnemy
     {
         String name { get; set; }
         int level { get; set; }

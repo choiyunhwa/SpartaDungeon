@@ -1,7 +1,7 @@
 ﻿
 using System.Runtime.CompilerServices;
 
-internal class ConsoleUtility
+public class ConsoleUtility
 {
     public static int PromptMenuChoice(int min, int max)
     {

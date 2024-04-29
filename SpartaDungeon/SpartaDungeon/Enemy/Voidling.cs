@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpartaDungeon
 {
-    internal class SiegeMinion : IEnemy
+    public class Voidling : IEnemy
     {
         public String name { get; set; }
         public int level { get; set; }
@@ -15,13 +15,13 @@ namespace SpartaDungeon
         public int damage { get; set; }
         public bool isDead { get; set; }
 
-        public SiegeMinion()
+        public Voidling()
         {
-            name = "대포미니언";
-            level = 5;
-            maxHP = 25;
-            currentHP = 25;
-            damage = 10;
+            name = "공허충";
+            level = 3;
+            maxHP = 10;
+            currentHP = 10;
+            damage = 7;
             isDead = false;
         }
 
