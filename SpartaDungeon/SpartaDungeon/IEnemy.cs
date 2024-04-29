@@ -10,7 +10,8 @@ namespace SpartaDungeon
     {
         String name { get; set; }
         int level { get; set; }
-        int hleath { get; set; }
+        int currentHP { get; set; }
+        int maxHP { get; set; }
         int damage { get; set; }
         bool isDead { get; set; }
 

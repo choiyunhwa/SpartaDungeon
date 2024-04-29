@@ -10,7 +10,8 @@ namespace SpartaDungeon
     {
         public String name { get; set; }
         public int level { get; set; }
-        public int hleath { get; set; }
+        public int currentHP { get; set; }
+        public int maxHP { get; set; }
         public int damage { get; set; }
         public bool isDead { get; set; }
 
@@ -18,7 +19,8 @@ namespace SpartaDungeon
         {
             name = "공허충";
             level = 3;
-            hleath = 10;
+            maxHP = 10;
+            currentHP = 10;
             damage = 7;
             isDead = false;
         }
@@ -32,7 +34,7 @@ namespace SpartaDungeon
 
         public bool Die()
         {
-            if (hleath == 0)
+            if (currentHP == 0)
                 return true;
 
             else return false;
