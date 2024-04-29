@@ -54,6 +54,8 @@ namespace SpartaDungeon
                     
                     //enemys[choice].  //enemy 데미지 입히기
 
+                    
+
                     attackTurn = false;
                 }
                 else
@@ -64,6 +66,14 @@ namespace SpartaDungeon
                     //    {
                     //        int enemyDamage = enemy.Attack();
                     //        player.health -= enemyDamage;
+
+
+                    //        if(enemy.health <= 0)
+                    //        {
+                    //            dieEnemyCount++;
+                    //            enemy.health == 0;
+                    //            enemy.isDead = true;
+                    //        }
 
                     //        //Utility Message에 정보 보내기
                     //    }
