@@ -8,7 +8,7 @@ internal class ConsoleUtility
         while (true)
         {
             Console.WriteLine("  원하시는 번호를 입력해주세요.");
-            Console.WriteLine("  >> ");
+            Console.Write("  >> ");
             if (int.TryParse(Console.ReadLine(), out var choice) && choice >= min && choice <= max)
             {
                 return choice;
@@ -51,7 +51,6 @@ internal class ConsoleUtility
 
     public static void HeightPadding()
     {
-        Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine();
