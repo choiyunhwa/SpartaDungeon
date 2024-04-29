@@ -1,4 +1,4 @@
-﻿internal class Wizard
+﻿internal class Wizard : IPlayer
 {
     public string Name { get; }
     public string Job { get; }
@@ -31,18 +31,12 @@
         Experience = 0;
     }
 
-    public void AddAttack()
+    public void GetGold(int coin)
     {
-
+        Gold += coin;
     }
 
-    public void AddDefense()
-    {
-
-    }
-
-
-    public void levelup()
+    public void LevelUp()
     {
         if (Experience >= Level * (Level + 1) / 2 * 10) //레벨업 공식
         {
@@ -55,10 +49,10 @@
         }
     }
 
-    public void gainexperience(int exp)
+    public void GainExperience(int exp)
     {
         Experience += exp;
-        levelup();
+        LevelUp();
     }
 }
 
