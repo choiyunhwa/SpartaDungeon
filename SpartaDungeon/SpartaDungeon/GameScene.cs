@@ -1,4 +1,5 @@
 ﻿
+
 public class GameScene
 {
     public void StartView()
@@ -56,12 +57,11 @@ public class GameScene
                 StatusView();
                 break;
             case 2:
-                BattleView();
+                BattleMain();
                 break;
         }
         MainView();
     }
-
 
     private void StatusView()
     {
@@ -96,7 +96,7 @@ public class GameScene
         StatusView();
     }
 
-    private void BattleView()
+    private void BattleMain()
     {
         Console.Clear();
         Console.WriteLine();
@@ -125,9 +125,156 @@ public class GameScene
         switch (choice)
         {
             case 1:
-                //Battle();
+                Battle();
                 break;
         }
-        BattleView();
+        BattleMain();
+    }
+
+    private void Battle()
+    {
+        Console.Clear();
+        Console.WriteLine();
+
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!!");
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
+        Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
+        Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine("  [내정보]");
+        Console.WriteLine($"  LV.{0} {1}({2})"); //player.Level player.Name player.Job
+        Console.WriteLine($"  HP {0}/{1}"); //player.MaxHp player.CurrentHP
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine("  0. 취소");
+        Console.WriteLine();
+
+        // 선택한 결과를 검증함
+        string choice = ConsoleUtility.BattleChoice();
+
+        // 선택한 결과에 따라 보내줌
+        switch (choice)
+        {
+            case "미니언":
+                //공격();
+                BattlePlayerTurn();
+                break;
+            case "대포미니언":
+                //공격();
+                BattlePlayerTurn();
+                break;
+            case "공허충":
+                //공격();
+                BattlePlayerTurn();
+                break;
+            case "0":
+                //0은 뭘까?
+                break;
+        }
+        Battle();
+    }
+
+    private void BattlePlayerTurn()
+    {
+        Console.Clear();
+        Console.WriteLine();
+
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!!");
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"{0}의 공격!");
+        Console.WriteLine($"LV. {0} {1}을(를) 맞췄습니다. [데미지 : {2}]");
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"Lv.{0} {1}"); // monster.Level, monster.Name
+        Console.WriteLine($"HP {0} -> {1}"); // monster.MaxHP / monster.HP(hp로 할지(if(hp <= 0) console.writeline("Dead")) or isDead? 로 작성할지)
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine("  0. 다음");
+        Console.WriteLine();
+
+        // 선택한 결과를 검증함
+        int choice = ConsoleUtility.PromptMenuChoice(0, 0);
+
+        // 선택한 결과에 따라 보내줌
+        switch (choice)
+        {
+            case 0:
+                BattleResult();
+                break;
+        }
+        BattleResult();
+    }
+
+    private void BattleMonsterTurn()
+    {
+        Console.Clear();
+        Console.WriteLine();
+
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!!");
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"LV.{0} {1}의 공격!");
+        Console.WriteLine($"{0}을(를) 맞췄습니다. [데미지 : {1}]");
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"Lv.{0} {1}"); // player.Level, player.Name
+        Console.WriteLine($"HP {0} -> {1}"); // player.MaxHP / player.HP(hp로 할지(if(hp <= 0) console.writeline("Dead")) or isDead? 로 작성할지)
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine("  0. 다음");
+        Console.WriteLine();
+
+        // 선택한 결과를 검증함
+        int choice = ConsoleUtility.PromptMenuChoice(0, 0);
+
+        // 선택한 결과에 따라 보내줌
+        switch (choice)
+        {
+            case 0:
+                BattleResult();
+                break;
+        }
+        BattleResult();
+    }
+
+    private void BattleResult()
+    {
+        Console.Clear();
+        Console.WriteLine();
+
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!! - Result");
+        Console.WriteLine();
+        ConsoleUtility.ResultTitle($"  {0}"); // result
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"  던전에서 몬스터 {0}마리를 잡았습니다."); //몬스터 잡은 수
+        ConsoleUtility.HeightPadding();
+
+        Console.WriteLine($"  LV.{0} {1}({2})"); //player.Level player.Name
+        Console.WriteLine($"  HP {0}/{1}"); //player.MaxHp player.CurrentHP
+
+        Console.WriteLine("  0. 다음");
+        Console.WriteLine();
+
+        // 선택한 결과를 검증함
+        int choice = ConsoleUtility.PromptMenuChoice(0, 0);
+
+        // 선택한 결과에 따라 보내줌
+        switch (choice)
+        {
+            case 0:
+                MainView();
+                break;
+        }
+        BattleResult();
+
     }
 }
