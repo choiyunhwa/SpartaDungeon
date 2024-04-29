@@ -12,6 +12,7 @@ namespace SpartaDungeon
         private Random random = new Random();
         
         public List<int> enemys = new List<int>(); //Enemy로 변경 해야함
+        public List<int> competeEnemys = new List<int>(); //던전 출전하는 몬스터
         public int enemyCount { get; set; }
 
         private int dieEnemyCount = 0;
@@ -30,9 +31,9 @@ namespace SpartaDungeon
             
             for(int i = 0; i < enemyCount; i++) 
             { 
-                int choiceEnemy = random.Next(1, 5); //어딘가 담겨져있는 몬스터 종류
+                int choiceEnemy = enemys[random.Next(1, enemys.Count + 1)]; //어딘가 담겨져있는 몬스터 종류
 
-                enemys.Add(choiceEnemy);
+                competeEnemys.Add(choiceEnemy);
             }
         }
 
@@ -44,23 +45,23 @@ namespace SpartaDungeon
             //tempPlayerHealth = player.health;
             //tempEnemyHealth = Enemy.health;
 
-            while (true) /*dieEnemyCount == enemys.Count || player.health <= 0*/
+            while (true) /*dieEnemyCount == competeEnemys.Count || player.health <= 0*/
             {
                 //int attack = Math.Ceiling(random.Next(player.attack - 1, player.attack + 1)); //Player Attack Range -1 ~ +1 
 
                 if(attackTurn)
                 {
                     int choice = int.Parse(Console.ReadLine()); //차후 Utility에서 변경                    
-                    
-                    //enemys[choice].  //enemy 데미지 입히기
 
-                    
+                    //competeEnemys[choice].  //enemy 데미지 입히기
+
+
 
                     attackTurn = false;
                 }
                 else
                 {
-                    //foreach (var enemy in enemys)
+                    //foreach (var enemy in competeEnemys)
                     //{
                     //    if (!enemy.isDead)
                     //    {
