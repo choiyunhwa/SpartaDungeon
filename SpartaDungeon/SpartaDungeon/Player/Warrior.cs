@@ -1,6 +1,8 @@
 ﻿
 public class Warrior : IPlayer
 {
+    private List<Skill> warriorSkill;
+
     public string Name { get; }
     public string Job { get; }
     public int Level { get; set; }
@@ -47,6 +49,11 @@ public class Warrior : IPlayer
             MaxHp += 10;
             CurrentHp = MaxHp;
             Console.WriteLine($"{Name}님의 레벨이 {Level}로 올랐습니다!");
+
+            foreach (Skill skill in warriorSkill)
+            {
+                skill.UnlockSkill(Level);
+            }
         }
     }
 
@@ -57,8 +64,16 @@ public class Warrior : IPlayer
     }
 
 
+    public void SkillList()
+    {
+        warriorSkill = new List<Skill>();
+        warriorSkill.Add(new Skill("알파 스트라이크", 2, 1, 10, "공격력 * 2 로 하나의 적을 공격합니다. ◈2레벨에 해금◈", 2, false, false));
+        warriorSkill.Add(new Skill("더블 스트라이크", 1.5f, 2, 15, "공격력 * 1.5 데미지로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
+        warriorSkill.Add(new Skill("파워 스트라이크", 3, 1, 20, "공격력 * 3 데미지로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈4레벨에 해금◈", 4, false, true));
+        warriorSkill.Add(new Skill("파이널 어택", 2.5f, 2, 25, "공격력 * 2.5 데미지로 2명의 적을 랜덤으로 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5, true, true));
 
-    
+    }
+
 }
 
 

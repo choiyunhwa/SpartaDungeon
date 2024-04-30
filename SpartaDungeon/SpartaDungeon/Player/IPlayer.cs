@@ -17,5 +17,6 @@
     public void GetGold(int coin);
     public void LevelUp();
     public void GainExperience(int exp);
+    public void SkillList();
 
 }

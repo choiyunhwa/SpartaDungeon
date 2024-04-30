@@ -1,6 +1,10 @@
 ﻿
+using System.Xml.Linq;
+
 public class GameScene
 {
+
+    private ChoiseJob choiseJob; //객체 필드추가
     public void StartView()
     {
         Console.Clear();
@@ -12,7 +16,7 @@ public class GameScene
 
         // 이름 물어보기
         Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
-        Console.ReadLine();
+        string name = Console.ReadLine();   //닉네임 입력받기 추가
         Console.WriteLine();
         Console.WriteLine();
         // 직업
@@ -21,7 +25,8 @@ public class GameScene
         Console.WriteLine();
         // 직업 고르기
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
-        Console.ReadLine();
+        int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
+        choiseJob = new ChoiseJob(name, choice);
         Console.WriteLine();
 
         ConsoleUtility.HeightPadding();
@@ -73,11 +78,28 @@ public class GameScene
         Console.WriteLine("  캐릭터의 정보가 표기됩니다.");
         ConsoleUtility.HeightPadding();
 
-        Console.WriteLine($"  LV. {0}"); //player.Level
-        Console.WriteLine($"  {0} ({1})"); //player.Name, player.Job
-        Console.WriteLine($"  공격력 : {0}"); //player.Attack
-        Console.WriteLine($"  방어력 :  {0}"); //player.Defense
-        Console.WriteLine($"  Golde : {0}"); //player.Gold
+        if (choiseJob != null)          //선택한 직업 상태보기 연결
+        {
+            if (choiseJob.Warrior != null)
+            {
+                Warrior warrior = choiseJob.Warrior;
+                Console.WriteLine($"  LV. {warrior.Level}");
+                Console.WriteLine($"  {warrior.Name} ({warrior.Job})");
+                Console.WriteLine($"  공격력 : {warrior.Atk}");
+                Console.WriteLine($"  방어력 :  {warrior.Def}");
+                Console.WriteLine($"  Gold : {warrior.Gold}");
+            }
+            else if (choiseJob.Wizard != null)
+            {
+                Wizard wizard = choiseJob.Wizard;
+                Console.WriteLine($"  LV. {wizard.Level}");
+                Console.WriteLine($"  {wizard.Name} ({wizard.Job})");
+                Console.WriteLine($"  공격력 : {wizard.Atk}");
+                Console.WriteLine($"  방어력 :  {wizard.Def}");
+                Console.WriteLine($"  Gold : {wizard.Gold}");
+            }
+        }
+
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  0. 나가기");
