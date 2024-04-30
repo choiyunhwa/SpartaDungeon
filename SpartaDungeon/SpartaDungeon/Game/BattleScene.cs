@@ -86,8 +86,6 @@ public class BattleScene
                             enemy.currentHP = 0;
                             enemy.isDead = true;
                         }
-                        //Utility Message에 정보 보내기
-
                     }
                 }
                 attackTurn = true;
@@ -102,16 +100,19 @@ public class BattleScene
     /// <summary>
     /// Show the results after the battle
     /// </summary>
-    public void BattleResult(IPlayer player) //Player player
+    public bool BattleResult(IPlayer player) 
     {
-        //if(player.health > 0)
-        //{
-        //    //Utility에 tempHealth 정보, player.health 정보, dieEnemyCount 정보 보냄
-        //}
-        //else
-        //{
-        //    //Utility에 정보를 보냄
-        //}
+        if (player.CurrentHp > 0)
+        {
+            //Utility에 tempHealth 정보, player.health 정보, dieEnemyCount 정보 보냄
+
+            return true;
+        }
+        else
+        {
+            //Utility에 정보를 보냄
+            return false;
+        }
     }
 }
 
