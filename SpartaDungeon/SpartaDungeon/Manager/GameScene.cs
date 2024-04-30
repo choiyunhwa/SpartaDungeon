@@ -1,6 +1,18 @@
 ﻿
+using System.Security.Cryptography.X509Certificates;
+
 public class GameScene
 {
+    public BattleScene battleScene;
+    public IPlayer player;
+
+    public void InitDataSetting()
+    {
+        battleScene = new BattleScene();
+        battleScene.SettingEnemyData();
+    }
+
+
     public void StartView()
     {
         Console.Clear();
@@ -30,6 +42,8 @@ public class GameScene
         Console.WriteLine("              PRESS ANYKEY TO START              ");
         Console.WriteLine("=================================================");
         Console.ReadKey();
+
+        InitDataSetting();
         MainView();
     }
 
@@ -101,21 +115,27 @@ public class GameScene
         Console.Clear();
         Console.WriteLine();
 
+        battleScene.SettingMonster();
+
         // 제목 색 다름
         ConsoleUtility.ShowTitle("  Battle!!");
         ConsoleUtility.HeightPadding();
 
-        Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
-        Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
-        Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
-
+        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
+        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
+        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
         
+        foreach(var e in battleScene.competeEnemys) //Add YH 
+        {
+            Console.WriteLine($"  LV.{e.level} {e.name} HP {e.currentHP}");
+        }
+
 
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  [내정보]");
-        Console.WriteLine($"  LV.{0} {1}({2})"); //player.Level player.Name player.Job
-        Console.WriteLine($"  HP {0}/{1}"); //player.MaxHp player.CurrentHP
+        Console.WriteLine($"  LV.{player.Level} {player.Name}({player.Job})"); //player.Level player.Name player.Job
+        Console.WriteLine($"  HP {player.MaxHp}/{player.CurrentHp}"); //player.MaxHp player.CurrentHP
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  1. 공격");

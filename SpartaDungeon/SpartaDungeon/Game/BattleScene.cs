@@ -39,7 +39,7 @@ public class BattleScene
 
         for (int i = 0; i < enemyCount; i++)
         {
-            IEnemy choiceEnemy = enemys[random.Next(1, enemys.Count + 1)]; //어딘가 담겨져있는 몬스터 종류 
+            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)]; //어딘가 담겨져있는 몬스터 종류 
 
             competeEnemys.Add(choiceEnemy);
         }
@@ -48,56 +48,61 @@ public class BattleScene
     /// <summary>
     /// Monsters and Player Fight
     /// </summary>
-    public void BattleDungeon() //Player player
+    public void BattleDungeon(IPlayer player) 
     {
-        //tempPlayerHealth = player.health;
-        //tempEnemyHealth = Enemy.health;
+        tempPlayerHealth = player.CurrentHp;
+        List<IEnemy>tempEnemyHealth = competeEnemys;
 
-        while (true) /*dieEnemyCount == competeEnemys.Count || player.health <= 0*/
+        int currentAtk = (int)Math.Ceiling(player.Atk);
+        int attack = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1 
+
+        while (dieEnemyCount == competeEnemys.Count || player.CurrentHp <= 0)
         {
-            //int attack = Math.Ceiling(random.Next(player.attack - 1, player.attack + 1)); //Player Attack Range -1 ~ +1 
 
             if (attackTurn)
             {
-                int choice = int.Parse(Console.ReadLine()); //차후 Utility에서 변경                    
+                int choice = int.Parse(Console.ReadLine());                               
 
-                //competeEnemys[choice].  //enemy 데미지 입히기
-
-
+                competeEnemys[choice].currentHP -= attack;
 
                 attackTurn = false;
             }
             else
             {
-                //foreach (var enemy in competeEnemys)
-                //{
-                //    if (!enemy.isDead)
-                //    {
-                //        int enemyDamage = enemy.Attack();
-                //        player.health -= enemyDamage;
+                foreach (var enemy in competeEnemys)
+                {
+                    if (!enemy.Die())
+                    {
+                        int enemyDamage = enemy.Attack();
+                        player.CurrentHp -= enemyDamage;
+
+                        if (player.CurrentHp <= 0)
+                            break;
 
 
-                //        if(enemy.health <= 0)
-                //        {
-                //            dieEnemyCount++;
-                //            enemy.health == 0;
-                //            enemy.isDead = true;
-                //        }
+                        if (enemy.currentHP <= 0)
+                        {
+                            dieEnemyCount++;
+                            enemy.currentHP = 0;
+                            enemy.isDead = true;
+                        }
+                        //Utility Message에 정보 보내기
 
-                //        //Utility Message에 정보 보내기
-                //    }
-                //}
+                    }
+                }
                 attackTurn = true;
             }
+
+
         }
 
-        BattleResult();
+        BattleResult(player);
     }
 
     /// <summary>
     /// Show the results after the battle
     /// </summary>
-    public void BattleResult() //Player player
+    public void BattleResult(IPlayer player) //Player player
     {
         //if(player.health > 0)
         //{

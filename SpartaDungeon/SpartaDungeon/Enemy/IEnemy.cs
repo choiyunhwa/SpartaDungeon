@@ -16,5 +16,6 @@ public interface IEnemy
 
     int Attack();
     bool Die();
+
 }
 
