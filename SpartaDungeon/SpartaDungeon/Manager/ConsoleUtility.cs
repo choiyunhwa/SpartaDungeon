@@ -3,11 +3,15 @@ using System.Runtime.CompilerServices;
 
 public class ConsoleUtility
 {
-    public static int PromptMenuChoice(int min, int max)
+    public static int PromptMenuChoice(int min, int max, bool check = true)
     {
         while (true)
         {
-            Console.WriteLine("  원하시는 번호를 입력해주세요.");
+            if (check)
+                Console.WriteLine("  원하시는 번호를 입력해주세요.");
+            else
+                Console.WriteLine("  대상을 선택해주세요.");
+
             Console.Write("  >> ");
             if (int.TryParse(Console.ReadLine(), out var choice) && choice >= min && choice <= max)
             {

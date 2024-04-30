@@ -1,10 +1,15 @@
 ﻿
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 public class GameScene
 {
     public BattleScene battleScene;
     public IPlayer player;
+
+    bool check = true;
 
     public void InitDataSetting()
     {
@@ -24,7 +29,7 @@ public class GameScene
 
         // 이름 물어보기
         Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
-        Console.ReadLine();
+        string name = Console.ReadLine();
         Console.WriteLine();
         Console.WriteLine();
         // 직업
@@ -35,6 +40,8 @@ public class GameScene
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
         Console.ReadLine();
         Console.WriteLine();
+
+        player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000); //Test
 
         ConsoleUtility.HeightPadding();
 
@@ -70,6 +77,7 @@ public class GameScene
                 StatusView();
                 break;
             case 2:
+                battleScene.SettingMonster();
                 BattleView();
                 break;
         }
@@ -111,11 +119,9 @@ public class GameScene
     }
 
     private void BattleView()
-    {
+    {   
         Console.Clear();
-        Console.WriteLine();
-
-        battleScene.SettingMonster();
+        Console.WriteLine();            
 
         // 제목 색 다름
         ConsoleUtility.ShowTitle("  Battle!!");
@@ -127,9 +133,17 @@ public class GameScene
         
         foreach(var e in battleScene.competeEnemys) //Add YH 
         {
-            Console.WriteLine($"  LV.{e.level} {e.name} HP {e.currentHP}");
+            if(e.currentHP != 0)
+            {
+                Console.WriteLine($"  LV.{e.level} {e.name} HP {e.currentHP}");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine($"  LV.{e.level} {e.name} HP Dead");
+                Console.ResetColor();
+            }
         }
-
 
         ConsoleUtility.HeightPadding();
 
@@ -138,19 +152,82 @@ public class GameScene
         Console.WriteLine($"  HP {player.MaxHp}/{player.CurrentHp}"); //player.MaxHp player.CurrentHP
         ConsoleUtility.HeightPadding();
 
-        Console.WriteLine("  1. 공격");
-        Console.WriteLine();
 
+        string option = check ? " 1. 공격" : " 0. 취소";
+        Console.WriteLine(option);
+        Console.WriteLine();
+        int minOptionNum = check ? 1 : 0;
+        int maxOptionNum = check ? 1 : battleScene.competeEnemys.Count;
         // 선택한 결과를 검증함
-        int choice = ConsoleUtility.PromptMenuChoice(1, 1);
+        int choice = ConsoleUtility.PromptMenuChoice(minOptionNum, maxOptionNum, check);
 
         // 선택한 결과에 따라 보내줌
         switch (choice)
         {
+            case 0:
+                check = true;
+                BattleView();
+                break;
             case 1:
-                //Battle();
+            default:
+                if (check == true)
+                {
+                    check = false;
+                    BattleView();
+                }
+                else
+                {
+                    Battle(choice);
+                }
                 break;
         }
         BattleView();
     }
+
+    private void Battle(int ch)
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!!");
+        ConsoleUtility.HeightPadding();
+
+        battleScene.BattleDungeon(player, ch);
+
+        string attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name ;
+        string defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
+        int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
+
+        if(battleScene.AttackTurn == true)
+            battleScene.AttackTurn = false;
+        
+        
+
+        //Console.WriteLine($" AttackTurn : {battleScene.AttackTurn}");
+
+        Console.WriteLine($"  {attacker} 의 공격!");
+        Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
+
+
+        Console.WriteLine("\n  0. 다음");
+        Console.WriteLine();      
+
+
+        int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
+
+        //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
+        //    BattleView();
+
+        if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == false || player.CurrentHp > 0))
+        {
+            Battle(choice);
+        }
+        else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last())
+        {
+            battleScene.AttackTurn = true;
+            BattleView();
+        }
+    }
+
+
 }

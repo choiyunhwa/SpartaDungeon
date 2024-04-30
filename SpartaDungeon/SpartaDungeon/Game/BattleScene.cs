@@ -9,14 +9,37 @@ public class BattleScene
 {
     private Random random = new Random();
 
-    public List<IEnemy> enemys = new List<IEnemy>();
-    public List<IEnemy> competeEnemys = new List<IEnemy>();
+    public List<IEnemy> enemys = new List<IEnemy>(); //Enemy의 정보
+    public List<IEnemy> competeEnemys = new List<IEnemy>(); //던전에 출몰하는 Enemy
     public int enemyCount { get; set; }
 
     private int dieEnemyCount = 0;
 
     private bool attackTurn = true; // false : Monster Turn, true : Player Turn
 
+    public bool AttackTurn
+    {
+        get { return attackTurn; }
+
+        set { attackTurn = value; }
+    }
+
+    private bool isAttack = true;
+
+    public bool IsAttack
+    {
+        get { return isAttack; }
+    }
+
+    private int playerAttackDamage = 0;
+
+    public int PlayerAttackDamage
+    {
+        get { return playerAttackDamage; }
+    }
+
+    int turnCount = 0;
+    public IEnemy orderEnemy;
     private int tempPlayerHealth = 0;
     private int tempEnemyHealth = 0;
 
@@ -35,72 +58,94 @@ public class BattleScene
     /// </summary>
     public void SettingMonster()
     {
-        enemyCount = random.Next(1, 5); //나타낼 몬스터의 숫자
+        enemyCount = random.Next(1, 5);
 
         for (int i = 0; i < enemyCount; i++)
         {
-            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)]; //어딘가 담겨져있는 몬스터 종류 
+            //현재 참조 상태로 변경 해야함
+            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)]; //몬스터 종류가 담겨있는 곳에서 하나씩 뽑아냄 
 
             competeEnemys.Add(choiceEnemy);
         }
     }
 
     /// <summary>
-    /// Monsters and Player Fight
+    /// Monsters and Player Fight 
     /// </summary>
-    public void BattleDungeon(IPlayer player) 
+    public void BattleDungeon(IPlayer player, int choice)
     {
         tempPlayerHealth = player.CurrentHp;
-        List<IEnemy>tempEnemyHealth = competeEnemys;
+        List<IEnemy> tempEnemyHealth = competeEnemys;
 
         int currentAtk = (int)Math.Ceiling(player.Atk);
-        int attack = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1 
+        playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1         
 
-        while (dieEnemyCount == competeEnemys.Count || player.CurrentHp <= 0)
+        if (attackTurn) //Player Turn
+        {
+            //int choice = int.Parse(Console.ReadLine());           
+
+            if (choice != 0)
+            {
+                orderEnemy = competeEnemys[choice - 1];
+
+                orderEnemy.currentHP -= playerAttackDamage;
+
+                //attackTurn = false;
+            }
+        }
+        else // Enemy's Turn
         {
 
-            if (attackTurn)
+            if(turnCount < competeEnemys.Count)
             {
-                int choice = int.Parse(Console.ReadLine());                               
+                if (!competeEnemys[turnCount].Die())
+                {
+                    orderEnemy = competeEnemys[turnCount];
+                    int enemyDamage = orderEnemy.Attack();
+                    player.CurrentHp -= enemyDamage;
 
-                competeEnemys[choice].currentHP -= attack;
 
-                attackTurn = false;
+                    if(player.CurrentHp <= 0)
+                    {
+                        player.CurrentHp = 0;
+                    }
+
+
+                    if (competeEnemys[turnCount].currentHP <= 0)
+                    {
+                        dieEnemyCount++;
+                        competeEnemys[turnCount].currentHP = 0;
+                        competeEnemys[turnCount].isDead = true;
+                    }
+
+                    //if (turnCount == competeEnemys.Count)
+                    //{
+                    //    turnCount = 0;
+                    //    attackTurn = false;
+                    //}
+                }
+                turnCount++;
             }
             else
             {
-                foreach (var enemy in competeEnemys)
-                {
-                    if (!enemy.Die())
-                    {
-                        int enemyDamage = enemy.Attack();
-                        player.CurrentHp -= enemyDamage;
-
-                        if (player.CurrentHp <= 0)
-                            break;
-
-
-                        if (enemy.currentHP <= 0)
-                        {
-                            dieEnemyCount++;
-                            enemy.currentHP = 0;
-                            enemy.isDead = true;
-                        }
-                    }
-                }
+                turnCount = 0;
                 attackTurn = true;
             }
-
-
+            
         }
 
-        BattleResult(player);
+        if (dieEnemyCount == competeEnemys.Count)
+        {
+            isAttack = false;
+        }
+
+        //BattleResult(player);
     }
 
     /// <summary>
     /// Show the results after the battle
     /// </summary>
-    public bool BattleResult(IPlayer player) 
+    public bool BattleResult(IPlayer player)
     {
         if (player.CurrentHp > 0)
         {
