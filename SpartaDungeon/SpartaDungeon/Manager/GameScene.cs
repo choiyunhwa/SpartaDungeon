@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
@@ -225,9 +226,43 @@ public class GameScene
         else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last())
         {
             battleScene.AttackTurn = true;
+            battleScene.turnCount = 0;
             BattleView();
+        }
+        
+        if(battleScene.isEnding == true)
+        {
+            ResultBattle();
         }
     }
 
+    private void ResultBattle()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Battle!! - Result");
+        ConsoleUtility.HeightPadding();
+
+        string result = player.CurrentHp > 0 ? "  Victory" : "  You Lose";
+        Console.WriteLine(result);
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine($"LV. {player.Level} {player.Name}");
+        Console.WriteLine($"HP {player.CurrentHp} -> {player.CurrentHp}");
+
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("\n  0. 다음");
+
+        int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
+
+
+        switch (choice)
+        {
+            case 0:
+                MainView();
+                break;
+            
+        }
+    }
 
 }

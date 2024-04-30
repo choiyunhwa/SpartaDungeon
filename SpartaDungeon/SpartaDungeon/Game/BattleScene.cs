@@ -38,7 +38,9 @@ public class BattleScene
         get { return playerAttackDamage; }
     }
 
-    int turnCount = 0;
+    public bool isEnding { get; set; } = false;
+
+    public int turnCount { get; set; } = 0;
     public IEnemy orderEnemy;
     private int tempPlayerHealth = 0;
     private int tempEnemyHealth = 0;
@@ -108,6 +110,7 @@ public class BattleScene
                     if(player.CurrentHp <= 0)
                     {
                         player.CurrentHp = 0;
+                        isEnding = true;
                     }
 
 
@@ -137,6 +140,7 @@ public class BattleScene
         if (dieEnemyCount == competeEnemys.Count)
         {
             isAttack = false;
+            isEnding = true;
         }
 
         //BattleResult(player);
