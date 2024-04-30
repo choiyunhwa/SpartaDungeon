@@ -222,11 +222,11 @@ public class GameScene
         //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
         //    BattleView();
 
-        if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == false || player.CurrentHp > 0))
+        if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             Battle(choice);
         }
-        else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last())
+        else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last()) 
         {
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;

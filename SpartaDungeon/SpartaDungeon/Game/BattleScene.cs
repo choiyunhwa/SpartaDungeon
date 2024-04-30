@@ -91,12 +91,17 @@ public class BattleScene
         int currentAtk = (int)Math.Ceiling(player.Atk);
         playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1         
 
+        //Console.WriteLine($" attackTurn :   {attackTurn}    choice : {choice}");
+
         if (attackTurn) //Player Turn
         {
-            //int choice = int.Parse(Console.ReadLine());           
+            //int choice = int.Parse(Console.ReadLine());   
+
+            
 
             if (choice != 0)
             {
+                //Console.WriteLine("플레이어 단계!!\n");
                 orderEnemy = competeEnemys[choice - 1];
 
                 orderEnemy.currentHP -= playerAttackDamage;
@@ -109,6 +114,7 @@ public class BattleScene
 
             if (turnCount < competeEnemys.Count)
             {
+                //Console.WriteLine("몬스터 단계!!\n");
                 if (!competeEnemys[turnCount].Die())
                 {
                     orderEnemy = competeEnemys[turnCount];
