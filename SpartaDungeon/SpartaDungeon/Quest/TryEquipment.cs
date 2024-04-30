@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 public class TryEquipment : IQuest
 {
-    public string questName { get; set; }      // 퀘스트 이름
-    public string questLine { get; set; }      // 퀘스트 대사
-    public string reward { get; set; }         // 퀘스트 보상
-    public bool isCompleted { get; set; }      // 퀘스트 완료 여부
+    public string questName { get; set; }    
+    public string questLine { get; set; }     
+    public string reward { get; set; }         
+    public bool isCompleted { get; set; }     
 
     public TryEquipment()
     {
@@ -26,7 +26,27 @@ public class TryEquipment : IQuest
         isCompleted = false;
     }
 
+    public void OnKilledEnemy(string KilledMonsterName) { } // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.
 
+    public void CompleteQuest()
+    {
+        isCompleted = true;
+    }
+
+    public int CheckQuest()
+    {
+        if (isCompleted)
+        {
+            Console.WriteLine("퀘스트가 완료되었습니다.");
+            return 1;
+        }
+
+        else
+        {
+            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
+            return 0;
+        }
+    }
 
 
 }

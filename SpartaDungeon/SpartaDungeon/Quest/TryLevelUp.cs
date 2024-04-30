@@ -4,31 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpartaDungeon.Quest
+
+
+public class TryLevelUp : IQuest
 {
-    internal class TryLevelUp : IQuest
+    public string questName { get; set; }
+    public string questLine { get; set; }
+    public string reward { get; set; }
+    public bool isCompleted { get; set; }
+
+    public TryLevelUp()
     {
-        public string questName { get; set; }  
-        public string questLine { get; set; }   
-        public string reward { get; set; }        
-        public bool isCompleted { get; set; }      
+        questName = "더욱 더 강해지기";
 
-        public TryLevelUp()
+        questLine = "모든 사람은 어떠한 경험을 가지며 살아간다네.\n" +
+                    "그 경험을 통해 깨닫는 것이 있고, 이를 통해 더욱 단단해지지.\n" +
+                    "이는 모험가에게도 마찬가지이며, 너에게도 통하는 말이겠지.\n" +
+                    "경험을 쌓도록 하세. 너를 더 강해지게 해줄 것이니.\n";
+
+        reward = "경험치";
+        isCompleted = false;
+    }
+
+    public void OnKilledEnemy(string KilledMonsterName) { } // 레벨업 퀘스트이기 때문에 이 메소드는 비워두었습니다.
+
+    public void CompleteQuest()
+    {
+        isCompleted = true;
+    }
+
+    public int CheckQuest()
+    {
+        if (isCompleted)
         {
-            questName = "더욱 더 강해지기";
-            
-            questLine = "모든 사람은 어떠한 경험을 가지며 살아간다네.\n" +
-                        "그 경험을 통해 깨닫는 것이 있고, 이를 통해 더욱 단단해지지.\n" +
-                        "이는 모험가에게도 마찬가지이며, 너에게도 통하는 말이겠지.\n" +
-                        "경험을 쌓도록 하세. 너를 더 강해지게 해줄 것이니.\n";
-
-            reward = "경험치";
-            isCompleted = false;
+            Console.WriteLine("퀘스트가 완료되었습니다.");
+            return 1;
         }
 
-
-
-
-
+        else
+        {
+            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
+            return 0;
+        }
     }
 }
+

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 public class KillMinion : IQuest
 {
-    public string questName { get; set; }      // 퀘스트 이름
-    public string questLine { get; set; }      // 퀘스트 대사
-    public string reward { get; set; }         // 퀘스트 보상
-    public bool isCompleted { get; set; }      // 퀘스트 완료 여부
+    public string questName { get; set; }      
+    public string questLine { get; set; }    
+    public string reward { get; set; }        
+    public bool isCompleted { get; set; }      
 
-    public string monsterName {get; set;}       // 목표 몬스터
-    public int requireCount { get; set; }       // 필요 처치 수
-    public int currentCount { get; set; }       // 현재 처치 수
+    public string monsterName {get; set;}       
+    public int requireCount { get; set; }      
+    public int currentCount { get; set; }       
 
     public KillMinion()
     {
@@ -30,6 +30,39 @@ public class KillMinion : IQuest
         currentCount = 0;
     }
 
+    public void OnKilledEnemy(string KilledMonsterName)
+    {
+        if (KilledMonsterName == monsterName)
+        {
+            currentCount++;
+        }
+
+        if (requireCount == currentCount)
+        {
+            CompleteQuest();
+        }
+    }
+
+    public void CompleteQuest()
+    {
+        isCompleted = true;
+    }
+
+    public int CheckQuest()
+    {
+        if (isCompleted)
+        {
+            Console.WriteLine("퀘스트가 완료되었습니다.");
+            return 1;
+        }
+
+        else
+        {
+            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
+            Console.WriteLine($"미니언 처치 {requireCount}/{currentCount}");
+            return 0;
+        }
+    }
 
 }
 

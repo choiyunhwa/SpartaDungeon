@@ -12,9 +12,9 @@ public class KillSeigeMinion : IQuest
     public string reward { get; set; }        
     public bool isCompleted { get; set; }
 
-    public string monsterName { get; set; }       // 목표 몬스터
-    public int requireCount { get; set; }       // 필요 처치 수
-    public int currentCount { get; set; }       // 현재 처치 수
+    public string monsterName { get; set; }      
+    public int requireCount { get; set; }      
+    public int currentCount { get; set; }      
 
 
     public KillSeigeMinion()
@@ -35,6 +35,40 @@ public class KillSeigeMinion : IQuest
         monsterName = "대포미니언";
         requireCount = 7;
         currentCount = 0;
+    }
+
+    public void OnKilledEnemy(string KilledMonsterName)
+    {
+        if (KilledMonsterName == monsterName)
+        {
+            currentCount++;
+        }
+
+        if (requireCount == currentCount)
+        {
+            CompleteQuest();
+        }
+    }
+
+    public void CompleteQuest()
+    {
+        isCompleted = true;
+    }
+
+    public int CheckQuest()
+    {
+        if (isCompleted)
+        {
+            Console.WriteLine("퀘스트가 완료되었습니다.");
+            return 1;
+        }
+
+        else
+        {
+            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
+            Console.WriteLine($"대포미니언 처치 {requireCount}/{currentCount}");
+            return 0;
+        }
     }
 
 }
