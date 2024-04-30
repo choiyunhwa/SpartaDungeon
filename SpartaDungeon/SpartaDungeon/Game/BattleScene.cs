@@ -10,9 +10,9 @@ namespace SpartaDungeon
     public class BattleScene
     {
         private Random random = new Random();
-        
-        public List<int> enemys = new List<int>(); //Enemy로 변경 해야함
-        public List<int> competeEnemys = new List<int>(); //던전 출전하는 몬스터
+       
+        public List<IEnemy> enemys = new List<IEnemy>(); 
+        public List<IEnemy> competeEnemys = new List<IEnemy>(); 
         public int enemyCount { get; set; }
 
         private int dieEnemyCount = 0;
@@ -22,6 +22,16 @@ namespace SpartaDungeon
         private int tempPlayerHealth = 0;
         private int tempEnemyHealth = 0;
 
+
+        public void SettingEnemyData()
+        {
+            enemys.Add(new Minion());
+            enemys.Add(new Voidling());
+            enemys.Add(new SiegeMinion());
+            enemys.Add(new Dragon());
+        }
+
+
         /// <summary>
         /// Setting the number of monsters ( 1 ~ 4 )
         /// </summary>
@@ -30,8 +40,8 @@ namespace SpartaDungeon
             enemyCount =  random.Next(1,5); //나타낼 몬스터의 숫자
             
             for(int i = 0; i < enemyCount; i++) 
-            { 
-                int choiceEnemy = enemys[random.Next(1, enemys.Count + 1)]; //어딘가 담겨져있는 몬스터 종류
+            {
+                IEnemy choiceEnemy = enemys[random.Next(1, enemys.Count + 1)]; //어딘가 담겨져있는 몬스터 종류
 
                 competeEnemys.Add(choiceEnemy);
             }

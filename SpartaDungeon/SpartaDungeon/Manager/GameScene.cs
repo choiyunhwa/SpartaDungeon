@@ -108,6 +108,9 @@ public class GameScene
         Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
         Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
         Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
+
+        
+
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  [내정보]");
