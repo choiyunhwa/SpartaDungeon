@@ -42,7 +42,7 @@ public class GameScene
         Console.ReadLine();
         Console.WriteLine();
 
-        player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000); //Test
+        //player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000); //Test
 
         ConsoleUtility.HeightPadding();
 
@@ -96,11 +96,11 @@ public class GameScene
         Console.WriteLine("  캐릭터의 정보가 표기됩니다.");
         ConsoleUtility.HeightPadding();
 
-        Console.WriteLine($"  LV. {0}"); //player.Level
-        Console.WriteLine($"  {0} ({1})"); //player.Name, player.Job
-        Console.WriteLine($"  공격력 : {0}"); //player.Attack
-        Console.WriteLine($"  방어력 :  {0}"); //player.Defense
-        Console.WriteLine($"  Golde : {0}"); //player.Gold
+        Console.WriteLine($"  LV. {player.Level}"); //player.Level
+        Console.WriteLine($"  {player.Name} ({player.Job})"); //player.Name, player.Job
+        Console.WriteLine($"  공격력 : {player.Atk}"); //player.Attack
+        Console.WriteLine($"  방어력 :  {player.Def}"); //player.Defense
+        Console.WriteLine($"  Golde : {player.Gold}"); //player.Gold
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  0. 나가기");
