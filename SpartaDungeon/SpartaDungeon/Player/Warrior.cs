@@ -1,4 +1,5 @@
-﻿internal class Warrior : IPlayer
+﻿
+public class Warrior : IPlayer
 {
     public string Name { get; }
     public string Job { get; }
@@ -57,7 +58,7 @@
 
 
 
-    }
+    
 }
 
 

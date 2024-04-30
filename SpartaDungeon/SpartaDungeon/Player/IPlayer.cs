@@ -1,4 +1,4 @@
-﻿internal interface IPlayer
+﻿public interface IPlayer
 {
     public string Name { get; }
     public string Job { get; }

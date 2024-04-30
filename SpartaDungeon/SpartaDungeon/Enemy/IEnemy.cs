@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpartaDungeon
-{
-    public interface IEnemy
-    {
-        String name { get; set; }
-        int level { get; set; }
-        int currentHP { get; set; }
-        int maxHP { get; set; }
-        int damage { get; set; }
-        bool isDead { get; set; }
 
-        int Attack();
-        bool Die();
-    }
+public interface IEnemy
+{
+    String name { get; set; }
+    int level { get; set; }
+    int currentHP { get; set; }
+    int maxHP { get; set; }
+    int damage { get; set; }
+    bool isDead { get; set; }
+
+    int Attack();
+    bool Die();
 }
+

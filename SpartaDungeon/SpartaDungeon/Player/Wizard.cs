@@ -1,4 +1,4 @@
-﻿internal class Wizard : IPlayer
+﻿public class Wizard : IPlayer
 {
     public string Name { get; }
     public string Job { get; }
