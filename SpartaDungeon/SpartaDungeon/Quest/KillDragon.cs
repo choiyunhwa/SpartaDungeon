@@ -11,7 +11,6 @@ public class KillDragon : IQuest
     public string questLine { get; set; }       // 퀘스트 대사
     public string reward { get; set; }          // 퀘스트 보상
     public bool isCompleted { get; set; }       // 퀘스트 완료 여부
-
     public string monsterName { get; set; }     // 목표 몬스터
     public int requireCount { get; set; }       // 필요 처치 수
     public int currentCount { get; set; }       // 현재 처치 수

@@ -11,7 +11,6 @@ public class KillSeigeMinion : IQuest
     public string questLine { get; set; }      
     public string reward { get; set; }        
     public bool isCompleted { get; set; }
-
     public string monsterName { get; set; }      
     public int requireCount { get; set; }      
     public int currentCount { get; set; }      
@@ -26,7 +25,7 @@ public class KillSeigeMinion : IQuest
                     "심지어 능숙하게 다루고, 엄청 잘 쏘더군...\n" +
                     "난 대포를 못 다뤄서, 이번 대포 사격 시험에 떨어졌는데...\n" +
                     "하아.. 벌써 4번 떨어졌는데.. 미니언은...\n" +
-                    "아무튼 마을의 평화에 위협은 되니, 좀 잡아주면 안 되겠는가...\n" +
+                    "아무튼 마을의 평화에 위협은 되니, 좀 잡아주면 안 되겠는가..?\n" +
                     "조금 많이...\n";
 
         reward = "장비";

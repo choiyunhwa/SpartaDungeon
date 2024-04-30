@@ -12,6 +12,9 @@ public class TryLevelUp : IQuest
     public string questLine { get; set; }
     public string reward { get; set; }
     public bool isCompleted { get; set; }
+    public string monsterName { get; set; }     
+    public int requireCount { get; set; }       
+    public int currentCount { get; set; }       
 
     public TryLevelUp()
     {
@@ -24,6 +27,9 @@ public class TryLevelUp : IQuest
 
         reward = "경험치";
         isCompleted = false;
+        monsterName = "";
+        requireCount = 0;
+        currentCount = 0;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }

@@ -10,7 +10,6 @@ public class KillMinion : IQuest
     public string questLine { get; set; }    
     public string reward { get; set; }        
     public bool isCompleted { get; set; }      
-
     public string monsterName {get; set;}       
     public int requireCount { get; set; }      
     public int currentCount { get; set; }       

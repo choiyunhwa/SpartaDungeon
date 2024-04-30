@@ -25,7 +25,7 @@ public class Dragon : IEnemy
     }
 
     public int Attack()
-    {
+    { 
         int range = (int)(((float)damage / 10) + 0.5);
         Random rand = new Random();
         return rand.Next(damage - range, damage + range + 1);

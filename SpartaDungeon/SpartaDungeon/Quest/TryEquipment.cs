@@ -11,7 +11,11 @@ public class TryEquipment : IQuest
     public string questName { get; set; }    
     public string questLine { get; set; }     
     public string reward { get; set; }         
-    public bool isCompleted { get; set; }     
+    public bool isCompleted { get; set; }
+    public string monsterName { get; set; }    
+    public int requireCount { get; set; }       
+    public int currentCount { get; set; }       
+
 
     public TryEquipment()
     {
@@ -24,6 +28,9 @@ public class TryEquipment : IQuest
         
         reward = "경험치";
         isCompleted = false;
+        monsterName = "";
+        requireCount = 0;
+        currentCount = 0;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }     // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.
