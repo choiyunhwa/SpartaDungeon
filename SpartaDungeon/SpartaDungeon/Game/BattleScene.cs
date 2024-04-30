@@ -42,10 +42,13 @@ public class BattleScene
 
     public int turnCount { get; set; } = 0;
     public IEnemy orderEnemy;
-    private int tempPlayerHealth = 0;
+    public int tempPlayerHealth { get; set; } = 0;
     private int tempEnemyHealth = 0;
 
-
+    /// <summary>
+    /// Add Enemy Informaion Setting 
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
     public void SettingEnemyData()
     {
         enemys.Add(new Minion());
@@ -58,8 +61,11 @@ public class BattleScene
     /// <summary>
     /// Setting the number of monsters ( 1 ~ 4 )
     /// </summary>
-    public void SettingMonster()
+    /// <param name="player"> Player Data </param>
+    /// <author> ChoiYunHwa </author>
+    public void InitSettingDungeon(IPlayer player)
     {
+        tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
 
         for (int i = 0; i < enemyCount; i++)
@@ -72,11 +78,14 @@ public class BattleScene
     }
 
     /// <summary>
-    /// Monsters and Player Fight 
+    /// Enemys and Player Fight 
     /// </summary>
+    /// <param name="player"> Player Data </param>
+    /// <param name="choice"> Player InputKey Number</param>
+    /// <author> ChoiYunHwa </author>
     public void BattleDungeon(IPlayer player, int choice)
     {
-        tempPlayerHealth = player.CurrentHp;
+
         List<IEnemy> tempEnemyHealth = competeEnemys;
 
         int currentAtk = (int)Math.Ceiling(player.Atk);
@@ -98,7 +107,7 @@ public class BattleScene
         else // Enemy's Turn
         {
 
-            if(turnCount < competeEnemys.Count)
+            if (turnCount < competeEnemys.Count)
             {
                 if (!competeEnemys[turnCount].Die())
                 {
@@ -107,7 +116,7 @@ public class BattleScene
                     player.CurrentHp -= enemyDamage;
 
 
-                    if(player.CurrentHp <= 0)
+                    if (player.CurrentHp <= 0)
                     {
                         player.CurrentHp = 0;
                         isEnding = true;
@@ -134,7 +143,7 @@ public class BattleScene
                 turnCount = 0;
                 attackTurn = true;
             }
-            
+
         }
 
         if (dieEnemyCount == competeEnemys.Count)
@@ -149,6 +158,7 @@ public class BattleScene
     /// <summary>
     /// Show the results after the battle
     /// </summary>
+    /// <author> C_최윤화 </author>
     public bool BattleResult(IPlayer player)
     {
         if (player.CurrentHp > 0)
@@ -164,4 +174,6 @@ public class BattleScene
         }
     }
 }
+
+
 

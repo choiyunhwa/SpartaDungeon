@@ -78,7 +78,7 @@ public class GameScene
                 StatusView();
                 break;
             case 2:
-                battleScene.SettingMonster();
+                battleScene.InitSettingDungeon(player);
                 BattleView();
                 break;
         }
@@ -185,6 +185,11 @@ public class GameScene
         BattleView();
     }
 
+    /// <summary>
+    /// Player and Monster Dungeon Screen
+    /// </summary>
+    /// <param name="ch">Player InputKey Number</param>
+    /// <author> ChoiYunHwa </author>
     private void Battle(int ch)
     {
         Console.Clear();
@@ -200,9 +205,7 @@ public class GameScene
         int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
 
         if(battleScene.AttackTurn == true)
-            battleScene.AttackTurn = false;
-        
-        
+            battleScene.AttackTurn = false;              
 
         //Console.WriteLine($" AttackTurn : {battleScene.AttackTurn}");
 
@@ -236,6 +239,10 @@ public class GameScene
         }
     }
 
+    /// <summary>
+    /// Show the results after the battle
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
     private void ResultBattle()
     {
         Console.Clear();
@@ -244,24 +251,25 @@ public class GameScene
         ConsoleUtility.ShowTitle("  Battle!! - Result");
         ConsoleUtility.HeightPadding();
 
-        string result = player.CurrentHp > 0 ? "  Victory" : "  You Lose";
+        var Color = player.CurrentHp > 0 ? ConsoleColor.Green : ConsoleColor.Red;
+        Console.ForegroundColor = Color;
+        string result = player.CurrentHp > 0 ? "  Victory" : "  You Lose";        
         Console.WriteLine(result);
+        Console.ResetColor();
         ConsoleUtility.HeightPadding();
         Console.WriteLine($"LV. {player.Level} {player.Name}");
-        Console.WriteLine($"HP {player.CurrentHp} -> {player.CurrentHp}");
+        Console.WriteLine($"HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 다음");
 
         int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
 
-
         switch (choice)
         {
             case 0:
                 MainView();
-                break;
-            
+                break;            
         }
     }
 
