@@ -222,6 +222,7 @@ public class GameScene
         //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
         //    BattleView();
 
+        //ERROR 
         if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             Battle(choice);
