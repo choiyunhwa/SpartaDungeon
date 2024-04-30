@@ -26,7 +26,14 @@ public class TryEquipment : IQuest
         isCompleted = false;
     }
 
-    public void OnKilledEnemy(string KilledMonsterName) { } // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.
+    public void OnKilledEnemy(string KilledMonsterName) { }     // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.
+
+    public void OnItemEquipped(string itemName)        // 아무 장비 착용시 퀘스트 완료
+    {
+        CompleteQuest();
+    }
+
+    public void OnLevelUp() { }
 
     public void CompleteQuest()
     {
@@ -47,7 +54,5 @@ public class TryEquipment : IQuest
             return 0;
         }
     }
-
-
 }
 

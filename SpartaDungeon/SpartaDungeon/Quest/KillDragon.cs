@@ -47,6 +47,8 @@ public class KillDragon : IQuest
         }
     }
 
+    public void OnItemEquipped(string itemName) { }
+    public void OnLevelUp() { }
     public void CompleteQuest()
     {
         isCompleted = true;

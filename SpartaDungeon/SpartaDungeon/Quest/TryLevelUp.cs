@@ -26,7 +26,14 @@ public class TryLevelUp : IQuest
         isCompleted = false;
     }
 
-    public void OnKilledEnemy(string KilledMonsterName) { } // 레벨업 퀘스트이기 때문에 이 메소드는 비워두었습니다.
+    public void OnKilledEnemy(string KilledMonsterName) { }
+
+    public void OnLevelUp()         // 레벨업을 하면 퀘스트 완료
+    {
+        CompleteQuest();
+    }
+
+    public void OnItemEquipped(string itemName) { }
 
     public void CompleteQuest()
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpartaDungeon.Quest
 {
-    internal class KillVoidling
+    internal class KillVoidling : IQuest
     {
         public string questName { get; set; }      
         public string questLine { get; set; }     
@@ -47,6 +47,10 @@ namespace SpartaDungeon.Quest
                 CompleteQuest();
             }
         }
+
+        public void OnItemEquipped(string itemName) { }
+        public void OnLevelUp() { }
+
 
         public void CompleteQuest()
         {

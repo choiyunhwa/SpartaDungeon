@@ -43,6 +43,10 @@ public class KillMinion : IQuest
         }
     }
 
+    public void OnItemEquipped(string itemName) { }
+    public void OnLevelUp() { }
+
+
     public void CompleteQuest()
     {
         isCompleted = true;
