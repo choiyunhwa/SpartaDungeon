@@ -26,9 +26,25 @@ public class SiegeMinion : IEnemy
 
     public int Attack()
     {
-        int range = (int)(((float)damage / 10) + 0.5);
-        Random rand = new Random();
-        return rand.Next(damage - range, damage + range + 1);
+        Random flag = new Random();
+        int result = flag.Next(0, 100);
+
+        if (90 <= result)
+        {
+            return 0;
+        }
+
+        else if (75 <= result && result < 90)
+        {
+            return (int)(damage * 1.5);
+        }
+
+        else
+        {
+            int range = (int)(((float)damage / 10) + 0.5);
+            Random rand = new Random();
+            return rand.Next(damage - range, damage + range + 1);
+        }
     }
 
     public bool Die()
