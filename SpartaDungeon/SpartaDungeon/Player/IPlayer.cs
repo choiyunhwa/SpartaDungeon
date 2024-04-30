@@ -17,5 +17,11 @@
     public void GetGold(int coin);
     public void LevelUp();
     public void GainExperience(int exp);
+    public void UsePosion();
 
+    public class Player
+    {
+        public Inventory inventory = new Inventory();
+        public List<Item> equipedItems = new List<Item>();
+    }
 }

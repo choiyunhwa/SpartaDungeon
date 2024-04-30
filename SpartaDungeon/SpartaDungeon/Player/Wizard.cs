@@ -54,5 +54,13 @@
         Experience += exp;
         LevelUp();
     }
+
+    public void UsePosion() //포션 사용으로 체력 회복
+    {
+        CurrentHp += 30;
+        if (CurrentHp > MaxHp) CurrentHp = MaxHp;
+        Console.WriteLine($"포션을 사용했습니다. (현재 체력 : {CurrentHp})");
+        Thread.Sleep(500);
+    }
 }
 

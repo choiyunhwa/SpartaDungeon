@@ -55,4 +55,13 @@ public class ConsoleUtility
         Console.WriteLine();
         Console.WriteLine();
     }
+
+    public static string PadRightForMixedText(string str, int totalLength)
+    {
+        // 가나다
+        // 111111
+        int currentLength = GetPrintableLength(str);
+        int padding = totalLength - currentLength;
+        return str.PadRight(str.Length + padding);
+    }
 }
