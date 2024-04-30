@@ -5,6 +5,7 @@
 
     public ChoiseJob(string name, int num)
     {
+        IPlayer player;
         switch (num)
         {
             case 1:
@@ -12,6 +13,7 @@
                 break;
             case 2:
                 Wizard = new Wizard(name, "Wizard", 1, 5, 5, 80, 100, 15000);
+
                 break;
         }
     }
