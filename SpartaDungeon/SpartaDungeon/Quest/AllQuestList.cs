@@ -1,5 +1,4 @@
-﻿using SpartaDungeon.Quest;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +7,13 @@ using System.Threading.Tasks;
 
 public class AllQuestList
 {
-    KillDragon KillDragon { get; set; }
-    KillMinion killMinion { get; set; }
-    KillSeigeMinion killseigeMinion { get; set; }
-    KillVoidling killVoidling { get; set; }
-    TryEquipment tryEquipment { get; set; }
-    TryLevelUp tryLevelUp { get; set; }
-    List<IQuest> questsList { get; set; }
+    public KillDragon KillDragon { get; set; }
+    public KillMinion killMinion { get; set; }
+    public KillSeigeMinion killseigeMinion { get; set; }
+    public KillVoidling killVoidling { get; set; }
+    public TryEquipment tryEquipment { get; set; }
+    public TryLevelUp tryLevelUp { get; set; }
+    public List<IQuest> questsList { get; set; }
 
     public AllQuestList()
     {
