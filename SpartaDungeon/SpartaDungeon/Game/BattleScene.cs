@@ -42,8 +42,8 @@ public class BattleScene
 
     public int turnCount { get; set; } = 0;
     public IEnemy orderEnemy;
+    public IEnemy currentEnemy;
     public int tempPlayerHealth { get; set; } = 0;
-    private int tempEnemyHealth = 0;
 
     /// <summary>
     /// Add Enemy Informaion Setting 
@@ -71,7 +71,8 @@ public class BattleScene
         for (int i = 0; i < enemyCount; i++)
         {
             //현재 참조 상태로 변경 해야함
-            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)]; //몬스터 종류가 담겨있는 곳에서 하나씩 뽑아냄 
+            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); //몬스터 종류가 담겨있는 곳에서 하나씩 뽑아냄 
+
 
             competeEnemys.Add(choiceEnemy);
         }
@@ -85,7 +86,6 @@ public class BattleScene
     /// <author> ChoiYunHwa </author>
     public void BattleDungeon(IPlayer player, int choice)
     {
-
         List<IEnemy> tempEnemyHealth = competeEnemys;
 
         int currentAtk = (int)Math.Ceiling(player.Atk);
@@ -94,17 +94,20 @@ public class BattleScene
         //Console.WriteLine($" attackTurn :   {attackTurn}    choice : {choice}");
 
         if (attackTurn) //Player Turn
-        {
-            //int choice = int.Parse(Console.ReadLine());   
-
-            
-
+        {   
             if (choice != 0)
             {
                 //Console.WriteLine("플레이어 단계!!\n");
                 orderEnemy = competeEnemys[choice - 1];
 
                 orderEnemy.currentHP -= playerAttackDamage;
+                
+                if(orderEnemy.currentHP <= 0)
+                {
+                    orderEnemy.currentHP = 0;
+                    orderEnemy.isDead = true;
+                }
+                
 
                 //attackTurn = false;
             }
@@ -112,11 +115,11 @@ public class BattleScene
         else // Enemy's Turn
         {
 
-            if (turnCount < competeEnemys.Count)
+            if (turnCount <= competeEnemys.Count)
             {
-                //Console.WriteLine("몬스터 단계!!\n");
                 if (!competeEnemys[turnCount].Die())
                 {
+                    currentEnemy = competeEnemys[turnCount];
                     orderEnemy = competeEnemys[turnCount];
                     int enemyDamage = orderEnemy.Attack();
                     player.CurrentHp -= enemyDamage;
@@ -142,6 +145,9 @@ public class BattleScene
                     //    attackTurn = false;
                     //}
                 }
+                else
+                    return;
+
                 turnCount++;
             }
             else
@@ -179,6 +185,7 @@ public class BattleScene
             return false;
         }
     }
+
 }
 
 

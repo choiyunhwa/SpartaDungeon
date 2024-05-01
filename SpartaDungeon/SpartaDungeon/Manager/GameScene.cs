@@ -308,7 +308,7 @@ public class GameScene
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine($"  LV.{e.level} {e.name} HP Dead");
                 Console.ResetColor();
             }
@@ -391,11 +391,16 @@ public class GameScene
         //    BattleView();
 
         //ERROR 
-        if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             Battle(choice);
         }
-        else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last()) 
+        else if(battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        {
+            battleScene.AttackTurn = true;
+            battleScene.turnCount = 0;
+        }
+        else
         {
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;

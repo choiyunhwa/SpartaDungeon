@@ -53,5 +53,18 @@ public class Voidling : IEnemy
 
         else return false;
     }
+
+    public IEnemy DeepCopy()
+    {
+        Voidling other = (Voidling)this.MemberwiseClone();
+        other.name = this.name;
+        other.level = this.level;
+        other.maxHP = this.maxHP;
+        other.currentHP = this.currentHP;
+        other.damage = this.damage;
+        other.isDead = this.isDead;
+
+        return other;
+    }
 }
 
