@@ -168,26 +168,6 @@ public class BattleScene
 
         //BattleResult(player);
     }
-
-    /// <summary>
-    /// Show the results after the battle
-    /// </summary>
-    /// <author> C_최윤화 </author>
-    public bool BattleResult(IPlayer player)
-    {
-        if (player.CurrentHp > 0)
-        {
-            //Utility에 tempHealth 정보, player.health 정보, dieEnemyCount 정보 보냄
-
-            return true;
-        }
-        else
-        {
-            //Utility에 정보를 보냄
-            return false;
-        }
-    }
-
 }
 
 
