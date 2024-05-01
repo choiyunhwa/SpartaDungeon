@@ -10,36 +10,39 @@ public class GameScene
 
     private ChoiseJob choiseJob; //객체 필드추가
     private IPlayer player; //플레이어 초기화 변수
-    private Inventory inventory;
+    private Inventory inventory; //인벤토리 초기화 변수
+    public BattleScene battleScene; //배틀씬 초기화 변수
+
+    bool check = true;
+
 
     public GameScene()
     {
-        InitializeGame();
+        StartView();
     }
 
-    // GameScene 초기화 함수
-    private void InitializeGame()
+    public void InitDataSetting()
     {
-        inventory = new Inventory();
+        /// <author> SooHyeonKim </author>
+        inventory = new Inventory(player);
 
+        //testing data - for equipping && using
         inventory.items.Add(new Item("무쇠갑옷", 0, 5, 0, "튼튼한 갑옷", "방어력", false, false, 1));
         inventory.items.Add(new Item("강철갑옷", 0, 10, 0, "튼튼한 강철", "방어력", false, false, 1));
         inventory.items.Add(new Item("낡은 검", 10, 0, 0, "낡은 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("강철 검", 20, 0, 0, "강철 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("포션", 0, 0, 30, "포션", "물약", false, false, 3));
-    }
+        player.CurrentHp = 50;
 
-    public BattleScene battleScene;
-
-    bool check = true;
-
-    public void InitDataSetting()
-    {
+        /// <author> ChoiYunHwa </author>
         battleScene = new BattleScene();
         battleScene.SettingEnemyData();
     }
 
-
+    /// <summary>
+    /// screen for start game
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     public void StartView()
     {
         Console.Clear();
@@ -84,10 +87,15 @@ public class GameScene
         Console.WriteLine("=================================================");
         Console.ReadKey();
 
+        // 초기화(인벤토리, 던전)
         InitDataSetting();
         MainView();
     }
 
+    /// <summary>
+    /// screen for main menu
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     public void MainView()
     {
         Console.Clear();
@@ -122,6 +130,10 @@ public class GameScene
         MainView();
     }
 
+    /// <summary>
+    /// screen for checking player's status
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     private void StatusView()
     {
         Console.Clear();
@@ -159,8 +171,13 @@ public class GameScene
         //Wizard wizard = choiseJob.Wizard;
         Console.WriteLine($"  LV. {player.Level}");
         Console.WriteLine($"  {player.Name} ({player.Job})");
-        Console.WriteLine($"  공격력 : {player.Atk}");
-        Console.WriteLine($"  방어력 :  {player.Def}");
+        //Console.WriteLine($"  공격력 : {player.Atk}"); // AddAtk 추가로 수정하였습니다.
+        //Console.WriteLine($"  방어력 :  {player.Def}"); // AddDef 추가로 수정하였습니다.
+        if (player.AddAtk == 0) Console.WriteLine($"  공격력 : {player.Atk}");
+        else Console.WriteLine($"  공격력 : {player.Atk} (+{player.AddAtk})");
+        if (player.AddDef == 0) Console.WriteLine($"  방어력 : {player.Def}");
+        else Console.WriteLine($"  방어력 : {player.Def} (+{player.AddDef})");
+        Console.WriteLine("  체력 : " + player.CurrentHp);
         Console.WriteLine($"  Gold : {player.Gold}");
         ConsoleUtility.HeightPadding();
 
@@ -180,6 +197,10 @@ public class GameScene
         StatusView();
     }
 
+    /// <summary>
+    /// screen for checking player's item list
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     private void InventoryView()
     {
         Console.Clear();
@@ -219,6 +240,10 @@ public class GameScene
         InventoryView();
     }
 
+    /// <summary>
+    /// Screen for using items
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     private void UseView()
     {
         Console.Clear();
@@ -245,13 +270,17 @@ public class GameScene
             default:
                 Console.Clear();
                 inventory.UsePotion();
-                //player.UsePotion();
+                player.UsePotion();
                 UseView();
                 break;
         }
         UseView();
     }
 
+    /// <summary>
+    /// screen for Equipping items
+    /// </summary>
+    /// <author> SooHyeonKim </author>
     private void EquipView()
     {
         Console.Clear();
@@ -317,8 +346,8 @@ public class GameScene
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  [내정보]");
-        Console.WriteLine($"  LV.{player.Level} {player.Name}({player.Job})"); //player.Level player.Name player.Job
-        Console.WriteLine($"  HP {player.MaxHp}/{player.CurrentHp}"); //player.MaxHp player.CurrentHP
+        Console.WriteLine($"  LV.{player.Level} {player.Name}({player.Job})");
+        Console.WriteLine($"  HP {player.MaxHp}/{player.CurrentHp}");
         ConsoleUtility.HeightPadding();
 
 
