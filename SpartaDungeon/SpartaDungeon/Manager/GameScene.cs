@@ -389,6 +389,11 @@ public class GameScene
 
         //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
         //    BattleView();
+        
+        if (battleScene.isEnding == true)
+        {
+            ResultBattle();
+        }
 
         //ERROR 
         if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
@@ -397,20 +402,17 @@ public class GameScene
         }
         else if(battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
-            battleScene.AttackTurn = true;
-            battleScene.turnCount = 0;
-        }
-        else
-        {
+            battleScene.currentEnemy = battleScene.competeEnemys.First();
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;
             BattleView();
         }
-        
-        if(battleScene.isEnding == true)
+        else
         {
-            ResultBattle();
+            BattleView();
         }
+        
+       
     }
 
     /// <summary>
@@ -431,8 +433,8 @@ public class GameScene
         Console.WriteLine(result);
         Console.ResetColor();
         ConsoleUtility.HeightPadding();
-        Console.WriteLine($"LV. {player.Level} {player.Name}");
-        Console.WriteLine($"HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
+        Console.WriteLine($"  LV. {player.Level} {player.Name}");
+        Console.WriteLine($"\n  HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 다음");

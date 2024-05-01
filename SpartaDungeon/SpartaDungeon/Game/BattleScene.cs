@@ -104,10 +104,10 @@ public class BattleScene
                 
                 if(orderEnemy.currentHP <= 0)
                 {
+                    dieEnemyCount++;
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
-                }
-                
+                }               
 
                 //attackTurn = false;
             }
@@ -146,8 +146,10 @@ public class BattleScene
                     //}
                 }
                 else
+                {
+                    turnCount++;
                     return;
-
+                }
                 turnCount++;
             }
             else

@@ -1,6 +1,7 @@
 ﻿
 using System.Runtime.CompilerServices;
 
+
 public class ConsoleUtility
 {
     public static int PromptMenuChoice(int min, int max, bool check = true)
