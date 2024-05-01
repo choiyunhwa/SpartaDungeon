@@ -8,13 +8,11 @@ using System.Xml.Linq;
 public class GameScene
 {
 
-    private ChoiseJob choiseJob; //객체 필드추가
     //private IPlayer player; //플레이어 초기화 변수
     private Inventory inventory; //인벤토리 초기화 변수
     public BattleScene battleScene; //배틀씬 초기화 변수
     public static IPlayer player; //플레이어 초기화 변수
     public static List<Skill> SkillList = new List<Skill>();
-    private Inventory inventory;
 
     bool check = true;
 
