@@ -60,7 +60,7 @@ public class GameScene
         Console.WriteLine();
         // 직업 고르기
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
-        int choice = ConsoleUtility.PromptMenuChoice(1, 2);
+        int choice = int.Parse(Console.ReadLine());
 
         switch (choice)
         {
@@ -103,7 +103,7 @@ public class GameScene
         ConsoleUtility.HeightPadding();
 
         // 선택한 결과를 검증함
-        int choice = ConsoleUtility.PromptMenuChoice(1, 3);
+        int choice = ConsoleUtility.PromptMenuChoice(1, 4);
 
         // 선택한 결과에 따라 보내줌
         switch (choice)
