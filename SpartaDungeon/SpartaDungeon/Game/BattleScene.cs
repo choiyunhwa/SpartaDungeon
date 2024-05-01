@@ -68,6 +68,9 @@ public class BattleScene
         tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
 
+        if (competeEnemys.Count > 0)
+            competeEnemys.Clear();
+
         for (int i = 0; i < enemyCount; i++)
         {
             //현재 참조 상태로 변경 해야함
