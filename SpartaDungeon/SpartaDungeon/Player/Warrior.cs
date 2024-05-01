@@ -63,7 +63,7 @@ public class Warrior : IPlayer
         LevelUp();
     }
 
-    public void UsePosion() //포션 사용으로 체력 회복
+    public void UsePotion() //포션 사용으로 체력 회복
     {
         CurrentHp += 30;
         if (CurrentHp > MaxHp) CurrentHp = MaxHp;
