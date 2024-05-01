@@ -9,7 +9,7 @@ public class BattleScene
 {
     private Random random = new Random();
 
-    public List<IEnemy> enemys = new List<IEnemy>(); //Enemy의 정보
+    public List<IEnemy> enemys = new List<IEnemy>(); //Enemy Information
     public List<IEnemy> competeEnemys = new List<IEnemy>(); //던전에 출몰하는 Enemy
     public int enemyCount { get; set; }
 
@@ -73,10 +73,8 @@ public class BattleScene
 
         for (int i = 0; i < enemyCount; i++)
         {
-            //현재 참조 상태로 변경 해야함
-            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); //몬스터 종류가 담겨있는 곳에서 하나씩 뽑아냄 
-
-
+            //Select Enemy Deep Copy and Add
+            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); 
             competeEnemys.Add(choiceEnemy);
         }
     }
@@ -94,13 +92,11 @@ public class BattleScene
         int currentAtk = (int)Math.Ceiling(player.Atk);
         playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1         
 
-        //Console.WriteLine($" attackTurn :   {attackTurn}    choice : {choice}");
 
         if (attackTurn) //Player Turn
         {   
             if (choice != 0)
             {
-                //Console.WriteLine("플레이어 단계!!\n");
                 orderEnemy = competeEnemys[choice - 1];
 
                 orderEnemy.currentHP -= playerAttackDamage;
@@ -111,8 +107,6 @@ public class BattleScene
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
                 }               
-
-                //attackTurn = false;
             }
         }
         else // Enemy's Turn
@@ -140,13 +134,7 @@ public class BattleScene
                         dieEnemyCount++;
                         competeEnemys[turnCount].currentHP = 0;
                         competeEnemys[turnCount].isDead = true;
-                    }
-
-                    //if (turnCount == competeEnemys.Count)
-                    //{
-                    //    turnCount = 0;
-                    //    attackTurn = false;
-                    //}
+                    }                  
                 }
                 else
                 {
@@ -160,7 +148,6 @@ public class BattleScene
                 turnCount = 0;
                 attackTurn = true;
             }
-
         }
 
         if (dieEnemyCount == competeEnemys.Count)
@@ -168,8 +155,6 @@ public class BattleScene
             isAttack = false;
             isEnding = true;
         }
-
-        //BattleResult(player);
     }
 }
 

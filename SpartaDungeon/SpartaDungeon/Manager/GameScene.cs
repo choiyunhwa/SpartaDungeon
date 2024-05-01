@@ -60,10 +60,9 @@ public class GameScene
         Console.WriteLine();
         // 직업 고르기
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
-        int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
-        //choiseJob = new ChoiseJob(name, choice);
+        int choice = ConsoleUtility.PromptMenuChoice(1, 2);
 
-        switch(choice)
+        switch (choice)
         {
             case 1: 
                 player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000);
@@ -299,19 +298,22 @@ public class GameScene
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
-        
-        foreach(var e in battleScene.competeEnemys) //Add YH 
-        {
-            if(e.currentHP != 0)
+
+        int i = 1;
+        foreach (var e in battleScene.competeEnemys) //Add YH 
+        { 
+            string num = check ? "" : $"{i}"; 
+            if (e.currentHP != 0)
             {
-                Console.WriteLine($"  LV.{e.level} {e.name} HP {e.currentHP}");
+                Console.WriteLine($" {num} - LV.{e.level} {e.name} HP {e.currentHP}");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"  LV.{e.level} {e.name} HP Dead");
+                Console.WriteLine($" {num} - LV.{e.level} {e.name} HP Dead");
                 Console.ResetColor();
             }
+            i++;
         }
 
         ConsoleUtility.HeightPadding();
@@ -373,9 +375,7 @@ public class GameScene
         int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
 
         if(battleScene.AttackTurn == true)
-            battleScene.AttackTurn = false;              
-
-        //Console.WriteLine($" AttackTurn : {battleScene.AttackTurn}");
+            battleScene.AttackTurn = false;           
 
         Console.WriteLine($"  {attacker} 의 공격!");
         Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
@@ -387,8 +387,6 @@ public class GameScene
 
         int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
 
-        //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
-        //    BattleView();
         
         if (battleScene.isEnding == true)
         {
