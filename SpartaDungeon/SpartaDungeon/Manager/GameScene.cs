@@ -99,6 +99,7 @@ public class GameScene
         Console.WriteLine("  1. 상태 보기");
         Console.WriteLine("  2. 인벤토리");
         Console.WriteLine("  3. 전투 시작");
+        Console.WriteLine("  4. 퀘스트 확인");
         ConsoleUtility.HeightPadding();
 
         // 선택한 결과를 검증함
@@ -116,6 +117,9 @@ public class GameScene
             case 3:
                 battleScene.InitSettingDungeon(player);
                 BattleView();
+                break;
+            case 4:
+                QuestView();
                 break;
         }
         MainView();
@@ -444,6 +448,48 @@ public class GameScene
             case 0:
                 MainView();
                 break;            
+        }
+    }
+
+    private void QuestView()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  퀘스트 확인");
+        Console.WriteLine("  퀘스트를 확인하고 선택할 수 있습니다.");
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("  목록");
+
+        int choice = ConsoleUtility.PromptMenuChoice(0, 0);
+
+        switch(choice)
+        {
+            case 0:
+                MainView();
+                break;
+        }
+
+        QuestView();
+    }
+
+    private void SelectQuestView()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Quest!!");
+        ConsoleUtility.HeightPadding();
+
+        int choice = ConsoleUtility.PromptMenuChoice(0, 2);
+        switch (choice)
+        {
+            case 0:
+            case 2:
+                QuestView();
+                break;
+            case 1:
+                break;
         }
     }
 
