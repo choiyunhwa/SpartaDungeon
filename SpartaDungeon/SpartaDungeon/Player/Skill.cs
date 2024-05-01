@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using static IPlayer;
 
-internal class Skill
+public class Skill
 {
-    private ChoiseJob choiseJob;
     public string Name { get; set; }
     public float Damage { get; set; }
     public int HitCount { get; set; }
@@ -38,9 +39,9 @@ internal class Skill
 
     public void PrintSkillDescription(int idx = 0)
     {
-        Console.Write("- ");
+        Console.Write("  ");
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
-        Console.Write($"{idx} ");
+        Console.Write($"{idx}. ");
         Console.ResetColor();
         if (Unlocked)
         {
@@ -53,22 +54,49 @@ internal class Skill
         }
         else Console.Write(ConsoleUtility.PadRightForMixedText(Name, 12));
 
-        Console.Write(" - ");
+        Console.Write(" -  MP ");
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.Write(Mana);
+        Console.ResetColor();
         Console.WriteLine("");
-        Console.Write(Description);
+        Console.Write("     ");
+        Console.WriteLine(Description);
     }
 
 
-    public void UseSkill(List<IEnemy> enemies) // 해금이됬는가->마나가 있는가->랜덤스킬인가->실패가능성있는스킬인가
+    public void UseSkill(List<IEnemy> enemies) // 해금이됬는가->마나가 있는가->실패가능성있는스킬인가->랜덤스킬인가
     {
         if (!Unlocked)
         {
-            //
+            Console.WriteLine("스킬이 해금되지 않았습니다.");
+            //다시 이전으로 돌아가기 구현해야됨 ---------- 
         }
         else
         {
-            //
+            if(GameScene.player.CrrentMana >= Mana)
+            {
+                if (CanAttack())
+                {
+                    if (IsRandom)
+                    {
+                        RandomAttack();
+                    }
+                    else
+                    {
+                        //선택해서 공격
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("공격에 실패했습니다.");
+                    //다시 이전으로 돌아가기 구현해야됨 ----------
+                }
+            }
+            else
+            {
+                Console.WriteLine("마나가 부족합니다.");
+                //다시 이전으로 돌아가기 구현해야됨 ----------
+            }
         }
 
     }
@@ -77,35 +105,23 @@ internal class Skill
     {
 
         float damage = 0;
-
-        if (choiseJob != null)
-        {
-            if (choiseJob.Warrior != null)                // 전사의 경우
-            {
-                damage = choiseJob.Warrior.Atk * Damage;
-            }
-            else if (choiseJob.Wizard != null)                // 마법사의 경우
-            {
-                damage = choiseJob.Wizard.Atk * Damage;
-            }
-        }
+        damage = GameScene.player.Atk * Damage;
 
         return damage;
     }
 
-    public void RandomAttack(List<IEnemy> enemies)              //랜덤스킬 구현
+    public void RandomAttack()              //랜덤스킬 구현
     {
-        
-        Random random = new Random();
-        List<IEnemy> shuffledEnemies = enemies.OrderBy(e => random.Next()).ToList();
+        /*Random random = new Random();
+        List<IEnemy> shuffledEnemies = competeEnemys.OrderBy(e => random.Next()).ToList();
         List<IEnemy> selectedEnemies = shuffledEnemies.Take(2).ToList();
-        foreach (IEnemy enemy in enemies)
+        foreach (IEnemy enemy in selectedEnemies)
         {
-            //
-        }
+            // enemy.currentHP -= CalculateDamage();
+        }*/
     }
 
-    public float AttackFailed()                          //실패할 수 있는 스킬 구현
+    public bool CanAttack()                          //실패할 수 있는 스킬 구현
     {
         Random random = new Random();
         if (CanFaild)
@@ -114,12 +130,11 @@ internal class Skill
 
             if (randomValue < 50)
             {
-                Console.WriteLine("공격에 실패했습니다.");
-                return 0; 
+                return false; 
             }
         }
-        
-        return CalculateDamage();
+
+        return true;
 
     }
 
