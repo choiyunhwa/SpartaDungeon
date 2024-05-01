@@ -7,9 +7,8 @@ using System.Xml.Linq;
 
 public class GameScene
 {
-
-    private ChoiseJob choiseJob; //객체 필드추가
-    private IPlayer player; //플레이어 초기화 변수
+    public static IPlayer player; //플레이어 초기화 변수
+    public static List<Skill> SkillList = new List<Skill>();
     private Inventory inventory;
 
     public GameScene()
@@ -21,7 +20,6 @@ public class GameScene
     private void InitializeGame()
     {
         inventory = new Inventory();
-
         inventory.items.Add(new Item("무쇠갑옷", 0, 5, 0, "튼튼한 갑옷", "방어력", false, false, 1));
         inventory.items.Add(new Item("강철갑옷", 0, 10, 0, "튼튼한 강철", "방어력", false, false, 1));
         inventory.items.Add(new Item("낡은 검", 10, 0, 0, "낡은 검", "공격력", false, false, 1));
@@ -61,7 +59,6 @@ public class GameScene
         // 직업 고르기
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
         int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
-        //choiseJob = new ChoiseJob(name, choice);
 
         switch(choice)
         {
@@ -72,8 +69,6 @@ public class GameScene
                 player = new Wizard(name, "Wizard", 1, 5, 5, 80, 100, 15000);
                 break;
         }
-
-        //player = choiseJob.Choice(name,choice);
         Console.WriteLine();
 
 
@@ -132,36 +127,17 @@ public class GameScene
         Console.WriteLine("  캐릭터의 정보가 표기됩니다.");
         ConsoleUtility.HeightPadding();
 
-        if (choiseJob != null)          //선택한 직업 상태보기 연결
-        {
-            //if (choiseJob.Warrior != null)
-            //{
-            //    Warrior warrior = choiseJob.Warrior;
-            //    Console.WriteLine($"  LV. {warrior.Level}");
-            //    Console.WriteLine($"  {warrior.Name} ({warrior.Job})");
-            //    Console.WriteLine($"  공격력 : {warrior.Atk}");
-            //    Console.WriteLine($"  방어력 :  {warrior.Def}");
-            //    Console.WriteLine($"  Gold : {warrior.Gold}");
-            //}
-            //else if (choiseJob.Wizard != null)
-            //{
-            //    Wizard wizard = choiseJob.Wizard;
-            //    Console.WriteLine($"  LV. {wizard.Level}");
-            //    Console.WriteLine($"  {wizard.Name} ({wizard.Job})");
-            //    Console.WriteLine($"  공격력 : {wizard.Atk}");
-            //    Console.WriteLine($"  방어력 :  {wizard.Def}");
-            //    Console.WriteLine($"  Gold : {wizard.Gold}");
-            //}
-
-            
-        }
-
-        //Wizard wizard = choiseJob.Wizard;
         Console.WriteLine($"  LV. {player.Level}");
         Console.WriteLine($"  {player.Name} ({player.Job})");
         Console.WriteLine($"  공격력 : {player.Atk}");
         Console.WriteLine($"  방어력 :  {player.Def}");
         Console.WriteLine($"  Gold : {player.Gold}");
+
+        //for (int i = 0; i < SkillList.Count; i++)
+        //{
+        //    SkillList[i].PrintSkillDescription(i + 1);
+        //}
+
         ConsoleUtility.HeightPadding();
 
         Console.WriteLine("  0. 나가기");

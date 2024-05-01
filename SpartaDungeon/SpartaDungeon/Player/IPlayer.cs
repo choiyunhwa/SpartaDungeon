@@ -18,7 +18,7 @@
     public void LevelUp();
     public void GainExperience(int exp);
     public void UsePosion();
-    public void SkillList();
+    public void jobskills();
 
     public class Player
     {
