@@ -13,7 +13,7 @@ public class GameScene
     public BattleScene battleScene; //배틀씬 초기화 변수
     public static IPlayer player; //플레이어 초기화 변수
     public static List<Skill> SkillList = new List<Skill>();
-
+    public AllQuestList allQuestList;
     bool check = true;
 
 
@@ -38,6 +38,8 @@ public class GameScene
         /// <author> ChoiYunHwa </author>
         battleScene = new BattleScene();
         battleScene.SettingEnemyData();
+
+        allQuestList = new AllQuestList();
     }
 
     /// <summary>
@@ -468,21 +470,29 @@ public class GameScene
         ConsoleUtility.ShowTitle("  퀘스트 확인");
         Console.WriteLine("  퀘스트를 확인하고 선택할 수 있습니다.");
         ConsoleUtility.HeightPadding();
-        Console.WriteLine("  목록");
-
-        int choice = ConsoleUtility.PromptMenuChoice(0, 0);
+        Console.WriteLine("  [ 목록 ]");
+        ConsoleUtility.HeightPadding();
+        for (int i = 0; i < allQuestList.questsList.Count; i++)
+        {
+            Console.WriteLine($"  {i + 1}. {allQuestList.questsList[i].questName}");
+        }
+        ConsoleUtility.HeightPadding();
+        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
 
         switch(choice)
         {
             case 0:
                 MainView();
                 break;
+            default:
+                SelectQuestView(choice);
+                break;
         }
 
         QuestView();
     }
 
-    private void SelectQuestView()
+    private void SelectQuestView(int ch)
     {
         Console.Clear();
         Console.WriteLine();
@@ -490,6 +500,9 @@ public class GameScene
         ConsoleUtility.ShowTitle("  Quest!!");
         ConsoleUtility.HeightPadding();
 
+        Console.WriteLine($"  {allQuestList.questsList[ch - 1].questName}\n");
+        Console.WriteLine($"  {allQuestList.questsList[ch - 1].questLine}");
+        ConsoleUtility.HeightPadding();
         int choice = ConsoleUtility.PromptMenuChoice(0, 2);
         switch (choice)
         {
