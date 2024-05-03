@@ -73,7 +73,7 @@ public class Skill
         }
         else
         {
-            if(GameScene.player.CrrentMana >= Mana)
+            if(GameScene.player.CUrrentMana >= Mana)
             {
                 if (CanAttack())
                 {
@@ -123,7 +123,7 @@ public class Skill
 
     public bool CanAttack()                          //실패할 수 있는 스킬 구현
     {
-        Random random = new Random();
+        Random random = new Random();                //참이면 50%로 실패
         if (CanFaild)
         {
             int randomValue = random.Next(100);
@@ -131,6 +131,10 @@ public class Skill
             if (randomValue < 50)
             {
                 return false; 
+            }
+            else
+            {
+                return true;
             }
         }
 

@@ -12,7 +12,7 @@ public class Warrior : IPlayer
     public int MaxHp { get; set; }
     public int CurrentHp { get; set; }
     public int MaxMana { get; set; }
-    public int CrrentMana { get; set; }
+    public int CUrrentMana { get; set; }
     public int Gold { get; set; }
     public int Experience { get; set; }
 
@@ -27,7 +27,7 @@ public class Warrior : IPlayer
         MaxMana = mexmana;
         Gold = gold;
         CurrentHp = MaxHp;
-        CrrentMana = MaxMana;
+        CUrrentMana = MaxMana;
         AddAtk = 0;
         AddDef = 0;
         Experience = 0;
