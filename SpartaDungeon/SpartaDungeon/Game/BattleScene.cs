@@ -44,6 +44,7 @@ public class BattleScene
     public IEnemy orderEnemy;
     public IEnemy currentEnemy;
     public int tempPlayerHealth { get; set; } = 0;
+    private int enemyNumber = 0;
 
     /// <summary>
     /// Add Enemy Informaion Setting 
@@ -55,6 +56,8 @@ public class BattleScene
         enemys.Add(new Voidling());
         enemys.Add(new SiegeMinion());
         enemys.Add(new Dragon());
+
+
     }
 
 
@@ -67,6 +70,8 @@ public class BattleScene
     {
         tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
+        isEnding = false;
+        dieEnemyCount = 0;
 
         if (competeEnemys.Count > 0)
             competeEnemys.Clear();
@@ -77,6 +82,8 @@ public class BattleScene
             IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); 
             competeEnemys.Add(choiceEnemy);
         }
+
+        enemyNumber = competeEnemys.Count;
     }
 
     /// <summary>
@@ -103,6 +110,7 @@ public class BattleScene
                 
                 if(orderEnemy.currentHP <= 0)
                 {
+                    enemyNumber--;
                     dieEnemyCount++;
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
@@ -112,7 +120,7 @@ public class BattleScene
         else // Enemy's Turn
         {
 
-            if (turnCount <= competeEnemys.Count)
+            if (turnCount <= enemyNumber)
             {
                 if (!competeEnemys[turnCount].Die())
                 {
@@ -121,20 +129,18 @@ public class BattleScene
                     int enemyDamage = orderEnemy.Attack();
                     player.CurrentHp -= enemyDamage;
 
-
                     if (player.CurrentHp <= 0)
                     {
                         player.CurrentHp = 0;
                         isEnding = true;
                     }
 
-
-                    if (competeEnemys[turnCount].currentHP <= 0)
-                    {
-                        dieEnemyCount++;
-                        competeEnemys[turnCount].currentHP = 0;
-                        competeEnemys[turnCount].isDead = true;
-                    }                  
+                    //if (competeEnemys[turnCount].currentHP <= 0)
+                    //{                       
+                    //    dieEnemyCount++;
+                    //    competeEnemys[turnCount].currentHP = 0;
+                    //    competeEnemys[turnCount].isDead = true;
+                    //}                  
                 }
                 else
                 {

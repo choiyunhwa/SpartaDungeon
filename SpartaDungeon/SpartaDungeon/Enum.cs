@@ -12,3 +12,10 @@ public enum EScreenView
     ENEMY_BATTLE,
     QUEST
 }
+
+public enum EAttackInfor
+{
+    BASIC, //기본 공격
+    NONE,  //공격 실패
+    CRITICAL, //치명타 공격
+}

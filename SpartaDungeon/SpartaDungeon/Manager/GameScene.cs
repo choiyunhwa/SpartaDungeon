@@ -36,7 +36,7 @@ public class GameScene
         inventory.items.Add(new Item("낡은 검", 10, 0, 0, "낡은 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("강철 검", 20, 0, 0, "강철 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("포션", 0, 0, 30, "포션", "물약", false, false, 3));
-        player.CurrentHp = 50;
+        player.CurrentHp = 1000;
 
         /// <author> ChoiYunHwa </author>
         battleScene = new BattleScene();
@@ -446,10 +446,15 @@ public class GameScene
         Console.Clear();
         Console.WriteLine();
         // 제목 색 다름
+        
         ConsoleUtility.ShowTitle("  Battle!!");
         ConsoleUtility.HeightPadding();
-
+        
         battleScene.BattleDungeon(player, ch);
+
+        if (!object.ReferenceEquals(null, battleScene.currentEnemy))
+            if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
+                Battle(0);
 
         string attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name ;
         string defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
@@ -460,9 +465,6 @@ public class GameScene
 
         Console.WriteLine($"  {attacker} 의 공격!");
         Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
-
-
-
 
         Console.WriteLine("\n  0. 다음");
         Console.WriteLine();      
@@ -480,7 +482,7 @@ public class GameScene
         {
             Battle(choice);
         }
-        else if(battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        else if (battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             battleScene.currentEnemy = battleScene.competeEnemys.First();
             battleScene.AttackTurn = true;
@@ -495,7 +497,7 @@ public class GameScene
             BattleView();
         }
         
-       
+        
     }
 
     /// <summary>

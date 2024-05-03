@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+public delegate void IsAttack(EAttackInfor attackInfor, int damage);
 public interface IEnemy
 {
     String name { get; set; }
@@ -12,9 +12,10 @@ public interface IEnemy
     int currentHP { get; set; }
     int maxHP { get; set; }
     int damage { get; set; }
-    bool isDead { get; set; }
+    bool isDead { get; set; }    
 
     int Attack();
+    //event IsAttack AttackInfor;
     bool Die();
 
     /// <summary>
