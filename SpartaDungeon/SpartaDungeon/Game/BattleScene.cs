@@ -9,7 +9,7 @@ public class BattleScene
 {
     private Random random = new Random();
 
-    public List<IEnemy> enemys = new List<IEnemy>(); //Enemy의 정보
+    public List<IEnemy> enemys = new List<IEnemy>(); //Enemy Information
     public List<IEnemy> competeEnemys = new List<IEnemy>(); //던전에 출몰하는 Enemy
     public int enemyCount { get; set; }
 
@@ -42,8 +42,8 @@ public class BattleScene
 
     public int turnCount { get; set; } = 0;
     public IEnemy orderEnemy;
+    public IEnemy currentEnemy;
     public int tempPlayerHealth { get; set; } = 0;
-    private int tempEnemyHealth = 0;
 
     /// <summary>
     /// Add Enemy Informaion Setting 
@@ -68,11 +68,13 @@ public class BattleScene
         tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
 
+        if (competeEnemys.Count > 0)
+            competeEnemys.Clear();
+
         for (int i = 0; i < enemyCount; i++)
         {
-            //현재 참조 상태로 변경 해야함
-            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)]; //몬스터 종류가 담겨있는 곳에서 하나씩 뽑아냄 
-
+            //Select Enemy Deep Copy and Add
+            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); 
             competeEnemys.Add(choiceEnemy);
         }
     }
@@ -85,38 +87,36 @@ public class BattleScene
     /// <author> ChoiYunHwa </author>
     public void BattleDungeon(IPlayer player, int choice)
     {
-
         List<IEnemy> tempEnemyHealth = competeEnemys;
 
         int currentAtk = (int)Math.Ceiling(player.Atk);
         playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1         
 
-        //Console.WriteLine($" attackTurn :   {attackTurn}    choice : {choice}");
 
         if (attackTurn) //Player Turn
-        {
-            //int choice = int.Parse(Console.ReadLine());   
-
-            
-
+        {   
             if (choice != 0)
             {
-                //Console.WriteLine("플레이어 단계!!\n");
                 orderEnemy = competeEnemys[choice - 1];
 
                 orderEnemy.currentHP -= playerAttackDamage;
-
-                //attackTurn = false;
+                
+                if(orderEnemy.currentHP <= 0)
+                {
+                    dieEnemyCount++;
+                    orderEnemy.currentHP = 0;
+                    orderEnemy.isDead = true;
+                }               
             }
         }
         else // Enemy's Turn
         {
 
-            if (turnCount < competeEnemys.Count)
+            if (turnCount <= competeEnemys.Count)
             {
-                //Console.WriteLine("몬스터 단계!!\n");
                 if (!competeEnemys[turnCount].Die())
                 {
+                    currentEnemy = competeEnemys[turnCount];
                     orderEnemy = competeEnemys[turnCount];
                     int enemyDamage = orderEnemy.Attack();
                     player.CurrentHp -= enemyDamage;
@@ -134,13 +134,12 @@ public class BattleScene
                         dieEnemyCount++;
                         competeEnemys[turnCount].currentHP = 0;
                         competeEnemys[turnCount].isDead = true;
-                    }
-
-                    //if (turnCount == competeEnemys.Count)
-                    //{
-                    //    turnCount = 0;
-                    //    attackTurn = false;
-                    //}
+                    }                  
+                }
+                else
+                {
+                    turnCount++;
+                    return;
                 }
                 turnCount++;
             }
@@ -149,34 +148,12 @@ public class BattleScene
                 turnCount = 0;
                 attackTurn = true;
             }
-
         }
 
         if (dieEnemyCount == competeEnemys.Count)
         {
             isAttack = false;
             isEnding = true;
-        }
-
-        //BattleResult(player);
-    }
-
-    /// <summary>
-    /// Show the results after the battle
-    /// </summary>
-    /// <author> C_최윤화 </author>
-    public bool BattleResult(IPlayer player)
-    {
-        if (player.CurrentHp > 0)
-        {
-            //Utility에 tempHealth 정보, player.health 정보, dieEnemyCount 정보 보냄
-
-            return true;
-        }
-        else
-        {
-            //Utility에 정보를 보냄
-            return false;
         }
     }
 }

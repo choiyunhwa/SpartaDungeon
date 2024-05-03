@@ -1,6 +1,7 @@
 ﻿
 using System.Runtime.CompilerServices;
 
+
 public class ConsoleUtility
 {
     /// <summary>

@@ -13,8 +13,9 @@ public class GameScene
     public BattleScene battleScene; //배틀씬 초기화 변수
     public static IPlayer player; //플레이어 초기화 변수
     public static List<Skill> SkillList = new List<Skill>();
-
+    public AllQuestList allQuestList;
     bool check = true;
+    bool skillCheck = false;
 
 
     public GameScene()
@@ -38,6 +39,8 @@ public class GameScene
         /// <author> ChoiYunHwa </author>
         battleScene = new BattleScene();
         battleScene.SettingEnemyData();
+
+        allQuestList = new AllQuestList();
     }
 
     /// <summary>
@@ -66,7 +69,7 @@ public class GameScene
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
         int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
 
-        switch(choice)
+        switch (choice)
         {
             case 1: 
                 player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000);
@@ -106,10 +109,11 @@ public class GameScene
         Console.WriteLine("  1. 상태 보기");
         Console.WriteLine("  2. 인벤토리");
         Console.WriteLine("  3. 전투 시작");
+        Console.WriteLine("  4. 퀘스트 확인");
         ConsoleUtility.HeightPadding();
 
         // 선택한 결과를 검증함
-        int choice = ConsoleUtility.PromptMenuChoice(1, 3);
+        int choice = ConsoleUtility.PromptMenuChoice(1, 4);
 
         // 선택한 결과에 따라 보내줌
         switch (choice)
@@ -123,6 +127,9 @@ public class GameScene
             case 3:
                 battleScene.InitSettingDungeon(player);
                 BattleView();
+                break;
+            case 4:
+                QuestView();
                 break;
         }
         MainView();
@@ -307,19 +314,22 @@ public class GameScene
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
         //Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
-        
-        foreach(var e in battleScene.competeEnemys) //Add YH 
-        {
-            if(e.currentHP != 0)
+
+        int i = 1;
+        foreach (var e in battleScene.competeEnemys) //Add YH 
+        { 
+            string num = check ? "" : $"{i}"; 
+            if (e.currentHP != 0)
             {
-                Console.WriteLine($"  LV.{e.level} {e.name} HP {e.currentHP}");
+                Console.WriteLine($" {num} - LV.{e.level} {e.name} HP {e.currentHP}");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine($"  LV.{e.level} {e.name} HP Dead");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($" {num} - LV.{e.level} {e.name} HP Dead");
                 Console.ResetColor();
             }
+            i++;
         }
 
         ConsoleUtility.HeightPadding();
@@ -330,11 +340,11 @@ public class GameScene
         ConsoleUtility.HeightPadding();
 
 
-        string option = check ? " 1. 공격" : " 0. 취소";
+        string option = check ? " 1. 공격\n 2.스킬 \n 0.나가기" : " 0. 취소";
         Console.WriteLine(option);
         Console.WriteLine();
-        int minOptionNum = check ? 1 : 0;
-        int maxOptionNum = check ? 1 : battleScene.competeEnemys.Count;
+        int minOptionNum = check ? 0 : 0;
+        int maxOptionNum = check ? 2 : battleScene.competeEnemys.Count;
         // 선택한 결과를 검증함
         int choice = ConsoleUtility.PromptMenuChoice(minOptionNum, maxOptionNum, check);
 
@@ -342,8 +352,15 @@ public class GameScene
         switch (choice)
         {
             case 0:
-                check = true;
-                BattleView();
+                if(check == false)
+                {
+                    check = true;
+                    BattleView();
+                }
+                else
+                {
+                    MainView();
+                }                
                 break;
             case 1:
             default:
@@ -354,7 +371,8 @@ public class GameScene
                 }
                 else
                 {
-                    Battle(choice);
+                    Battle(choice);                  
+
                 }
                 break;
         }
@@ -381,9 +399,7 @@ public class GameScene
         int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
 
         if(battleScene.AttackTurn == true)
-            battleScene.AttackTurn = false;              
-
-        //Console.WriteLine($" AttackTurn : {battleScene.AttackTurn}");
+            battleScene.AttackTurn = false;           
 
         Console.WriteLine($"  {attacker} 의 공격!");
         Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
@@ -395,25 +411,30 @@ public class GameScene
 
         int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
 
-        //if( battleScene.orderEnemy == battleScene.competeEnemys.Last())
-        //    BattleView();
+        
+        if (battleScene.isEnding == true)
+        {
+            ResultBattle();
+        }
 
         //ERROR 
-        if (battleScene.orderEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             Battle(choice);
         }
-        else if (battleScene.AttackTurn = false && battleScene.orderEnemy == battleScene.competeEnemys.Last()) 
+        else if(battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
+            battleScene.currentEnemy = battleScene.competeEnemys.First();
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;
             BattleView();
         }
-        
-        if(battleScene.isEnding == true)
+        else
         {
-            ResultBattle();
+            BattleView();
         }
+        
+       
     }
 
     /// <summary>
@@ -434,8 +455,8 @@ public class GameScene
         Console.WriteLine(result);
         Console.ResetColor();
         ConsoleUtility.HeightPadding();
-        Console.WriteLine($"LV. {player.Level} {player.Name}");
-        Console.WriteLine($"HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
+        Console.WriteLine($"  LV. {player.Level} {player.Name}");
+        Console.WriteLine($"\n  HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 다음");
@@ -447,6 +468,80 @@ public class GameScene
             case 0:
                 MainView();
                 break;            
+        }
+    }
+
+    /// <summary>
+    /// Show QuestView
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
+    private void QuestView()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  퀘스트 확인");
+        Console.WriteLine("  퀘스트를 확인하고 선택할 수 있습니다.");
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("  [ 목록 ]");
+        ConsoleUtility.HeightPadding();
+        for (int i = 0; i < allQuestList.questsList.Count; i++)
+        {
+            Console.WriteLine($"  {i + 1}. {allQuestList.questsList[i].questName}");
+        }
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("\n  0. 나가기");
+        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
+
+        switch(choice)
+        {
+            case 0:
+                MainView();
+                break;
+            default:
+                SelectQuestView(choice);
+                break;
+        }
+
+        QuestView();
+    }
+
+    /// <summary>
+    /// Show Selected Quest Screen Information
+    /// </summary>
+    /// <param name="ch">Selecte Quest Number</param>
+    /// <author> ChoiYunHwa </author>
+    private void SelectQuestView(int ch)
+    {
+        Console.Clear();
+        Console.WriteLine();
+        // 제목 색 다름
+        ConsoleUtility.ShowTitle("  Quest!!");
+        ConsoleUtility.HeightPadding();
+
+        IQuest quseList = allQuestList.questsList[ch - 1];
+        Console.WriteLine($"  {quseList.questName}\n");
+        Console.WriteLine($"  {quseList.questLine}");
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine($"  {quseList.monsterName} {quseList.requireCount}마리 처리"); //이 부분 장착에서 관리하는것도 구분해야함
+        Console.WriteLine("\n  - 보상 -");
+        Console.WriteLine($"  {quseList.reward}"); //이 부분도 수정해야함
+        
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("\n  1. 수락");
+        Console.WriteLine("\n  2. 거절");
+        Console.WriteLine("\n  0. 나가기");
+        ConsoleUtility.HeightPadding();
+        int choice = ConsoleUtility.PromptMenuChoice(0, 2);
+        switch (choice)
+        {
+            case 0:
+            case 2:
+                QuestView();
+                break;
+            case 1:
+                allQuestList.acceptedQuestsLis.Add(allQuestList.questsList[ch - 1]);
+                break;
         }
     }
 
