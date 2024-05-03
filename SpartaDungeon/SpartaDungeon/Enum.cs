@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpartaDungeon
+public enum EScreenView
 {
-    public enum EBattleView
-    {
-        MAIN_BATTLE,
-        SKILL_BATTLE,
-        ENEMY_BATTLE,
-    }
+    BASIC,
+    MAIN_BATTLE,
+    SKILL_BATTLE,
+    ENEMY_BATTLE,
+    QUEST
 }

@@ -17,7 +17,7 @@ public class GameScene
     public AllQuestList allQuestList;
     bool check = true;
     bool skillCheck = false;
-    EBattleView currentView = EBattleView.MAIN_BATTLE;
+    EScreenView currentView = EScreenView.MAIN_BATTLE;
 
 
     public GameScene()
@@ -304,6 +304,10 @@ public class GameScene
         EquipView();
     }
 
+    /// <summary>
+    /// Screen for Battle
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
     private void BattleView()
     {   
         Console.Clear();
@@ -341,38 +345,38 @@ public class GameScene
         int maxOptionNum = ShowSelectBattleView(currentView);
         Console.WriteLine();
         // 선택한 결과를 검증함
-        int choice = ConsoleUtility.PromptMenuChoice(0, maxOptionNum, check);
+        int choice = ConsoleUtility.PromptMenuChoice(0, maxOptionNum, currentView);
 
         switch(currentView)
         {
-            case EBattleView.MAIN_BATTLE:
+            case EScreenView.MAIN_BATTLE:
                 if(choice == 0)
                 {
                     MainView();
                 }
                 else if(choice == 1)
                 {
-                    currentView = EBattleView.ENEMY_BATTLE;
+                    currentView = EScreenView.ENEMY_BATTLE;
                 }
                 else
                 {
-                    currentView = EBattleView.SKILL_BATTLE;
+                    currentView = EScreenView.SKILL_BATTLE;
                 }
                 break;
-            case EBattleView.SKILL_BATTLE:
+            case EScreenView.SKILL_BATTLE:
                 if(choice == 0)
                 {
-                    currentView = EBattleView.MAIN_BATTLE;
+                    currentView = EScreenView.MAIN_BATTLE;
                 }
                 else
                 {
                     //ADD: Select Player Skill
                 }
                 break;
-            case EBattleView.ENEMY_BATTLE:
+            case EScreenView.ENEMY_BATTLE:
                 if (choice == 0)
                 {
-                    currentView = EBattleView.MAIN_BATTLE;
+                    currentView = EScreenView.MAIN_BATTLE;
                 }
                 else
                 {                    
@@ -388,17 +392,17 @@ public class GameScene
     /// </summary>
     /// <param name="view"> Enum current view information </param>
     /// <returns> Maximum number on the current Screen </returns>
-    private int ShowSelectBattleView(EBattleView view)
+    private int ShowSelectBattleView(EScreenView view)
     {
         string option = "";
         int maxMenuNum = 0;
         switch (view)         
         {
-            case EBattleView.MAIN_BATTLE:
+            case EScreenView.MAIN_BATTLE:
                 option = " 1.공격\n 2.스킬 \n\n 0.나가기";
                 maxMenuNum = 2;
                 break;
-            case EBattleView.SKILL_BATTLE:
+            case EScreenView.SKILL_BATTLE:
                 for(int i = 0; i < SkillList.Count; i++)
                 {
                     Console.WriteLine($"  {i + 1}.{SkillList[i].Name} - MP {SkillList[i].Mana}");
@@ -407,7 +411,7 @@ public class GameScene
                 option = "  0. 취소";
                 maxMenuNum = SkillList.Count; //ADD : UnLock Skill Count
                 break;
-            case EBattleView.ENEMY_BATTLE:
+            case EScreenView.ENEMY_BATTLE:
                 option = "  0. 나가기";
                 maxMenuNum = battleScene.competeEnemys.Count;
                 break;
@@ -457,7 +461,6 @@ public class GameScene
             ResultBattle();
         }
 
-        //ERROR 
         if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
             Battle(choice);
@@ -468,12 +471,12 @@ public class GameScene
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;
 
-            currentView = EBattleView.MAIN_BATTLE;
+            currentView = EScreenView.MAIN_BATTLE;
             BattleView();
         }
         else
         {
-            currentView = EBattleView.MAIN_BATTLE;
+            currentView = EScreenView.MAIN_BATTLE;
             BattleView();
         }
         
