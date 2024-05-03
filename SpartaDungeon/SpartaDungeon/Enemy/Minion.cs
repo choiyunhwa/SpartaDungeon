@@ -15,6 +15,7 @@ public class Minion : IEnemy
     public int damage { get; set; }
     public bool isDead { get; set; }
 
+
     public Minion()
     {
         name = "미니언";
@@ -51,8 +52,9 @@ public class Minion : IEnemy
     public bool Die()
     {
         if (currentHP == 0)
+        {
             return true;
-
+        }
         else return false;
     }
     public IEnemy DeepCopy()
@@ -66,6 +68,11 @@ public class Minion : IEnemy
         other.isDead = this.isDead;
 
         return other;
+    }
+
+    public void CallOnKilled(AllQuestList allQuestList)
+    {
+        allQuestList.killMinion.OnKilledEnemy(name);
     }
 }
 

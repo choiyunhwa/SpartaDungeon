@@ -29,22 +29,19 @@ public class GameScene
 
     public void InitDataSetting()
     {
+        allQuestList = new AllQuestList();
         /// <author> SooHyeonKim </author>
-        inventory = new Inventory(player);
-
-        //testing data - for equipping && using
+        inventory = new Inventory(player, allQuestList);
         inventory.items.Add(new Item("무쇠갑옷", 0, 5, 0, "튼튼한 갑옷", "방어력", false, false, 1));
         inventory.items.Add(new Item("강철갑옷", 0, 10, 0, "튼튼한 강철", "방어력", false, false, 1));
         inventory.items.Add(new Item("낡은 검", 10, 0, 0, "낡은 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("강철 검", 20, 0, 0, "강철 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("포션", 0, 0, 30, "포션", "물약", false, false, 3));
-        player.CurrentHp = 50;
+
 
         /// <author> ChoiYunHwa </author>
-        battleScene = new BattleScene();
+        battleScene = new BattleScene(allQuestList);
         battleScene.SettingEnemyData();
-
-        allQuestList = new AllQuestList();
     }
 
     /// <summary>
@@ -55,6 +52,22 @@ public class GameScene
     {
         Console.Clear();
         ConsoleUtility.HeightPadding();
+
+        //Console.WriteLine(string.Format("{0}", "스파르타 던전").PadLeft(42 - (21 - ("스파르타 던전".Length / 2))));
+
+        //ConsoleUtility.HeightPadding();
+
+        //// 이름 물어보기
+        //Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
+        //string name = Console.ReadLine();   //닉네임 입력받기 추가
+        //Console.WriteLine();
+        //Console.WriteLine();
+        //// 직업
+        //Console.Write(string.Format("{0}", "1. 전사  |  2. 마법사 ").PadLeft(42 - (19 - ("1. 전사  |  2. 마법사 ".Length / 2))));
+        //Console.WriteLine();
+        //Console.WriteLine();
+        //// 직업 고르기
+        //Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
 
         Console.WriteLine(string.Format("{0}", "스파르타 던전").PadLeft(42 - (21 - ("스파르타 던전".Length / 2))));
 
@@ -71,17 +84,19 @@ public class GameScene
         Console.WriteLine();
         // 직업 고르기
         Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
+
         int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
 
         switch (choice)
         {
-            case 1: 
+            case 1:
                 player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000);
                 break;
             case 2:
                 player = new Wizard(name, "Wizard", 1, 5, 5, 80, 100, 15000);
                 break;
         }
+
         Console.WriteLine();
 
 
@@ -573,7 +588,10 @@ public class GameScene
         Console.WriteLine($"  - {quseList.monsterName} {quseList.requireCount}마리 처리 \n"); //이 부분 장착에서 관리하는것도 구분해야함
         Console.WriteLine("  [ 보상 ]");
         Console.WriteLine($"  - {quseList.reward}"); //이 부분도 수정해야함
-        
+        Console.WriteLine();
+        quseList.CheckQuest();
+
+
         ConsoleUtility.HeightPadding();
         Console.WriteLine("  1. 수락");
         Console.WriteLine("  2. 거절");
@@ -590,7 +608,7 @@ public class GameScene
                 allQuestList.AddQuest(ch);
                 break;
             case 2:
-                allQuestList.CheckQuest(ch);
+                allQuestList.RefuseQuest(ch);
                 break;
         }
     }

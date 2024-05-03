@@ -66,5 +66,9 @@ public class Voidling : IEnemy
 
         return other;
     }
+    public void CallOnKilled(AllQuestList allQuestList)
+    {
+        allQuestList.killVoidling.OnKilledEnemy(name);
+    }
 }
 

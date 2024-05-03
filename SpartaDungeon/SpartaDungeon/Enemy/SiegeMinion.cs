@@ -67,4 +67,8 @@ public class SiegeMinion : IEnemy
 
         return other;
     }
+    public void CallOnKilled(AllQuestList allQuestList)
+    {
+        allQuestList.killseigeMinion.OnKilledEnemy(name);
+    }
 }

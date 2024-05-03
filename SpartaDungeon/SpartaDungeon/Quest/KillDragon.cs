@@ -53,20 +53,22 @@ public class KillDragon : IQuest
     public void CompleteQuest()
     {
         isCompleted = true;
+        isAccept = false;
+        CheckQuest();
     }
 
     public int CheckQuest()
     {
         if (isCompleted)        //퀘스트가 깨졌다면 완료 문구와 함께 보상 데이터 전달 (자료형은 이후 바뀔 수 있음)
         {
-            Console.WriteLine("퀘스트가 완료되었습니다.");
+            Console.WriteLine("  퀘스트가 완료되었습니다.");
             return 1;       // 현재 어떻게 아이템 보상을 전달할지 몰라서 임의로 reutrn 1 값을 설정
         }
 
         else
         {
-            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
-            Console.WriteLine($"드래곤 처치 {requireCount}/{currentCount}");
+            Console.WriteLine("  퀘스트가 아직 완료되지 않았습니다.");
+            Console.WriteLine($"  드래곤 처치 {requireCount}/{currentCount}");
             return 0;
         }
     }

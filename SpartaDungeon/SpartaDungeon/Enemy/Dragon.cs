@@ -67,5 +67,9 @@ public class Dragon : IEnemy
 
         return other;
     }
+    public void CallOnKilled(AllQuestList allQuestList)
+    {
+        allQuestList.KillDragon.OnKilledEnemy(name);
+    }
 }
 

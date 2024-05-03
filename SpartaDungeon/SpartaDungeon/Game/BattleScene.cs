@@ -17,6 +17,13 @@ public class BattleScene
 
     private bool attackTurn = true; // false : Monster Turn, true : Player Turn
 
+    private AllQuestList AllQuestList;
+
+    public BattleScene(AllQuestList allQuestList)
+    {
+        this.AllQuestList = allQuestList;
+    }
+
     public bool AttackTurn
     {
         get { return attackTurn; }
@@ -65,6 +72,7 @@ public class BattleScene
     /// <author> ChoiYunHwa </author>
     public void InitSettingDungeon(IPlayer player)
     {
+        isEnding = false; //test용
         tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
 
@@ -104,6 +112,7 @@ public class BattleScene
                 if(orderEnemy.currentHP <= 0)
                 {
                     dieEnemyCount++;
+                    competeEnemys[turnCount].CallOnKilled(AllQuestList);
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
                 }               
@@ -132,6 +141,7 @@ public class BattleScene
                     if (competeEnemys[turnCount].currentHP <= 0)
                     {
                         dieEnemyCount++;
+                        competeEnemys[turnCount].CallOnKilled(AllQuestList);
                         competeEnemys[turnCount].currentHP = 0;
                         competeEnemys[turnCount].isDead = true;
                     }                  

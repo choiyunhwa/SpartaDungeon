@@ -56,20 +56,22 @@ using System.Threading.Tasks;
     public void CompleteQuest()
     {
         isCompleted = true;
+        isAccept = false;
+        CheckQuest();
     }
 
     public int CheckQuest()
     {
         if (isCompleted)
         {
-            Console.WriteLine("퀘스트가 완료되었습니다.");
+            Console.WriteLine("  퀘스트가 완료되었습니다.");
             return 1;
         }
 
         else
         {
-            Console.WriteLine("퀘스트가 아직 완료되지 않았습니다.\n");
-            Console.WriteLine($"공허충 처치 {requireCount}/{currentCount}");
+            Console.WriteLine("  퀘스트가 아직 완료되지 않았습니다.");
+            Console.WriteLine($"  공허충 처치 {requireCount}/{currentCount}");
             return 0;
         }
     }

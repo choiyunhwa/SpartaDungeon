@@ -23,6 +23,11 @@ public interface IEnemy
     /// <returns>Class return</returns>
     /// <author> ChoiYunHwa </author>
     IEnemy DeepCopy();
-
+    
+    /// <summary>
+    /// Quest - kill monster
+    /// </summary>
+    /// <param name="allQuestList">From [gamescene->battlescene]</param>
+    public void CallOnKilled(AllQuestList allQuestList);
 }
 
