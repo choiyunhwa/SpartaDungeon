@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 public class ConsoleUtility
 {
+    
     /// <summary>
     /// 플레이어 입력 값이 올바른 입력인지 확인
     /// </summary>
@@ -12,14 +13,27 @@ public class ConsoleUtility
     /// <param name="check"></param>
     /// <returns>choice</returns>
     /// <author> SooHyeonKim </author>
-    public static int PromptMenuChoice(int min, int max, bool check = true)
+    public static int PromptMenuChoice(int min, int max, EScreenView option = EScreenView.BASIC)
     {
         while (true)
         {
-            if (check)
-                Console.WriteLine("  원하시는 번호를 입력해주세요.");
-            else
-                Console.WriteLine("  대상을 선택해주세요.");
+
+            switch (option)
+            {
+                case EScreenView.BASIC:
+                case EScreenView.MAIN_BATTLE:
+                    Console.WriteLine("  원하시는 행동을 선택해주세요.");
+                    break;
+                case EScreenView.SKILL_BATTLE:
+                    Console.WriteLine("  스킬을 선택해주세요.");
+                    break;
+                case EScreenView.ENEMY_BATTLE:
+                    Console.WriteLine("  대상을 선택해주세요.");
+                    break;
+                case EScreenView.QUEST:
+                    Console.WriteLine("  원하는 퀘스트를 선택해주세요.");
+                    break;
+            }
 
             Console.Write("  >> ");
             if (int.TryParse(Console.ReadLine(), out var choice) && choice >= min && choice <= max)

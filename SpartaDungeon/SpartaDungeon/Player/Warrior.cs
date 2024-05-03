@@ -11,8 +11,8 @@ public class Warrior : IPlayer
     public float AddDef { get; set; }
     public int MaxHp { get; set; }
     public int CurrentHp { get; set; }
-    public int MaxMana { get; set; }
-    public int CrrentMana { get; set; }
+    public int MaxMP { get; set; }
+    public int CurrentMP { get; set; }
     public int Gold { get; set; }
     public int Experience { get; set; }
 
@@ -24,10 +24,10 @@ public class Warrior : IPlayer
         Atk = atk;
         Def = def;
         MaxHp = mexHp;
-        MaxMana = mexmana;
+        MaxMP = mexmana;
         Gold = gold;
         CurrentHp = MaxHp;
-        CrrentMana = MaxMana;
+        CurrentMP = MaxMP;
         AddAtk = 0;
         AddDef = 0;
         Experience = 0;
