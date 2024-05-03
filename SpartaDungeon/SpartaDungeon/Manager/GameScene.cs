@@ -15,6 +15,7 @@ public class GameScene
     public static List<Skill> SkillList = new List<Skill>();
     public AllQuestList allQuestList;
     bool check = true;
+    bool skillCheck = false;
 
 
     public GameScene()
@@ -339,11 +340,11 @@ public class GameScene
         ConsoleUtility.HeightPadding();
 
 
-        string option = check ? " 1. 공격" : " 0. 취소";
+        string option = check ? " 1. 공격\n 2.스킬 \n 0.나가기" : " 0. 취소";
         Console.WriteLine(option);
         Console.WriteLine();
-        int minOptionNum = check ? 1 : 0;
-        int maxOptionNum = check ? 1 : battleScene.competeEnemys.Count;
+        int minOptionNum = check ? 0 : 0;
+        int maxOptionNum = check ? 2 : battleScene.competeEnemys.Count;
         // 선택한 결과를 검증함
         int choice = ConsoleUtility.PromptMenuChoice(minOptionNum, maxOptionNum, check);
 
@@ -351,8 +352,15 @@ public class GameScene
         switch (choice)
         {
             case 0:
-                check = true;
-                BattleView();
+                if(check == false)
+                {
+                    check = true;
+                    BattleView();
+                }
+                else
+                {
+                    MainView();
+                }                
                 break;
             case 1:
             default:
@@ -363,7 +371,8 @@ public class GameScene
                 }
                 else
                 {
-                    Battle(choice);
+                    Battle(choice);                  
+
                 }
                 break;
         }
@@ -462,6 +471,10 @@ public class GameScene
         }
     }
 
+    /// <summary>
+    /// Show QuestView
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
     private void QuestView()
     {
         Console.Clear();
@@ -477,6 +490,7 @@ public class GameScene
             Console.WriteLine($"  {i + 1}. {allQuestList.questsList[i].questName}");
         }
         ConsoleUtility.HeightPadding();
+        Console.WriteLine("\n  0. 나가기");
         int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
 
         switch(choice)
@@ -492,6 +506,11 @@ public class GameScene
         QuestView();
     }
 
+    /// <summary>
+    /// Show Selected Quest Screen Information
+    /// </summary>
+    /// <param name="ch">Selecte Quest Number</param>
+    /// <author> ChoiYunHwa </author>
     private void SelectQuestView(int ch)
     {
         Console.Clear();
@@ -500,9 +519,18 @@ public class GameScene
         ConsoleUtility.ShowTitle("  Quest!!");
         ConsoleUtility.HeightPadding();
 
-        Console.WriteLine($"  {allQuestList.questsList[ch - 1].questName}\n");
-        Console.WriteLine($"  {allQuestList.questsList[ch - 1].questLine}");
+        IQuest quseList = allQuestList.questsList[ch - 1];
+        Console.WriteLine($"  {quseList.questName}\n");
+        Console.WriteLine($"  {quseList.questLine}");
         ConsoleUtility.HeightPadding();
+        Console.WriteLine($"  {quseList.monsterName} {quseList.requireCount}마리 처리"); //이 부분 장착에서 관리하는것도 구분해야함
+        Console.WriteLine("\n  - 보상 -");
+        Console.WriteLine($"  {quseList.reward}"); //이 부분도 수정해야함
+        
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("\n  1. 수락");
+        Console.WriteLine("\n  2. 거절");
+        Console.WriteLine("\n  0. 나가기");
         int choice = ConsoleUtility.PromptMenuChoice(0, 2);
         switch (choice)
         {
@@ -511,6 +539,7 @@ public class GameScene
                 QuestView();
                 break;
             case 1:
+                allQuestList.acceptedQuestsLis.Add(allQuestList.questsList[ch - 1]);
                 break;
         }
     }

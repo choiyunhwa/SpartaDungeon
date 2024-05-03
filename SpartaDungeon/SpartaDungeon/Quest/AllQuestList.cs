@@ -15,6 +15,8 @@ public class AllQuestList
     public TryLevelUp tryLevelUp { get; set; }
     public List<IQuest> questsList { get; set; }
 
+    public List<IQuest> acceptedQuestsLis = new List<IQuest>(); //현재 수락한 퀘스트
+
     public AllQuestList()
     {
         KillDragon = new KillDragon();
