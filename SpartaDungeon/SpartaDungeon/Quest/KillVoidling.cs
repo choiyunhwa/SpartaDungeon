@@ -26,7 +26,7 @@ public class KillVoidling : IQuest
                     "다행스럽게도 강하지는 않아서 토벌을 할 수 있을 정도라 하니, 만일 보게 된다면 처치하는게 좋을 걸세.\n" +
                     "자네도 모험가니 말이야.\n";
 
-        reward = "경험치";
+        reward = "150 Gold\n  10 Exp";
         isCompleted = false;
 
         monsterName = "공허충";
@@ -74,8 +74,9 @@ public class KillVoidling : IQuest
 
     public void RewardToQuest(Inventory inventory, IPlayer player)
     {
-        player.GetGold(100);
-        player.GainExperience(100);
+        player.GetGold(150);
+        player.GainExperience(10);
+        player.LevelUp();
     }
 
 

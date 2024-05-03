@@ -25,7 +25,7 @@ public class TryLevelUp : IQuest
                     "이는 모험가에게도 마찬가지이며, 너에게도 통하는 말이겠지.\n" +
                     "경험을 쌓도록 하세. 너를 더 강해지게 해줄 것이니.\n";
 
-        reward = "경험치";
+        reward = "30 Exp";
         isCompleted = false;
         monsterName = "";
         requireCount = 0;
@@ -63,7 +63,8 @@ public class TryLevelUp : IQuest
 
     public void RewardToQuest(Inventory inventory, IPlayer player)
     {
-        player.GainExperience(100);
+        player.GainExperience(30);
+        player.LevelUp();
     }
 
 }

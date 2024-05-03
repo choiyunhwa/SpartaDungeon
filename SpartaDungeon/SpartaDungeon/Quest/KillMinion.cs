@@ -22,7 +22,7 @@ public class KillMinion : IQuest
                     "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
                     "모험가인 자네가 좀 처치해주게!\n";
         
-        reward = "장비";
+        reward = "175 Gold\n  20 Exp";
         isCompleted = false;
         monsterName = "미니언";
         requireCount = 5;
@@ -70,8 +70,9 @@ public class KillMinion : IQuest
 
     public void RewardToQuest(Inventory inventory, IPlayer player)
     {
-        player.GetGold(100);
-        player.GainExperience(100);
+        player.GetGold(175);
+        player.GainExperience(20);
+        player.LevelUp();
     }
 
 
