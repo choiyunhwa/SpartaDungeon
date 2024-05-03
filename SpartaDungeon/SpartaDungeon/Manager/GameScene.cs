@@ -1,4 +1,5 @@
 ﻿
+using SpartaDungeon;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
@@ -16,6 +17,7 @@ public class GameScene
     public AllQuestList allQuestList;
     bool check = true;
     bool skillCheck = false;
+    EBattleView currentView = EBattleView.MAIN_BATTLE;
 
 
     public GameScene()
@@ -311,10 +313,6 @@ public class GameScene
         ConsoleUtility.ShowTitle("  Battle!!");
         ConsoleUtility.HeightPadding();
 
-        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //미니언.Level 미니언.Name 미니언.HP
-        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //대포미니언.Level 대포미니언.Name 대포미니언.HP
-        //Console.WriteLine($"  LV.{0} {1} HP {2}"); //공허충.Level 공허충.Name 공허충.HP
-
         int i = 1;
         foreach (var e in battleScene.competeEnemys) //Add YH 
         { 
@@ -337,46 +335,88 @@ public class GameScene
         Console.WriteLine("  [내정보]");
         Console.WriteLine($"  LV.{player.Level} {player.Name}({player.Job})");
         Console.WriteLine($"  HP {player.MaxHp}/{player.CurrentHp}");
+        Console.WriteLine($"  MP {player.MaxMP}/{player.CurrentMP}");
         ConsoleUtility.HeightPadding();
 
-
-        string option = check ? " 1. 공격\n 2.스킬 \n 0.나가기" : " 0. 취소";
-        Console.WriteLine(option);
+        int maxOptionNum = ShowSelectBattleView(currentView);
         Console.WriteLine();
-        int minOptionNum = check ? 0 : 0;
-        int maxOptionNum = check ? 2 : battleScene.competeEnemys.Count;
         // 선택한 결과를 검증함
-        int choice = ConsoleUtility.PromptMenuChoice(minOptionNum, maxOptionNum, check);
+        int choice = ConsoleUtility.PromptMenuChoice(0, maxOptionNum, check);
 
-        // 선택한 결과에 따라 보내줌
-        switch (choice)
+        switch(currentView)
         {
-            case 0:
-                if(check == false)
-                {
-                    check = true;
-                    BattleView();
-                }
-                else
+            case EBattleView.MAIN_BATTLE:
+                if(choice == 0)
                 {
                     MainView();
-                }                
-                break;
-            case 1:
-            default:
-                if (check == true)
+                }
+                else if(choice == 1)
                 {
-                    check = false;
-                    BattleView();
+                    currentView = EBattleView.ENEMY_BATTLE;
                 }
                 else
                 {
-                    Battle(choice);                  
-
+                    currentView = EBattleView.SKILL_BATTLE;
+                }
+                break;
+            case EBattleView.SKILL_BATTLE:
+                if(choice == 0)
+                {
+                    currentView = EBattleView.MAIN_BATTLE;
+                }
+                else
+                {
+                    //ADD: Select Player Skill
+                }
+                break;
+            case EBattleView.ENEMY_BATTLE:
+                if (choice == 0)
+                {
+                    currentView = EBattleView.MAIN_BATTLE;
+                }
+                else
+                {                    
+                    Battle(choice);
                 }
                 break;
         }
         BattleView();
+    }
+
+    /// <summary>
+    /// Show Current View
+    /// </summary>
+    /// <param name="view"> Enum current view information </param>
+    /// <returns> Maximum number on the current Screen </returns>
+    private int ShowSelectBattleView(EBattleView view)
+    {
+        string option = "";
+        int maxMenuNum = 0;
+        switch (view)         
+        {
+            case EBattleView.MAIN_BATTLE:
+                option = " 1.공격\n 2.스킬 \n\n 0.나가기";
+                maxMenuNum = 2;
+                break;
+            case EBattleView.SKILL_BATTLE:
+                for(int i = 0; i < SkillList.Count; i++)
+                {
+                    Console.WriteLine($"  {i + 1}.{SkillList[i].Name} - MP {SkillList[i].Mana}");
+                    Console.WriteLine($"    {SkillList[i].Description}");
+                }
+                option = "  0. 취소";
+                maxMenuNum = SkillList.Count; //ADD : UnLock Skill Count
+                break;
+            case EBattleView.ENEMY_BATTLE:
+                option = "  0. 나가기";
+                maxMenuNum = battleScene.competeEnemys.Count;
+                break;
+        }
+
+        Console.WriteLine(option);
+        Console.WriteLine();
+
+        return maxMenuNum;
     }
 
     /// <summary>
@@ -427,10 +467,13 @@ public class GameScene
             battleScene.currentEnemy = battleScene.competeEnemys.First();
             battleScene.AttackTurn = true;
             battleScene.turnCount = 0;
+
+            currentView = EBattleView.MAIN_BATTLE;
             BattleView();
         }
         else
         {
+            currentView = EBattleView.MAIN_BATTLE;
             BattleView();
         }
         
