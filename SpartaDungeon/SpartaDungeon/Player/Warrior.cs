@@ -11,13 +11,8 @@ public class Warrior : IPlayer
     public float AddDef { get; set; }
     public int MaxHp { get; set; }
     public int CurrentHp { get; set; }
-//<<<<<<< HEAD
-    public int MaxMana { get; set; }
-    public int CurrentMana { get; set; }
-//=======
     public int MaxMP { get; set; }
     public int CurrentMP { get; set; }
-//>>>>>>> devMain
     public int Gold { get; set; }
     public int Experience { get; set; }
 
@@ -32,11 +27,8 @@ public class Warrior : IPlayer
         MaxMP = mexmana;
         Gold = gold;
         CurrentHp = MaxHp;
-//<<<<<<< HEAD
-        CurrentMana = MaxMana;
-//=======
         CurrentMP = MaxMP;
-//>>>>>>> devMain
+
         AddAtk = 0;
         AddDef = 0;
         Experience = 0;
@@ -83,9 +75,9 @@ public class Warrior : IPlayer
     public void jobskills()
     {
         GameScene.SkillList.Add(new Skill("알파 스트라이크", 2, 1, 10, "공격력 * 2 로 하나의 적을 공격합니다. ◈2레벨에 해금◈", 2, false, false));
-        GameScene.SkillList.Add(new Skill("더블 스트라이크", 1.5f, 2, 15, "공격력 * 1.5 데미지로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
+        GameScene.SkillList.Add(new Skill("더블 스트라이크", 1, 2, 15, "공격력 * 1 데미지로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
         GameScene.SkillList.Add(new Skill("파워 스트라이크", 3, 1, 20, "공격력 * 3 데미지로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈4레벨에 해금◈", 4, false, true));
-        GameScene.SkillList.Add(new Skill("파이널 어택", 2.5f, 2, 25, "공격력 * 2.5 데미지로 2명의 적을 랜덤으로 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5, true, true));
+        GameScene.SkillList.Add(new Skill("파이널 어택", 2, 2, 25, "공격력 * 2 데미지로 2명의 적을 랜덤으로 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5, true, true));
 
     }
 

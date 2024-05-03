@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
+using static System.Formats.Asn1.AsnWriter;
 
 public class GameScene
 {
@@ -36,7 +37,6 @@ public class GameScene
         inventory.items.Add(new Item("낡은 검", 10, 0, 0, "낡은 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("강철 검", 20, 0, 0, "강철 검", "공격력", false, false, 1));
         inventory.items.Add(new Item("포션", 0, 0, 30, "포션", "물약", false, false, 3));
-        player.CurrentHp = 50;
 
         /// <author> ChoiYunHwa </author>
         battleScene = new BattleScene();
@@ -304,6 +304,65 @@ public class GameScene
         EquipView();
     }
 
+
+
+
+    public void UseSkill(int num) // 해금이됬는가->마나가 있는가->실패가능성있는스킬인가->랜덤스킬인가
+    {
+
+        while (true)
+        {
+            if (!SkillList[num - 1].Unlocked)
+            {
+                Console.WriteLine("스킬이 해금되지 않았습니다.");
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+                break;
+            }
+            else
+            {
+                if (player.CurrentMP >= SkillList[num - 1].Mana)
+                {
+                    if (SkillList[num - 1].CanAttack())
+                    {
+                        if (SkillList[num - 1].IsRandom)
+                        {
+                            player.CurrentMP -= SkillList[num - 1].Mana;
+                            int damage = SkillList[num - 1].CalculateDamage();
+                            int[] selectedIndexes = battleScene.RandomAttack();
+
+                            Battle(0, damage, selectedIndexes);
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("대상을 선택해주세요: ");
+                            int enemynum = int.Parse(Console.ReadLine());
+                            int damage = SkillList[num - 1].CalculateDamage();
+                            player.CurrentMP -= SkillList[num - 1].Mana;
+                            Battle(enemynum, damage, null);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("공격에 실패했습니다.");
+                        Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                        Console.ReadKey();
+                        break; 
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("마나가 부족합니다.");
+                    Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                    Console.ReadKey();
+                    break;
+                }
+            }
+        }
+
+    }
+
     /// <summary>
     /// Screen for Battle
     /// </summary>
@@ -370,7 +429,7 @@ public class GameScene
                 }
                 else
                 {
-                    //ADD: Select Player Skill
+                    UseSkill(choice);    
                 }
                 break;
             case EScreenView.ENEMY_BATTLE:
@@ -380,7 +439,7 @@ public class GameScene
                 }
                 else
                 {                    
-                    Battle(choice);
+                    Battle(choice, 0, null);
                 }
                 break;
         }
@@ -405,6 +464,14 @@ public class GameScene
             case EScreenView.SKILL_BATTLE:
                 for(int i = 0; i < SkillList.Count; i++)
                 {
+                    if (SkillList[i].Unlocked)
+                    {
+                        Console.Write("   [");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("U");
+                        Console.ResetColor();
+                        Console.Write("]");
+                    }
                     Console.WriteLine($"  {i + 1}.{SkillList[i].Name} - MP {SkillList[i].Mana}");
                     Console.WriteLine($"    {SkillList[i].Description}");
                 }
@@ -428,7 +495,7 @@ public class GameScene
     /// </summary>
     /// <param name="ch">Player InputKey Number</param>
     /// <author> ChoiYunHwa </author>
-    private void Battle(int ch)
+    private void Battle(int ch, int skillDamage, int[]RandomEnemy)
     {
         Console.Clear();
         Console.WriteLine();
@@ -436,17 +503,41 @@ public class GameScene
         ConsoleUtility.ShowTitle("  Battle!!");
         ConsoleUtility.HeightPadding();
 
-        battleScene.BattleDungeon(player, ch);
+        string attacker;
+        string defender;
+        int attackerDamage;
 
-        string attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name ;
-        string defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-        int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
+        if (RandomEnemy != null)
+        {
+            for (int i = 0; i < RandomEnemy.Length; i++)
+            {
+                ch = RandomEnemy[i];
+                battleScene.BattleDungeon(player, ch, skillDamage);
+                attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
+                defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
+                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
+                Console.WriteLine($"  {attacker} 의 공격!");
+                Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
+            }
+            if (battleScene.AttackTurn == true)
+                battleScene.AttackTurn = false;
+        }
+        else
+        {
+            battleScene.BattleDungeon(player, ch, skillDamage);
 
-        if(battleScene.AttackTurn == true)
-            battleScene.AttackTurn = false;           
+            attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
+            defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
+            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
 
-        Console.WriteLine($"  {attacker} 의 공격!");
-        Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
+            if (battleScene.AttackTurn == true)
+                battleScene.AttackTurn = false;
+
+            Console.WriteLine($"  {attacker} 의 공격!");
+            Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
+        }
+
+
 
 
         Console.WriteLine("\n  0. 다음");
@@ -463,7 +554,7 @@ public class GameScene
 
         if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
-            Battle(choice);
+            Battle(choice, 0, null);
         }
         else if(battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
         {
