@@ -54,6 +54,10 @@ public class SiegeMinion : IEnemy
 
         else return false;
     }
+    public Reward GetReward()
+    {
+        return new Reward { gold = 70, exp = 15 };
+    }
 
     public IEnemy DeepCopy()
     {

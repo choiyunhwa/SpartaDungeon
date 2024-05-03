@@ -26,7 +26,7 @@ public class KillDragon : IQuest
                     "마을에서 새끼 드래곤에게 현상금을 걸었으니, 조금만 기다리면 상급 모험가들이 토벌할 겁니다.\n" +
                     "아니면 당신도 현상금을 노리는 겁니까?\n";
 
-        reward = "새끼 드래곤의 비늘 갑옷\n  1500 Gold\n  80 Exp";          //보상 부분을 어떻게 설정할지 모르겠어서 목표 보상만 적어두겠습니다.
+        reward = "새끼 드래곤의 비늘 갑옷\n  1500 Gold\n  80 Exp";
         monsterName = "드래곤";
         requireCount = 1;
         currentCount = 0;

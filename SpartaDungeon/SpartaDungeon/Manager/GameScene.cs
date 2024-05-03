@@ -503,6 +503,13 @@ public class GameScene
         ConsoleUtility.HeightPadding();
         Console.WriteLine($"  LV. {player.Level} {player.Name}");
         Console.WriteLine($"\n  HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
+        
+        /// <author> KwonSinWook </author>
+        if (result == "  Victory")
+        {
+            Reward reward = new Reward();
+            reward.GetReward(battleScene.competeEnemys, player); // 승리 시에만 전투 보상 지급
+        }
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 다음");

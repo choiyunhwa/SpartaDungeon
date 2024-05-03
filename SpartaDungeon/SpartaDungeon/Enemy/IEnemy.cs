@@ -17,7 +17,8 @@ public interface IEnemy
     int Attack();
     bool Die();
 
-   
+    Reward GetReward();
+
     IEnemy DeepCopy();
 
 }

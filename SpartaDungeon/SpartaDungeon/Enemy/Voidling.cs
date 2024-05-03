@@ -54,6 +54,11 @@ public class Voidling : IEnemy
         else return false;
     }
 
+    public Reward GetReward()
+    {
+        return new Reward { gold = 30, exp = 7 };
+    }
+
     public IEnemy DeepCopy()
     {
         Voidling other = (Voidling)this.MemberwiseClone();

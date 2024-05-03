@@ -55,6 +55,12 @@ public class Minion : IEnemy
 
         else return false;
     }
+
+    public Reward GetReward()
+    {
+        return new Reward { gold = 50, exp = 10 };
+    }
+
     public IEnemy DeepCopy()
     {
         Minion other = (Minion) this.MemberwiseClone();
