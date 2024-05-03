@@ -442,13 +442,10 @@ public class GameScene
                 }
                 else if (choice == 1)
                 {
-
                     currentView = EScreenView.ENEMY_BATTLE;
-
                 }
                 else
                 {
-
                     currentView = EScreenView.SKILL_BATTLE;
                 }
                 break;
@@ -469,7 +466,8 @@ public class GameScene
                 }
                 else
                 {
-                    Battle(choice, 0, null);
+                    if(ConsoleUtility.MonsterChoice(choice, battleScene.competeEnemys) == true)
+                         Battle(choice, 0, null);
                 }
                 break;
         }
@@ -528,6 +526,9 @@ public class GameScene
     /// <author> ChoiYunHwa </author>
     private void Battle(int ch, int skillDamage, int[] RandomEnemy)
     {
+        int temp = skillDamage;
+        int[] randem = RandomEnemy;
+
         Console.Clear();
         Console.WriteLine();
         // 제목 색 다름
@@ -540,7 +541,7 @@ public class GameScene
         int attackerDamage;
         if (!object.ReferenceEquals(null, battleScene.currentEnemy))
             if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
-            { }//Battle(0);
+             Battle(0, temp, randem);
 
 
         if (RandomEnemy != null)
@@ -555,8 +556,7 @@ public class GameScene
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
             }
-            if (battleScene.AttackTurn == true)
-                battleScene.AttackTurn = false;
+            
         }
         else
         {
@@ -573,7 +573,8 @@ public class GameScene
             Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
         }
 
-
+        if (battleScene.AttackTurn == true)
+            battleScene.AttackTurn = false;
 
         Console.WriteLine("\n  0. 다음");
         Console.WriteLine();

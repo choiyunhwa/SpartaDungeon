@@ -44,6 +44,20 @@ public class ConsoleUtility
         }
     }
 
+    public static bool MonsterChoice(int choice, List<IEnemy>enemys)
+    {        
+        if (enemys[choice - 1].isDead == false)
+        {
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("  해당 몬스터는 죽은 상태입니다.");
+            Thread.Sleep(600);
+            return false;
+        }
+    }
+
     /// <summary>
     /// 문자 색 변경
     /// </summary>

@@ -22,7 +22,7 @@ public class Skill
         HitCount = hitCount;
         Mana = mana;
         Description = description;
-        Unlocked = true;
+        Unlocked = false;
         UnlockLevel = unlockLevel;
         IsRandom = isRandom;
         CanFaild = canFaild;

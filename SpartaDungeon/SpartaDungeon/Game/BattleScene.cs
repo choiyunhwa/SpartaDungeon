@@ -179,8 +179,6 @@ public class BattleScene
                         player.CurrentHp = 0;
                         isEnding = true;
                     }
-
-
                     //if (competeEnemys[turnCount].currentHP <= 0)
                     //{
                     //    dieEnemyCount++;
