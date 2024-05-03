@@ -324,7 +324,7 @@ public class GameScene
                 InventoryView();
                 break;
             default:
-                inventory.CheckEquipState(choice -1); // 착용 상태 변경
+                inventory.CheckEquipState(choice - 1); // 착용 상태 변경
                 EquipView();
                 break;
         }
@@ -359,7 +359,7 @@ public class GameScene
                             int[] selectedIndexes = battleScene.RandomAttack();
 
                             Battle(0, damage, selectedIndexes);
-                            
+
                         }
                         else
                         {
@@ -375,7 +375,7 @@ public class GameScene
                         Console.WriteLine("공격에 실패했습니다.");
                         Console.WriteLine("계속하려면 아무 키나 누르세요...");
                         Console.ReadKey();
-                        break; 
+                        break;
                     }
                 }
                 else
@@ -395,9 +395,9 @@ public class GameScene
     /// </summary>
     /// <author> ChoiYunHwa </author>
     private void BattleView()
-    {   
+    {
         Console.Clear();
-        Console.WriteLine();            
+        Console.WriteLine();
 
         // 제목 색 다름
         ConsoleUtility.ShowTitle("  Battle!!");
@@ -405,8 +405,8 @@ public class GameScene
 
         int i = 1;
         foreach (var e in battleScene.competeEnemys) //Add YH 
-        { 
-            string num = check ? "" : $"{i}"; 
+        {
+            string num = check ? "" : $"{i}";
             if (e.currentHP != 0)
             {
                 Console.WriteLine($" {num} - LV.{e.level} {e.name} HP {e.currentHP}");
@@ -433,10 +433,10 @@ public class GameScene
         // 선택한 결과를 검증함
         int choice = ConsoleUtility.PromptMenuChoice(0, maxOptionNum, currentView);
 
-        switch(currentView)
+        switch (currentView)
         {
             case EScreenView.MAIN_BATTLE:
-                if(choice == 0)
+                if (choice == 0)
                 {
                     MainView();
                 }
@@ -459,7 +459,7 @@ public class GameScene
                 }
                 else
                 {
-                    UseSkill(choice);    
+                    UseSkill(choice);
                 }
                 break;
             case EScreenView.ENEMY_BATTLE:
@@ -468,7 +468,7 @@ public class GameScene
                     currentView = EScreenView.MAIN_BATTLE;
                 }
                 else
-                {                    
+                {
                     Battle(choice, 0, null);
                 }
                 break;
@@ -486,14 +486,14 @@ public class GameScene
     {
         string option = "";
         int maxMenuNum = 0;
-        switch (view)         
+        switch (view)
         {
             case EScreenView.MAIN_BATTLE:
                 option = " 1.공격\n 2.스킬 \n\n 0.나가기";
                 maxMenuNum = 2;
                 break;
             case EScreenView.SKILL_BATTLE:
-                for(int i = 0; i < SkillList.Count; i++)
+                for (int i = 0; i < SkillList.Count; i++)
                 {
                     if (SkillList[i].Unlocked)
                     {
@@ -526,12 +526,12 @@ public class GameScene
     /// </summary>
     /// <param name="ch">Player InputKey Number</param>
     /// <author> ChoiYunHwa </author>
-    private void Battle(int ch, int skillDamage, int[]RandomEnemy)
+    private void Battle(int ch, int skillDamage, int[] RandomEnemy)
     {
         Console.Clear();
         Console.WriteLine();
         // 제목 색 다름
-        
+
         ConsoleUtility.ShowTitle("  Battle!!");
         ConsoleUtility.HeightPadding();
 
@@ -540,7 +540,9 @@ public class GameScene
         int attackerDamage;
         if (!object.ReferenceEquals(null, battleScene.currentEnemy))
             if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
-                Battle(0);
+            { }//Battle(0);
+
+
         if (RandomEnemy != null)
         {
             for (int i = 0; i < RandomEnemy.Length; i++)
@@ -560,11 +562,9 @@ public class GameScene
         {
             battleScene.BattleDungeon(player, ch, skillDamage);
 
-       
-
-        string attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name ;
-        string defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-        int attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
+            attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
+            defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
+            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
 
             if (battleScene.AttackTurn == true)
                 battleScene.AttackTurn = false;
@@ -576,12 +576,12 @@ public class GameScene
 
 
         Console.WriteLine("\n  0. 다음");
-        Console.WriteLine();      
+        Console.WriteLine();
 
 
         int choice = ConsoleUtility.PromptMenuChoice(0, battleScene.competeEnemys.Count);
 
-        
+
         if (battleScene.isEnding == true)
         {
             ResultBattle();
@@ -605,8 +605,8 @@ public class GameScene
             currentView = EScreenView.MAIN_BATTLE;
             BattleView();
         }
-        
-        
+
+
     }
 
     /// <summary>
@@ -623,13 +623,13 @@ public class GameScene
 
         var Color = player.CurrentHp > 0 ? ConsoleColor.Green : ConsoleColor.Red;
         Console.ForegroundColor = Color;
-        string result = player.CurrentHp > 0 ? "  Victory" : "  You Lose";        
+        string result = player.CurrentHp > 0 ? "  Victory" : "  You Lose";
         Console.WriteLine(result);
         Console.ResetColor();
         ConsoleUtility.HeightPadding();
         Console.WriteLine($"  LV. {player.Level} {player.Name}");
         Console.WriteLine($"\n  HP {battleScene.tempPlayerHealth} -> {player.CurrentHp}");
-        
+
         /// <author> KwonSinWook </author>
         if (result == "  Victory")
         {
@@ -646,7 +646,7 @@ public class GameScene
         {
             case 0:
                 MainView();
-                break;            
+                break;
         }
     }
 
@@ -663,15 +663,15 @@ public class GameScene
         Console.WriteLine("  퀘스트를 확인하고 선택할 수 있습니다.");
         ConsoleUtility.HeightPadding();
         Console.WriteLine("  [ 목록 ] \n");
-        
+
         // 퀘스트 목록 불러오기
         allQuestList.LoadQuestList();
-        
+
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 나가기");
         int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
 
-        switch(choice)
+        switch (choice)
         {
             case 0:
                 MainView();
