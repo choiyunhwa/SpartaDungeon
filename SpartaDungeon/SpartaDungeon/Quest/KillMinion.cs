@@ -12,21 +12,23 @@ public class KillMinion : IQuest
     public bool isCompleted { get; set; }      
     public string monsterName {get; set;}       
     public int requireCount { get; set; }      
-    public int currentCount { get; set; }       
+    public int currentCount { get; set; }
+    public bool isAccept { get; set; }         // 수락했는가 ? true : false
 
     public KillMinion()
     {
         questName = "마을을 위협하는 미니언 처치";
         
-        questLine = "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\n" +
-                    "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
-                    "모험가인 자네가 좀 처치해주게!\n";
+        questLine = "  이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\n" +
+                    "  마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
+                    "  모험가인 자네가 좀 처치해주게!\n";
         
         reward = "장비";
         isCompleted = false;
         monsterName = "미니언";
         requireCount = 5;
         currentCount = 0;
+        isAccept = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName)

@@ -14,23 +14,27 @@ public class TryEquipment : IQuest
     public bool isCompleted { get; set; }
     public string monsterName { get; set; }    
     public int requireCount { get; set; }       
-    public int currentCount { get; set; }       
+    public int currentCount { get; set; }
+    public bool isAccept { get; set; }         // 수락했는가 ? true : false    
+
+    public delegate void CompleteQuestHandler(bool isCompleted);
 
 
     public TryEquipment()
     {
         questName = "장비를 장착해보자";
         
-        questLine = "자네! 장비는 제대로 착용하고 있는가?\n" + 
-                    "모험가에게 장비는 목숨과도 같다네!\n" + 
-                    "모험가가 장비를 착용하지 않는 것은 죽겠다는 거와 다름없지!\n" + 
-                    "장비가 생기는 대로 착용해 보는 것을 권한다네!";
+        questLine = "  자네! 장비는 제대로 착용하고 있는가?\n" + 
+                    "  모험가에게 장비는 목숨과도 같다네!\n" + 
+                    "  모험가가 장비를 착용하지 않는 것은 죽겠다는 거와 다름없지!\n" + 
+                    "  장비가 생기는 대로 착용해 보는 것을 권한다네!";
         
         reward = "경험치";
         isCompleted = false;
         monsterName = "";
         requireCount = 0;
         currentCount = 0;
+        isAccept = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }     // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.

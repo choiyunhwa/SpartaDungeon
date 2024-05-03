@@ -14,23 +14,25 @@ public class KillDragon : IQuest
     public string monsterName { get; set; }     // 목표 몬스터
     public int requireCount { get; set; }       // 필요 처치 수
     public int currentCount { get; set; }       // 현재 처치 수
+    public bool isAccept { get; set; }         // 수락했는가 ? true : false
 
 
     public KillDragon()
     {
         questName = "던전 근처의 새끼 드래곤 처치";
 
-        questLine = "저기요! 당신 지금 던전으로 가려고 하는 겁니까?\n" +
-                    "무슨 생각입니까! 지금 던전 근처 상황을 모르시는 겁니까?\n" +
-                    "이유는 모르겠지만, 새끼 드래곤이 던전 근처를 활개치며 돌아다니고 있습니다.\n" +
-                    "마을에서 새끼 드래곤에게 현상금을 걸었으니, 조금만 기다리면 상급 모험가들이 토벌할 겁니다.\n" +
-                    "아니면 당신도 현상금을 노리는 겁니까?\n";
+        questLine = "  저기요! 당신 지금 던전으로 가려고 하는 겁니까?\n" +
+                    "  무슨 생각입니까! 지금 던전 근처 상황을 모르시는 겁니까?\n" +
+                    "  이유는 모르겠지만, 새끼 드래곤이 던전 근처를 활개치며 돌아다니고 있습니다.\n" +
+                    "  마을에서 새끼 드래곤에게 현상금을 걸었으니, 조금만 기다리면 상급 모험가들이 토벌할 겁니다.\n" +
+                    "  아니면 당신도 현상금을 노리는 겁니까?\n";
 
         reward = "골드";          //보상 부분을 어떻게 설정할지 모르겠어서 목표 보상만 적어두겠습니다.
         monsterName = "드래곤";
         requireCount = 1;
         currentCount = 0;
         isCompleted = false;
+        isAccept = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName)

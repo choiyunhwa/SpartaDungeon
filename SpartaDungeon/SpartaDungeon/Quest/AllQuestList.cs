@@ -34,4 +34,42 @@ public class AllQuestList
         questsList = new List<IQuest>() { KillDragon, killMinion, killseigeMinion, killVoidling, tryEquipment, tryLevelUp};
     }
 
+    public void LoadQuestList()
+    {
+        for (int i = 0; i < questsList.Count; i++)
+        {
+            // 진행 중인 퀘스트인가 ?
+            if (questsList[i].isAccept == true)
+            {
+                Console.WriteLine($"  {i + 1}. {questsList[i].questName} [진행중]");
+            }
+            else
+                Console.WriteLine($"  {i + 1}. {questsList[i].questName}");
+        }
+    }
+
+    public void AddQuest(int ch)
+    {
+        if (questsList[ch - 1].isAccept == true)
+        {
+            Console.WriteLine("  이미 진행 중인 퀘스트입니다.");
+            Thread.Sleep(500);
+        }
+        else
+        {
+            acceptedQuestsLis.Add(questsList[ch - 1]);
+            questsList[ch - 1].isAccept = true;
+        }
+    }
+
+    public void CheckQuest(int ch)
+    {
+        if (questsList[ch - 1].isAccept == true)
+        {
+            acceptedQuestsLis.Remove(questsList[ch - 1]);
+            questsList[ch - 1].isAccept = false;
+        }
+        else
+            return;
+    }
 }

@@ -1,4 +1,6 @@
-﻿public class Wizard : IPlayer
+﻿using static TryEquipment;
+
+public class Wizard : IPlayer
 {
  
     public string Name { get; }
@@ -15,7 +17,8 @@
     public int Gold { get; set; }
     public int Experience { get; set; }
 
-        public Wizard(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
+
+    public Wizard(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
         {
             Name = name;
             Job = job;

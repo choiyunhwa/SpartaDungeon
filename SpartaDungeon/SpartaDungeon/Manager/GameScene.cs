@@ -14,6 +14,8 @@ public class GameScene
     public static IPlayer player; //플레이어 초기화 변수
     public static List<Skill> SkillList = new List<Skill>();
     public AllQuestList allQuestList;
+
+
     bool check = true;
     bool skillCheck = false;
 
@@ -483,12 +485,11 @@ public class GameScene
         ConsoleUtility.ShowTitle("  퀘스트 확인");
         Console.WriteLine("  퀘스트를 확인하고 선택할 수 있습니다.");
         ConsoleUtility.HeightPadding();
-        Console.WriteLine("  [ 목록 ]");
-        ConsoleUtility.HeightPadding();
-        for (int i = 0; i < allQuestList.questsList.Count; i++)
-        {
-            Console.WriteLine($"  {i + 1}. {allQuestList.questsList[i].questName}");
-        }
+        Console.WriteLine("  [ 목록 ] \n");
+        
+        // 퀘스트 목록 불러오기
+        allQuestList.LoadQuestList();
+        
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 나가기");
         int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
@@ -520,27 +521,30 @@ public class GameScene
         ConsoleUtility.HeightPadding();
 
         IQuest quseList = allQuestList.questsList[ch - 1];
-        Console.WriteLine($"  {quseList.questName}\n");
-        Console.WriteLine($"  {quseList.questLine}");
+        Console.WriteLine($"  [{quseList.questName}]\n");
+        Console.WriteLine($"{quseList.questLine}");
         ConsoleUtility.HeightPadding();
-        Console.WriteLine($"  {quseList.monsterName} {quseList.requireCount}마리 처리"); //이 부분 장착에서 관리하는것도 구분해야함
-        Console.WriteLine("\n  - 보상 -");
-        Console.WriteLine($"  {quseList.reward}"); //이 부분도 수정해야함
+        Console.WriteLine($"  - {quseList.monsterName} {quseList.requireCount}마리 처리 \n"); //이 부분 장착에서 관리하는것도 구분해야함
+        Console.WriteLine("  [ 보상 ]");
+        Console.WriteLine($"  - {quseList.reward}"); //이 부분도 수정해야함
         
         ConsoleUtility.HeightPadding();
-        Console.WriteLine("\n  1. 수락");
-        Console.WriteLine("\n  2. 거절");
-        Console.WriteLine("\n  0. 나가기");
+        Console.WriteLine("  1. 수락");
+        Console.WriteLine("  2. 거절");
+        Console.WriteLine("  0. 나가기");
         ConsoleUtility.HeightPadding();
+
         int choice = ConsoleUtility.PromptMenuChoice(0, 2);
         switch (choice)
         {
             case 0:
-            case 2:
                 QuestView();
                 break;
             case 1:
-                allQuestList.acceptedQuestsLis.Add(allQuestList.questsList[ch - 1]);
+                allQuestList.AddQuest(ch);
+                break;
+            case 2:
+                allQuestList.CheckQuest(ch);
                 break;
         }
     }

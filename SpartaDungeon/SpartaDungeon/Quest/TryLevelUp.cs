@@ -14,22 +14,24 @@ public class TryLevelUp : IQuest
     public bool isCompleted { get; set; }
     public string monsterName { get; set; }     
     public int requireCount { get; set; }       
-    public int currentCount { get; set; }       
+    public int currentCount { get; set; }
+    public bool isAccept { get; set; }         // 수락했는가 ? true : false    
 
     public TryLevelUp()
     {
         questName = "더욱 더 강해지기";
 
-        questLine = "모든 사람은 어떠한 경험을 가지며 살아간다네.\n" +
-                    "그 경험을 통해 깨닫는 것이 있고, 이를 통해 더욱 단단해지지.\n" +
-                    "이는 모험가에게도 마찬가지이며, 너에게도 통하는 말이겠지.\n" +
-                    "경험을 쌓도록 하세. 너를 더 강해지게 해줄 것이니.\n";
+        questLine = "  모든 사람은 어떠한 경험을 가지며 살아간다네.\n" +
+                    "  그 경험을 통해 깨닫는 것이 있고, 이를 통해 더욱 단단해지지.\n" +
+                    "  이는 모험가에게도 마찬가지이며, 너에게도 통하는 말이겠지.\n" +
+                    "  경험을 쌓도록 하세. 너를 더 강해지게 해줄 것이니.\n";
 
         reward = "경험치";
         isCompleted = false;
         monsterName = "";
         requireCount = 0;
         currentCount = 0;
+        isAccept = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }

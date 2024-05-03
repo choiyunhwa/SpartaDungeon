@@ -1,4 +1,6 @@
 ﻿
+using static TryEquipment;
+
 public class Warrior : IPlayer
 {
 
@@ -15,6 +17,7 @@ public class Warrior : IPlayer
     public int CrrentMana { get; set; }
     public int Gold { get; set; }
     public int Experience { get; set; }
+
 
     public Warrior(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
     {
