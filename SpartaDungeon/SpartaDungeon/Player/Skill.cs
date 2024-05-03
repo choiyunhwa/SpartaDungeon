@@ -73,7 +73,7 @@ public class Skill
         }
         else
         {
-            if(GameScene.player.CrrentMana >= Mana)
+            if(GameScene.player.CurrentMP >= Mana)
             {
                 if (CanAttack())
                 {
