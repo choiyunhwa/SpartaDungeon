@@ -21,4 +21,5 @@ public interface IQuest
     public void OnLevelUp();         // 레벨업을 할 시 호출되는 함수. 레벨업 하는 퀘스트에서 사용
     public void CompleteQuest(); // 퀘스트를 완료 상태로 바꾸는 함수
     public int CheckQuest(); // 퀘스트를 완료했는가 확인하는 함수
+    public void RewardToQuest(Inventory inventory, IPlayer player); //퀘스트 보상 지급 함수
 }

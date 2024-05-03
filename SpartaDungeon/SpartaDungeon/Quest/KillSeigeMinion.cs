@@ -29,7 +29,7 @@ public class KillSeigeMinion : IQuest
                     "  아무튼 마을의 평화에 위협은 되니, 좀 잡아주면 안 되겠는가..?\n" +
                     "  조금 많이...\n";
 
-        reward = "장비";
+        reward = "조잡한 대포\n  200 Gold\n  30 Exp";
         isCompleted = false;
 
         monsterName = "대포미니언";
@@ -76,6 +76,14 @@ public class KillSeigeMinion : IQuest
             return 0;
         }
     }
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        inventory.items.Add(new Item("조잡한 대포", 15, 0, 0, "대포 미니언이 가지고 있던 대포이다.", "공격력", false, false, 1));
+        player.GetGold(200);
+        player.GainExperience(30);
+        player.LevelUp();
+    }
+
 
 }
 

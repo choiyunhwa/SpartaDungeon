@@ -30,7 +30,7 @@ public class TryEquipment : IQuest
                     "  모험가가 장비를 착용하지 않는 것은 죽겠다는 거와 다름없지!\n" + 
                     "  장비가 생기는 대로 착용해 보는 것을 권한다네!";
         
-        reward = "경험치";
+        reward = "15 Exp";
         isCompleted = false;
         monsterName = "";
         requireCount = 0;
@@ -68,5 +68,13 @@ public class TryEquipment : IQuest
             return 0;
         }
     }
+
+
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        player.GainExperience(15);
+        player.LevelUp();
+    }
+
 }
 

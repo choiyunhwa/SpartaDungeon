@@ -17,26 +17,26 @@ public class Dragon : IEnemy
     public Dragon()
     {
         name = "드래곤";
-        level = 10;
-        maxHP = 50;
-        currentHP = 50;
-        damage = 20;
+        level = 7;
+        maxHP = 20;
+        currentHP = 20;
+        damage = 10;
         isDead = false;
     }
 
     public int Attack()
     { 
-        Random flag = new Random();         // 10퍼센트의 공격 빗나감, 15퍼센트의 치명타 공격, 일반 공격을 구분하기 위한 랜덤 함수
+        Random flag = new Random();         // 20퍼센트의 공격 빗나감, 10퍼센트의 치명타 공격, 70 퍼센트의 일반 공격을 구분하기 위한 랜덤 변수
         int result = flag.Next(0, 100);
 
-        if (90 <= result)       // 몬스터의 공격 빗나감 - 0데미지 반한
+        if (80 <= result)       // 몬스터의 공격 빗나감 - 0데미지 반환
         {
             return 0;
         }
 
-        else if (75 <= result && result < 90)       // 몬스터의 치명타 공격 - 기본 damage 함수의 1.5배 데미지 반환
+        else if (70 <= result && result < 79)       // 몬스터의 치명타 공격 - 기본 damage 변수값의 1.2배 데미지 반환
         {
-            return (int)(damage * 1.5);
+            return (int)(damage * 1.2);
         }
 
         else
@@ -53,6 +53,11 @@ public class Dragon : IEnemy
             return true;
 
         else return false;
+    }
+
+    public Reward GetReward()
+    {
+        return new Reward { gold = 100, exp = 20 };
     }
 
     public IEnemy DeepCopy()

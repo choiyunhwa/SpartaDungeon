@@ -14,6 +14,7 @@ public class Wizard : IPlayer
     public int CurrentHp { get; set; }
     public int MaxMP { get; set; }
     public int CurrentMP { get; set; }
+
     public int Gold { get; set; }
     public int Experience { get; set; }
 
@@ -76,8 +77,8 @@ public class Wizard : IPlayer
     public void jobskills()
     {
         GameScene.SkillList.Add(new Skill("에너지 볼트", 3, 1, 10, "공격력 * 3 로 하나의 적을 공격합니다. ◈2레벨에 해금◈", 2, false, false));
-        GameScene.SkillList.Add(new Skill("메직 클로", 2.5f, 2, 15, "공격력 * 2.5 로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
-        GameScene.SkillList.Add(new Skill("콜드 빔", 2, 3, 20, "공격력 * 2 로 3명의 적을 랜덤으로 공격합니다. ◈4레벨에 해금◈", 4, true, false));
+        GameScene.SkillList.Add(new Skill("메직 클로", 10, 2, 15, "공격력 * 2 로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
+        GameScene.SkillList.Add(new Skill("콜드 빔", 10, 3, 20, "공격력 * 2 로 3명의 적을 랜덤으로 공격합니다. ◈4레벨에 해금◈", 4, true, false));
         GameScene.SkillList.Add(new Skill("썬더 볼트", 4, 1, 20, "공격력 * 4 로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5 , false, true));
     }
 

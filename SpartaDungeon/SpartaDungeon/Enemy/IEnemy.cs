@@ -17,11 +17,8 @@ public interface IEnemy
     int Attack();
     bool Die();
 
-    /// <summary>
-    /// Create a deep copy of the reference enemy
-    /// </summary>
-    /// <returns>Class return</returns>
-    /// <author> ChoiYunHwa </author>
+    Reward GetReward();
+
     IEnemy DeepCopy();
     
     /// <summary>
