@@ -531,6 +531,7 @@ public class GameScene
         Console.WriteLine("\n  1. 수락");
         Console.WriteLine("\n  2. 거절");
         Console.WriteLine("\n  0. 나가기");
+        ConsoleUtility.HeightPadding();
         int choice = ConsoleUtility.PromptMenuChoice(0, 2);
         switch (choice)
         {
