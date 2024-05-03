@@ -539,9 +539,7 @@ public class GameScene
         string attacker;
         string defender;
         int attackerDamage;
-        if (!object.ReferenceEquals(null, battleScene.currentEnemy))
-            if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
-             Battle(0, temp, randem);
+        
 
 
         if (RandomEnemy != null)
@@ -550,9 +548,14 @@ public class GameScene
             {
                 ch = RandomEnemy[i];
                 battleScene.BattleDungeon(player, ch, skillDamage);
+                if (!object.ReferenceEquals(null, battleScene.currentEnemy))
+                    if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
+                        Battle(0, temp, randem);
                 attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
                 defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
                 attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
+                if (battleScene.AttackTurn == true)
+                    battleScene.AttackTurn = false;
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
             }
@@ -561,7 +564,9 @@ public class GameScene
         else
         {
             battleScene.BattleDungeon(player, ch, skillDamage);
-
+            if (!object.ReferenceEquals(null, battleScene.currentEnemy))
+                if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
+                    Battle(0, temp, randem);
             attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
             defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
             attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
@@ -573,8 +578,7 @@ public class GameScene
             Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
         }
 
-        if (battleScene.AttackTurn == true)
-            battleScene.AttackTurn = false;
+       
 
         Console.WriteLine("\n  0. 다음");
         Console.WriteLine();
@@ -646,6 +650,7 @@ public class GameScene
         switch (choice)
         {
             case 0:
+                currentView = EScreenView.MAIN_BATTLE;
                 MainView();
                 break;
         }
