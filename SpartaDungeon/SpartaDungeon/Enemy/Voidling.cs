@@ -16,10 +16,10 @@ public class Voidling : IEnemy
     public Voidling()
     {
         name = "공허충";
-        level = 3;
-        maxHP = 10;
-        currentHP = 10;
-        damage = 7;
+        level = 2;
+        maxHP = 5;
+        currentHP = 5;
+        damage = 3;
         isDead = false;
     }
 
@@ -28,14 +28,14 @@ public class Voidling : IEnemy
         Random flag = new Random();
         int result = flag.Next(0, 100);
 
-        if (90 <= result)
+        if (80 <= result)
         {
             return 0;
         }
 
-        else if (75 <= result && result < 90)
+        else if (70 <= result && result < 79)
         {
-            return (int)(damage * 1.5);
+            return (int)(damage * 1.2);
         }
 
         else

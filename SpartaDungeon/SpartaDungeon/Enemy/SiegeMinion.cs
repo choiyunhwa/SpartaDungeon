@@ -18,9 +18,9 @@ public class SiegeMinion : IEnemy
     {
         name = "대포미니언";
         level = 5;
-        maxHP = 25;
-        currentHP = 25;
-        damage = 10;
+        maxHP = 13;
+        currentHP = 13;
+        damage = 7;
         isDead = false;
     }
 
@@ -29,14 +29,14 @@ public class SiegeMinion : IEnemy
         Random flag = new Random();
         int result = flag.Next(0, 100);
 
-        if (90 <= result)
+        if (80 <= result)
         {
             return 0;
         }
 
-        else if (75 <= result && result < 90)
+        else if (70 <= result && result < 79)
         {
-            return (int)(damage * 1.5);
+            return (int)(damage * 1.2);
         }
 
         else
