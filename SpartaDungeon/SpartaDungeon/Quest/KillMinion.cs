@@ -14,6 +14,7 @@ public class KillMinion : IQuest
     public int requireCount { get; set; }      
     public int currentCount { get; set; }
     public bool isAccept { get; set; }         // 수락했는가 ? true : false
+    public bool isRewarded { get; set; }       // 보상을 받은 퀘스트인가?
 
     public KillMinion()
     {
@@ -29,6 +30,7 @@ public class KillMinion : IQuest
         requireCount = 5;
         currentCount = 0;
         isAccept = false;
+        isRewarded = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName)
@@ -77,6 +79,7 @@ public class KillMinion : IQuest
         player.GetGold(175);
         player.GainExperience(20);
         player.LevelUp();
+        isRewarded = true;
     }
 
 

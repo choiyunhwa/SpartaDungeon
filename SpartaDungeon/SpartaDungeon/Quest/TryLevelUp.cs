@@ -16,6 +16,7 @@ public class TryLevelUp : IQuest
     public int requireCount { get; set; }       
     public int currentCount { get; set; }
     public bool isAccept { get; set; }         // 수락했는가 ? true : false    
+    public bool isRewarded { get; set; }       // 보상을 받은 퀘스트인가?
 
     public TryLevelUp()
     {
@@ -32,6 +33,7 @@ public class TryLevelUp : IQuest
         requireCount = 0;
         currentCount = 0;
         isAccept = false;
+        isRewarded = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }
@@ -69,6 +71,7 @@ public class TryLevelUp : IQuest
     {
         player.GainExperience(30);
         player.LevelUp();
+        isRewarded = true;
     }
 
 }

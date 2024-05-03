@@ -15,6 +15,7 @@ public class KillDragon : IQuest
     public int requireCount { get; set; }       // 필요 처치 수
     public int currentCount { get; set; }       // 현재 처치 수
     public bool isAccept { get; set; }         // 수락했는가 ? true : false
+    public bool isRewarded { get; set; }       // 보상을 받은 퀘스트인가?
 
 
     public KillDragon()
@@ -33,6 +34,7 @@ public class KillDragon : IQuest
         currentCount = 0;
         isCompleted = false;
         isAccept = false;
+        isRewarded = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName)
@@ -79,6 +81,7 @@ public class KillDragon : IQuest
         player.GetGold(1500);
         player.GainExperience(80);
         player.LevelUp();
+        isRewarded = true;
     }
 
 

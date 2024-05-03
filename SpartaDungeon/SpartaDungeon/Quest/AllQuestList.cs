@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,14 @@ public class AllQuestList
             }
             else if (questsList[i].isCompleted == true)
             {
-                Console.WriteLine($"  {i + 1}. {questsList[i].questName} [완료]");
+                if(questsList[i].isRewarded == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine($"  {i + 1}. {questsList[i].questName} [완료]");
+                    Console.ResetColor();
+                }
+                else
+                    Console.WriteLine($"  {i + 1}. {questsList[i].questName} [보상받기]");
             }
             else
                 Console.WriteLine($"  {i + 1}. {questsList[i].questName}");

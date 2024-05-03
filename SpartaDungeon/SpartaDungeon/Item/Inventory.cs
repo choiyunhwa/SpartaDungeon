@@ -142,7 +142,10 @@ public class Inventory
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
             // 퀘스트 확인
-            allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+            if (allQuestList.tryEquipment.isCompleted == false)
+            {
+                allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+            }
             Thread.Sleep(500);
         }
         else
@@ -153,7 +156,10 @@ public class Inventory
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
             // 퀘스트 확인
-            allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+            if (allQuestList.tryEquipment.isCompleted == false)
+            {
+                allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+            }
             Thread.Sleep(500);
         }
     }
