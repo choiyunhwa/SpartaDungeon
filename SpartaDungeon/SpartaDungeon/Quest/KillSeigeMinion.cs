@@ -72,6 +72,13 @@ public class KillSeigeMinion : IQuest
             return 0;
         }
     }
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        //inventory.AddItems(new Item("조잡한 대포", 15, 0, 0, "대포 미니언이 가지고 있던 대포이다.", "방어력", false, false, 1));
+        player.GetGold(100);
+        player.GainExperience(100);
+    }
+
 
 }
 

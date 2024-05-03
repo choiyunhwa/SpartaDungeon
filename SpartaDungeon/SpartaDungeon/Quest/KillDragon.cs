@@ -68,6 +68,16 @@ public class KillDragon : IQuest
             return 0;
         }
     }
+
+    public void RewardToQuest(Inventory inventory, IPlayer player) 
+    {
+        //inventory.AddItems(new Item("새끼 드래곤의 비늘 갑옷", 0, 20, 0, "새끼 드래곤의 비늘을 사용해 만들어진 붉은 빛의 갑옷", "방어력", false, false, 1));
+        player.GetGold(100);
+        player.GainExperience(100);
+    }
+
+
+
 }
 
 //위의 주석은 다른 Kill{Enumy} 퀘스트 스크립트 설명과 동일합니다.

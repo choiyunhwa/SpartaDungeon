@@ -61,5 +61,12 @@ public class TryEquipment : IQuest
             return 0;
         }
     }
+
+
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        player.GainExperience(100);
+    }
+
 }
 

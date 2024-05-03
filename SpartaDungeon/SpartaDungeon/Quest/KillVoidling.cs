@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-    public class KillVoidling : IQuest
+public class KillVoidling : IQuest
 {
     public string questName { get; set; }
     public string questLine { get; set; }
@@ -71,5 +71,13 @@ using System.Threading.Tasks;
             return 0;
         }
     }
+
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        player.GetGold(100);
+        player.GainExperience(100);
+    }
+
+
 }
 

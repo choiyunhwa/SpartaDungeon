@@ -67,5 +67,14 @@ public class KillMinion : IQuest
         }
     }
 
+
+    public void RewardToQuest(Inventory inventory, IPlayer player)
+    {
+        player.GetGold(100);
+        player.GainExperience(100);
+    }
+
+
+
 }
 
