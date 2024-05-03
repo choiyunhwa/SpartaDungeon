@@ -127,8 +127,17 @@ public class GameScene
                 InventoryView();
                 break;
             case 3:
-                battleScene.InitSettingDungeon(player);
-                BattleView();
+                if (player.CurrentHp > 0)
+                {
+                    battleScene.InitSettingDungeon(player);
+                    BattleView();
+                }
+                else
+                {
+                    Console.WriteLine($"\n{player.Name}님의 체력이 없습니다.");
+                    Thread.Sleep(400);
+                }
+
                 break;
             case 4:
                 QuestView();
@@ -354,17 +363,20 @@ public class GameScene
                 {
                     MainView();
                 }
-                else if(choice == 1)
+                else if (choice == 1)
                 {
+
                     currentView = EScreenView.ENEMY_BATTLE;
+
                 }
                 else
                 {
+
                     currentView = EScreenView.SKILL_BATTLE;
                 }
                 break;
             case EScreenView.SKILL_BATTLE:
-                if(choice == 0)
+                if (choice == 0)
                 {
                     currentView = EScreenView.MAIN_BATTLE;
                 }
@@ -392,6 +404,7 @@ public class GameScene
     /// </summary>
     /// <param name="view"> Enum current view information </param>
     /// <returns> Maximum number on the current Screen </returns>
+    /// <author> ChoiYunHwa </author>
     private int ShowSelectBattleView(EScreenView view)
     {
         string option = "";
@@ -447,6 +460,8 @@ public class GameScene
 
         Console.WriteLine($"  {attacker} 의 공격!");
         Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]") ;
+
+
 
 
         Console.WriteLine("\n  0. 다음");
