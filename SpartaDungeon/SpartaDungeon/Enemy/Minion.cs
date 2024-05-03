@@ -15,29 +15,30 @@ public class Minion : IEnemy
     public int damage { get; set; }
     public bool isDead { get; set; }
 
+
     public Minion()
     {
         name = "미니언";
-        level = 2;
-        maxHP = 15;
-        currentHP = 15;
+        level = 3;
+        maxHP = 10;
+        currentHP = 10;
         damage = 5;
         isDead = false;
     }
-
+    
     public int Attack()
     {
         Random flag = new Random();
         int result = flag.Next(0, 100);
 
-        if (90 <= result)
+        if (80 <= result)
         {
             return 0;
         }
 
-        else if (75 <= result && result < 90)
+        else if (70 <= result && result < 79)
         {
-            return (int)(damage * 1.5);
+            return (int)(damage * 1.2);
         }
 
         else
@@ -51,10 +52,17 @@ public class Minion : IEnemy
     public bool Die()
     {
         if (currentHP == 0)
+        {
             return true;
-
+        }
         else return false;
     }
+
+    public Reward GetReward()
+    {
+        return new Reward { gold = 50, exp = 10 };
+    }
+
     public IEnemy DeepCopy()
     {
         Minion other = (Minion) this.MemberwiseClone();
@@ -66,6 +74,11 @@ public class Minion : IEnemy
         other.isDead = this.isDead;
 
         return other;
+    }
+
+    public void CallOnKilled(AllQuestList allQuestList)
+    {
+        allQuestList.killMinion.OnKilledEnemy(name);
     }
 }
 

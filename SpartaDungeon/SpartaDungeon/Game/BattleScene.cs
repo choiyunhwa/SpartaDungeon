@@ -17,6 +17,13 @@ public class BattleScene
 
     private bool attackTurn = true; // false : Monster Turn, true : Player Turn
 
+    private AllQuestList AllQuestList;
+
+    public BattleScene(AllQuestList allQuestList)
+    {
+        this.AllQuestList = allQuestList;
+    }
+
     public bool AttackTurn
     {
         get { return attackTurn; }
@@ -68,6 +75,7 @@ public class BattleScene
     /// <author> ChoiYunHwa </author>
     public void InitSettingDungeon(IPlayer player)
     {
+        isEnding = false; //test용
         tempPlayerHealth = player.CurrentHp;
         enemyCount = random.Next(1, 5);
         isEnding = false;
@@ -86,37 +94,74 @@ public class BattleScene
         enemyNumber = competeEnemys.Count;
     }
 
+
+
+    public int[] RandomAttack()
+    {
+        Random random = new Random();
+        List<int> shuffledIndexes = Enumerable.Range(0, competeEnemys.Count).OrderBy(i => random.Next()).ToList();
+        List<int> selectedIndexes = shuffledIndexes.Take(2).ToList();
+        return (int[])selectedIndexes.ToArray();
+    }
+
+
+
+
+
     /// <summary>
     /// Enemys and Player Fight 
     /// </summary>
     /// <param name="player"> Player Data </param>
     /// <param name="choice"> Player InputKey Number</param>
     /// <author> ChoiYunHwa </author>
-    public void BattleDungeon(IPlayer player, int choice)
+    public void BattleDungeon(IPlayer player, int choice, int skillDamge)
     {
         List<IEnemy> tempEnemyHealth = competeEnemys;
 
         int currentAtk = (int)Math.Ceiling(player.Atk);
-        playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1         
+        if(skillDamge == 0)
+        {
+            playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1        
+        }
+        else
+        {
+            playerAttackDamage = skillDamge;
+        }
+ 
 
 
         if (attackTurn) //Player Turn
-        {   
+        {
             if (choice != 0)
             {
                 orderEnemy = competeEnemys[choice - 1];
 
                 orderEnemy.currentHP -= playerAttackDamage;
-                
-                if(orderEnemy.currentHP <= 0)
+
+                if (orderEnemy.currentHP <= 0)
+                {
+                    dieEnemyCount++;
+                    competeEnemys[turnCount].CallOnKilled(AllQuestList);
+                    orderEnemy.currentHP = 0;
+                    orderEnemy.isDead = true;
+                }
+            }
+            else
+            {
+                orderEnemy = competeEnemys[choice];
+
+                orderEnemy.currentHP -= playerAttackDamage;
+
+                if (orderEnemy.currentHP <= 0)
                 {
                     enemyNumber--;
                     dieEnemyCount++;
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
-                }               
+                }
             }
         }
+
         else // Enemy's Turn
         {
 
@@ -135,9 +180,11 @@ public class BattleScene
                         isEnding = true;
                     }
 
+
                     //if (competeEnemys[turnCount].currentHP <= 0)
-                    //{                       
+                    //{
                     //    dieEnemyCount++;
+                    //    competeEnemys[turnCount].CallOnKilled(AllQuestList);
                     //    competeEnemys[turnCount].currentHP = 0;
                     //    competeEnemys[turnCount].isDead = true;
                     //}                  

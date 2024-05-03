@@ -5,11 +5,14 @@ using System.Xml.Linq;
 public class Inventory
 {
     public List<Item> items = new List<Item>();
-    private IPlayer player;
 
-    public Inventory(IPlayer player)
+    private IPlayer player;
+    private AllQuestList allQuestList;
+
+    public Inventory(IPlayer player, AllQuestList allQuestList)
     {
         this.player = player;
+        this.allQuestList = allQuestList;
     }
 
     /// <summary>
@@ -80,6 +83,10 @@ public class Inventory
     public int CountPosion()
     {
         int idx = items.FindIndex(item => item.Ability == "물약");
+        if (idx == -1)
+        {
+            return 0;
+        }
         return items[idx].Count;
     }
 
@@ -134,6 +141,8 @@ public class Inventory
             ChangeAddStatus(ability, isEquipItem, choice);
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
+            // 퀘스트 확인
+            allQuestList.tryEquipment.OnItemEquipped(choice.Name);
             Thread.Sleep(500);
         }
         else
@@ -143,6 +152,8 @@ public class Inventory
             else player.AddDef += choice.Defense;
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
+            // 퀘스트 확인
+            allQuestList.tryEquipment.OnItemEquipped(choice.Name);
             Thread.Sleep(500);
         }
     }

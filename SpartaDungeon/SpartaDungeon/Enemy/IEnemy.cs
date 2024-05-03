@@ -18,12 +18,14 @@ public interface IEnemy
     //event IsAttack AttackInfor;
     bool Die();
 
-    /// <summary>
-    /// Create a deep copy of the reference enemy
-    /// </summary>
-    /// <returns>Class return</returns>
-    /// <author> ChoiYunHwa </author>
-    IEnemy DeepCopy();
+    Reward GetReward();
 
+    IEnemy DeepCopy();
+    
+    /// <summary>
+    /// Quest - kill monster
+    /// </summary>
+    /// <param name="allQuestList">From [gamescene->battlescene]</param>
+    public void CallOnKilled(AllQuestList allQuestList);
 }
 
