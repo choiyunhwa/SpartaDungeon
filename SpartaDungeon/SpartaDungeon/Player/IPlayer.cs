@@ -9,8 +9,13 @@
     public float AddDef { get; set; }
     public int MaxHp { get; set; }
     public int CurrentHp { get; set; }
+//<<<<<<< HEAD
     public int MaxMana { get; set; }
-    public int CUrrentMana { get; set; }
+    public int CurrentMana { get; set; }
+//=======
+    public int MaxMP { get; set; }
+    public int CurrentMP { get; set; }
+//>>>>>>> devMain
     public int Gold { get; set; }
     public int Experience { get; set; }
 
