@@ -683,7 +683,9 @@ public class GameScene
                 MainView();
                 break;
             default:
-                SelectQuestView(choice);
+                if (allQuestList.questsList[choice - 1].isRewarded == false) SelectQuestView(choice);
+                else Console.WriteLine(" 완료된 퀘스트입니다.");
+                Thread.Sleep(500);
                 break;
         }
 
@@ -713,26 +715,46 @@ public class GameScene
         Console.WriteLine();
         quseList.CheckQuest();
 
-
         ConsoleUtility.HeightPadding();
-        Console.WriteLine("  1. 수락");
-        Console.WriteLine("  2. 거절");
-        Console.WriteLine("  0. 나가기");
-        ConsoleUtility.HeightPadding();
-
-        int choice = ConsoleUtility.PromptMenuChoice(0, 2);
-        switch (choice)
+        if (quseList.isCompleted == false)
         {
-            case 0:
-                QuestView();
-                break;
-            case 1:
-                allQuestList.AddQuest(ch);
-                break;
-            case 2:
-                allQuestList.RefuseQuest(ch);
-                break;
+            Console.WriteLine("  1. 수락");
+            Console.WriteLine("  2. 거절");
+            Console.WriteLine("  0. 나가기");
+            ConsoleUtility.HeightPadding();
+
+            int choice = ConsoleUtility.PromptMenuChoice(0, 2);
+            switch (choice)
+            {
+                case 0:
+                    QuestView();
+                    break;
+                case 1:
+                    allQuestList.AddQuest(ch);
+                    break;
+                case 2:
+                    allQuestList.RefuseQuest(ch);
+                    break;
+            }
         }
+        else
+        {
+            Console.WriteLine("  1. 보상받기");
+            Console.WriteLine("  0. 나 가 기"); 
+            ConsoleUtility.HeightPadding();
+
+            int choice = ConsoleUtility.PromptMenuChoice(0, 1);
+            switch (choice)
+            {
+                case 0:
+                    QuestView();
+                    break;
+                case 1:
+                    quseList.RewardToQuest(inventory, player);
+                    break;
+            }
+        }
+
     }
 
 }

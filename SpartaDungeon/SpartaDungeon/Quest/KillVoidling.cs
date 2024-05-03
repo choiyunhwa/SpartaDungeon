@@ -16,6 +16,7 @@ public class KillVoidling : IQuest
     public int requireCount { get; set; }
     public int currentCount { get; set; }
     public bool isAccept { get; set; }         // 수락했는가 ? true : false
+    public bool isRewarded { get; set; }       // 보상을 받은 퀘스트인가?
 
     public KillVoidling()
     {
@@ -34,6 +35,7 @@ public class KillVoidling : IQuest
         requireCount = 5;
         currentCount = 0;
         isAccept = false;
+        isRewarded = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName)
@@ -81,6 +83,7 @@ public class KillVoidling : IQuest
         player.GetGold(150);
         player.GainExperience(10);
         player.LevelUp();
+        isRewarded = true;
     }
 
 

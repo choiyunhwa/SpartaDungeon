@@ -16,6 +16,7 @@ public class TryEquipment : IQuest
     public int requireCount { get; set; }       
     public int currentCount { get; set; }
     public bool isAccept { get; set; }         // 수락했는가 ? true : false    
+    public bool isRewarded { get; set; }       // 보상을 받은 퀘스트인가?
 
 
     public delegate void CompleteQuestHandler(bool isCompleted);
@@ -36,6 +37,7 @@ public class TryEquipment : IQuest
         requireCount = 0;
         currentCount = 0;
         isAccept = false;
+        isRewarded = false;
     }
 
     public void OnKilledEnemy(string KilledMonsterName) { }     // 장비 착용 퀘스트이기 때문에 이 메소드는 비워두었습니다.
@@ -74,6 +76,7 @@ public class TryEquipment : IQuest
     {
         player.GainExperience(15);
         player.LevelUp();
+        isRewarded = true;
     }
 
 }
