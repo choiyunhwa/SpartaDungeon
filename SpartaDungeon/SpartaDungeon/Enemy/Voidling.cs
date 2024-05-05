@@ -13,6 +13,7 @@ public class Voidling : IEnemy
     public int damage { get; set; }
     public bool isDead { get; set; }
 
+    public EAttackInfor eAttackInfor { get; set; }
     public Voidling()
     {
         name = "공허충";
@@ -27,23 +28,28 @@ public class Voidling : IEnemy
     {
         Random flag = new Random();
         int result = flag.Next(0, 100);
-
+        int damage = 0;
         if (80 <= result)
         {
-            return 0;
+            eAttackInfor = EAttackInfor.NONE;
+            damage = 0;
         }
 
         else if (70 <= result && result < 79)
         {
-            return (int)(damage * 1.2);
+            eAttackInfor = EAttackInfor.CRITICAL;
+            damage = (int)(damage * 1.2);
         }
 
         else
         {
+            eAttackInfor = EAttackInfor.BASIC;
             int range = (int)(((float)damage / 10) + 0.5);
             Random rand = new Random();
-            return rand.Next(damage - range, damage + range + 1);
+            damage = rand.Next(damage - range, damage + range + 1);
         }
+
+        return damage;
     }
 
     public bool Die()

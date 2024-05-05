@@ -1,4 +1,6 @@
-﻿using static TryEquipment;
+﻿using System;
+using System.Numerics;
+using static TryEquipment;
 
 public class Wizard : IPlayer
 {
@@ -17,7 +19,7 @@ public class Wizard : IPlayer
 
     public int Gold { get; set; }
     public int Experience { get; set; }
-
+    public EAttackInfor eAttackInfor { get; set; }
 
     public Wizard(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
         {
@@ -80,6 +82,32 @@ public class Wizard : IPlayer
         GameScene.SkillList.Add(new Skill("메직 클로", 10, 2, 15, "공격력 * 2 로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
         GameScene.SkillList.Add(new Skill("콜드 빔", 10, 3, 20, "공격력 * 2 로 3명의 적을 랜덤으로 공격합니다. ◈4레벨에 해금◈", 4, true, false));
         GameScene.SkillList.Add(new Skill("썬더 볼트", 4, 1, 20, "공격력 * 4 로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5 , false, true));
+    }
+
+    /// <summary>
+    /// Attacks that match the percentage of palyers
+    /// </summary>
+    /// <returns>damage</returns>
+    /// <author> ChoiYunHwa </author>
+    public int Attack()
+    {
+        Random rand = new Random();
+        int currentAtk = (int)Math.Ceiling(Atk);
+        eAttackInfor = EAttackInfor.BASIC;
+        float damage = rand.Next(currentAtk - 1, currentAtk + 1);        
+
+        if (rand.NextDouble() <= 0.15) //15%로 발생
+        {
+            eAttackInfor = EAttackInfor.CRITICAL;
+            damage = currentAtk * 1.6f;
+        }
+        else if (rand.NextDouble() <= 0.01)
+        {
+            eAttackInfor = EAttackInfor.NONE;
+            damage = 0;
+        }
+
+        return (int)Math.Ceiling(damage);
     }
 
 

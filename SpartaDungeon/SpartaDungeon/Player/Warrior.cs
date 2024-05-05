@@ -18,7 +18,7 @@ public class Warrior : IPlayer
     public int Gold { get; set; }
     public int Experience { get; set; }
 
-
+    public EAttackInfor eAttackInfor { get; set; } 
     public Warrior(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
     {
         Name = name;
@@ -82,6 +82,32 @@ public class Warrior : IPlayer
         GameScene.SkillList.Add(new Skill("파워 스트라이크", 3, 1, 20, "공격력 * 3 데미지로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈4레벨에 해금◈", 4, false, true));
         GameScene.SkillList.Add(new Skill("파이널 어택", 2, 2, 25, "공격력 * 2 데미지로 2명의 적을 랜덤으로 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5, true, true));
 
+    }
+
+    /// <summary>
+    /// Attacks that match the percentage of palyers
+    /// </summary>
+    /// <returns>damage</returns>
+    /// <author> ChoiYunHwa </author>
+    public int Attack()
+    {
+        Random rand = new Random();
+        int currentAtk = (int)Math.Ceiling(Atk);
+        eAttackInfor = EAttackInfor.BASIC;
+        float damage = rand.Next(currentAtk - 1, currentAtk + 1);
+
+        if (rand.NextDouble() <= 0.15) //15%로 발생
+        {
+            eAttackInfor = EAttackInfor.CRITICAL;
+            damage = currentAtk * 1.6f;
+        }
+        else if (rand.NextDouble() <= 0.01)
+        {
+            eAttackInfor = EAttackInfor.NONE;
+            damage = 0;
+        }
+
+        return (int)Math.Ceiling(damage);
     }
 
 }

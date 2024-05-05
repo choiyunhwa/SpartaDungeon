@@ -14,10 +14,7 @@ public class Dragon : IEnemy
     public int maxHP { get; set; }
     public int damage { get; set; }
     public bool isDead { get; set; }
-
-    public event IsAttack AttackInfor;
-
-    EAttackInfor eAttackInfor;
+    public EAttackInfor eAttackInfor { get; set; }
     public Dragon()
     {
         name = "드래곤";
@@ -35,18 +32,21 @@ public class Dragon : IEnemy
 
         if (80 <= result)       // 몬스터의 공격 빗나감 - 0데미지 반환
         {
-
+            eAttackInfor = EAttackInfor.NONE;
             damage = 0;
             //return damage;
         }
 
         else if (70 <= result && result < 79)       // 몬스터의 치명타 공격 - 기본 damage 변수값의 1.2배 데미지 반환
         {
-            return (int)(damage * 1.2);
+            eAttackInfor = EAttackInfor.CRITICAL;
+            damage = (int)(damage * 1.2);
         }
 
         else
         {
+            eAttackInfor = EAttackInfor.BASIC;
+
             int range = (int)(((float)damage / 10) + 0.5);      // 일반 공격 - 몬스터의 공격력에 따른 오차가 존재하며, 이 오차 내에서 데미지 도출 후 반환.
             Random rand = new Random();
             damage = rand.Next(damage - range, damage + range + 1);
@@ -56,12 +56,6 @@ public class Dragon : IEnemy
         //AttackInfor += OnAttack(EAttackInfor.BASIC, damage);
 
         return damage;
-    }
-
-    public void OnAttack(EAttackInfor _attackInfor, int _damage)
-    {
-        EAttackInfor eAttackInfor = _attackInfor;
-        int damage = _damage;
     }
 
     public bool Die()

@@ -118,6 +118,13 @@ public class ConsoleUtility
         int padding = totalLength - currentLength;
         return str.PadRight(str.Length + padding);
     }
+
+    /// <summary>
+    /// Text Color Change
+    /// </summary>
+    /// <param name="color">Select color</param>
+    /// <param name="text">Input text</param>
+    /// <author> ChoiYunHwa </author>
     public static void TextColor(ConsoleColor color, string text)
     {
         Console.ForegroundColor = color;

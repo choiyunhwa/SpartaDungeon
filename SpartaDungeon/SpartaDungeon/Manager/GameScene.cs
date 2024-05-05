@@ -53,9 +53,9 @@ public class GameScene
     /// </summary>
     /// <author> ChoiYunHwa </author>
     public void IntroView()
-    {        
+    {
         bool colorCheck = false;
-        string introText = 
+        string introText =
             ("\n\n\n\n\n                ::::::::      :::::::::         :::         :::::::::   :::::::::::       ::: "
            + "\n              :+:    :+:     :+:    :+:      :+: :+:       :+:    :+:      :+:         :+: :+:"
            + "\n             +:+            +:+    +:+     +:+   +:+      +:+    +:+      +:+        +:+   +:+"
@@ -72,7 +72,7 @@ public class GameScene
         Thread.Sleep(500);
         Console.Clear();
         ConsoleUtility.TextColor(ConsoleColor.Red, introText);
-        
+
         while (true)
         {
             colorCheck = !colorCheck;
@@ -85,7 +85,7 @@ public class GameScene
 
             Thread.Sleep(400);
 
-            if(Console.KeyAvailable)
+            if (Console.KeyAvailable)
             {
                 Console.ReadKey();
                 break;
@@ -115,7 +115,7 @@ public class GameScene
         Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
         string name = Console.ReadLine();   //닉네임 입력받기 추가
 
-        if(!string.IsNullOrEmpty(name))
+        if (!string.IsNullOrEmpty(name))
         {
             Console.WriteLine();
             Console.WriteLine();
@@ -177,7 +177,7 @@ public class GameScene
             Console.WriteLine("\n          닉네임을 입력해주세요.");
             Thread.Sleep(300);
             StartView();
-        }       
+        }
     }
 
     /// <summary>
@@ -533,8 +533,8 @@ public class GameScene
                 }
                 else
                 {
-                    if(ConsoleUtility.MonsterChoice(choice, battleScene.competeEnemys) == true)
-                         Battle(choice, 0, null);
+                    if (ConsoleUtility.MonsterChoice(choice, battleScene.competeEnemys) == true)
+                        Battle(choice, 0, null);
                 }
                 break;
         }
@@ -606,8 +606,6 @@ public class GameScene
         string attacker;
         string defender;
         int attackerDamage;
-        
-
 
         if (RandomEnemy != null)
         {
@@ -625,8 +623,53 @@ public class GameScene
                     battleScene.AttackTurn = false;
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
+
+                if (battleScene.AttackTurn == false)
+                {
+                    string damageTxt = "";
+                    switch (battleScene.orderEnemy.eAttackInfor)
+                    {
+                        case EAttackInfor.NONE:
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
+                            Console.ResetColor();
+                            break;
+                        case EAttackInfor.BASIC:
+                            damageTxt = "";
+                            break;
+                        case EAttackInfor.CRITICAL:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
+                            Console.ResetColor();
+                            break;
+                    }
+
+                    Console.WriteLine(damageTxt);
+                }
+                else
+                {
+                    string damageTxt = "";
+                    switch (player.eAttackInfor)
+                    {
+                        case EAttackInfor.NONE:
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
+                            Console.ResetColor();
+                            break;
+                        case EAttackInfor.BASIC:
+                            damageTxt = "";
+                            break;
+                        case EAttackInfor.CRITICAL:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
+                            Console.ResetColor();
+                            break;
+                    }
+
+                    Console.WriteLine(damageTxt);
+                }
             }
-            
+
         }
         else
         {
@@ -643,9 +686,52 @@ public class GameScene
 
             Console.WriteLine($"  {attacker} 의 공격!");
             Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
-        }
 
-       
+            if (battleScene.AttackTurn == false)
+            {
+                string damageTxt = "";
+                switch (battleScene.orderEnemy.eAttackInfor)
+                {
+                    case EAttackInfor.NONE:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
+                        Console.ResetColor();
+                        break;
+                    case EAttackInfor.BASIC:
+                        damageTxt = "";
+                        break;
+                    case EAttackInfor.CRITICAL:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
+                        Console.ResetColor();
+                        break;
+                }
+
+                Console.WriteLine(damageTxt);
+            }
+            else
+            {
+                string damageTxt = "";
+                switch (player.eAttackInfor)
+                {
+                    case EAttackInfor.NONE:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
+                        Console.ResetColor();
+                        break;
+                    case EAttackInfor.BASIC:
+                        damageTxt = "";
+                        break;
+                    case EAttackInfor.CRITICAL:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
+                        Console.ResetColor();
+                        break;
+                }
+
+            }
+
+        }
 
         Console.WriteLine("\n  0. 다음");
         Console.WriteLine();
@@ -807,7 +893,7 @@ public class GameScene
         else
         {
             Console.WriteLine("  1. 보상받기");
-            Console.WriteLine("  0. 나 가 기"); 
+            Console.WriteLine("  0. 나 가 기");
             ConsoleUtility.HeightPadding();
 
             int choice = ConsoleUtility.PromptMenuChoice(0, 1);

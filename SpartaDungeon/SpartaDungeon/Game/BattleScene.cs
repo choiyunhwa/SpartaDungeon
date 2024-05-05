@@ -118,16 +118,18 @@ public class BattleScene
     {
         List<IEnemy> tempEnemyHealth = competeEnemys;
 
-        int currentAtk = (int)Math.Ceiling(player.Atk);
+        //int currentAtk = (int)Math.Ceiling(player.Atk);
         if(skillDamge == 0)
         {
-            playerAttackDamage = random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1        
+            playerAttackDamage = player.Attack();
+            //random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1        
+
+            //Console.WriteLine($"플레이어의 데미지!!{playerAttackDamage}");
         }
         else
         {
             playerAttackDamage = skillDamge;
-        }
- 
+        } 
 
 
         if (attackTurn) //Player Turn

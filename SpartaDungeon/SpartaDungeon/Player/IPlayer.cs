@@ -19,6 +19,9 @@
     public void jobskills();
     public void UsePotion();
 
+    public EAttackInfor eAttackInfor { get; set; }
+    public int Attack();
+
     //public class Player
     //{
     //    public Inventory inventory = new Inventory();

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public delegate void IsAttack(EAttackInfor attackInfor, int damage);
 public interface IEnemy
 {
     String name { get; set; }
@@ -15,7 +14,9 @@ public interface IEnemy
     bool isDead { get; set; }    
 
     int Attack();
-    //event IsAttack AttackInfor;
+
+    EAttackInfor eAttackInfor { get; set; }
+
     bool Die();
 
     Reward GetReward();
