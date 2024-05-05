@@ -6,7 +6,7 @@
         {
             GameScene gameScene = new GameScene();
             
-            gameScene.StartView();
+            //gameScene.StartView();
         }
     }
 }

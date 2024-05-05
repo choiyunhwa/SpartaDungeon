@@ -3,9 +3,11 @@ using SpartaDungeon;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 using static System.Formats.Asn1.AsnWriter;
+using static System.Net.Mime.MediaTypeNames;
 
 public class GameScene
 {
@@ -25,7 +27,9 @@ public class GameScene
 
     public GameScene()
     {
-        StartView();
+        //StartView();
+
+        IntroView();
     }
 
     public void InitDataSetting()
@@ -44,6 +48,53 @@ public class GameScene
         battleScene = new BattleScene(allQuestList);
         battleScene.SettingEnemyData();
     }
+    /// <summary>
+    /// GameStart Intro Ani
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
+    public void IntroView()
+    {        
+        bool colorCheck = false;
+        string introText = 
+            ("\n\n\n\n\n                ::::::::      :::::::::         :::         :::::::::   :::::::::::       ::: "
+           + "\n              :+:    :+:     :+:    :+:      :+: :+:       :+:    :+:      :+:         :+: :+:"
+           + "\n             +:+            +:+    +:+     +:+   +:+      +:+    +:+      +:+        +:+   +:+"
+           + "\n            +#++:++#++     +#++:++#+     +#++:++#++:     +#++:++#:       +#+       +#++:++#++:"
+           + "\n                  +#+     +#+           +#+     +#+     +#+    +#+      +#+       +#+     +#+ "
+           + "\n          #+#    #+#     #+#           #+#     #+#     #+#    #+#      #+#       #+#     #+#  "
+           + "\n          ########      ###           ###     ###     ###    ###      ###       ###     ###   ");
+
+
+        ConsoleUtility.TextColor(ConsoleColor.DarkGray, introText);
+        Thread.Sleep(500);
+        Console.Clear();
+        ConsoleUtility.TextColor(ConsoleColor.Gray, introText);
+        Thread.Sleep(500);
+        Console.Clear();
+        ConsoleUtility.TextColor(ConsoleColor.Red, introText);
+        
+        while (true)
+        {
+            colorCheck = !colorCheck;
+            Console.Clear();
+            ConsoleUtility.TextColor(ConsoleColor.Red, introText);
+            ConsoleColor color = colorCheck ? ConsoleColor.Gray : ConsoleColor.DarkGray;
+            Console.ForegroundColor = color;
+            Console.WriteLine("\n\n\n                                 <<     PRESS ANYKEY TO START     >>");
+            Console.ResetColor();
+
+            Thread.Sleep(400);
+
+            if(Console.KeyAvailable)
+            {
+                Console.ReadKey();
+                break;
+            }
+        }
+        StartView();
+    }
+
+
 
     /// <summary>
     /// screen for start game
@@ -51,66 +102,82 @@ public class GameScene
     /// <author> SooHyeonKim </author>
     public void StartView()
     {
+        string job = "";
+
         Console.Clear();
         ConsoleUtility.HeightPadding();
 
-        //Console.WriteLine(string.Format("{0}", "스파르타 던전").PadLeft(42 - (21 - ("스파르타 던전".Length / 2))));
-
-        //ConsoleUtility.HeightPadding();
-
-        //// 이름 물어보기
-        //Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
-        //string name = Console.ReadLine();   //닉네임 입력받기 추가
-        //Console.WriteLine();
-        //Console.WriteLine();
-        //// 직업
-        //Console.Write(string.Format("{0}", "1. 전사  |  2. 마법사 ").PadLeft(42 - (19 - ("1. 전사  |  2. 마법사 ".Length / 2))));
-        //Console.WriteLine();
-        //Console.WriteLine();
-        //// 직업 고르기
-        //Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
-
-        Console.WriteLine(string.Format("{0}", "스파르타 던전").PadLeft(42 - (21 - ("스파르타 던전".Length / 2))));
+        Console.WriteLine(string.Format("{0}", "닉네임과 직업을 선택해주세요.").PadLeft(42 - (21 - ("닉네임과 직업을 선택해주세요.".Length / 2))));
 
         ConsoleUtility.HeightPadding();
 
         // 이름 물어보기
         Console.Write(string.Format("{0}", "닉네임 : ").PadLeft(42 - (29 - ("닉네임 : ".Length / 2))));
         string name = Console.ReadLine();   //닉네임 입력받기 추가
-        Console.WriteLine();
-        Console.WriteLine();
-        // 직업
-        Console.Write(string.Format("{0}", "1. 전사  |  2. 마법사 ").PadLeft(42 - (19 - ("1. 전사  |  2. 마법사 ".Length / 2))));
-        Console.WriteLine();
-        Console.WriteLine();
-        // 직업 고르기
-        Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
 
-        int choice = int.Parse(Console.ReadLine());     //캐릭터 선택 입력받기 추가
-
-        switch (choice)
+        if(!string.IsNullOrEmpty(name))
         {
-            case 1:
-                player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000);
-                break;
-            case 2:
-                player = new Wizard(name, "Wizard", 1, 5, 5, 80, 100, 15000);
-                break;
+            Console.WriteLine();
+            Console.WriteLine();
+            // 직업
+            Console.Write(string.Format("{0}", "1. 전사  |  2. 마법사 ").PadLeft(42 - (19 - ("1. 전사  |  2. 마법사 ".Length / 2))));
+            Console.WriteLine();
+            Console.WriteLine();
+            // 직업 고르기
+            Console.Write(string.Format("{0}", "캐릭터 선택 : ").PadLeft(42 - (27 - ("캐릭터 선택 : ".Length / 2))));
+
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out int choice) && choice <= 2 && choice > 0)//캐릭터 선택 입력받기 추가
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            player = new Warrior(name, "Warrior", 1, 10, 10, 100, 50, 15000);
+                            break;
+                        case 2:
+                            player = new Wizard(name, "Wizard", 1, 5, 5, 80, 100, 15000);
+                            break;
+                    }
+                    break;
+                }
+                else
+                {
+                    ConsoleUtility.HeightPadding();
+                    Console.WriteLine("          잘못입력했습니다. 다시 입력해주세요.");
+                }
+            }
+
+            Console.WriteLine();
+            Console.Clear();
+            ConsoleUtility.HeightPadding();
+            switch (player.Job)
+            {
+                case "Warrior":
+                    job = "전사";
+                    break;
+                case "Wizard":
+                    job = "마법사";
+                    break;
+            }
+
+            Console.WriteLine($"                {player.Name}님 {job} 직업의 캐릭터를 생성하였습니다.");
+            ConsoleUtility.HeightPadding();
+            Console.WriteLine("          =================================================");
+            Console.WriteLine("                        PRESS ANYKEY TO START              ");
+            Console.WriteLine("          =================================================");
+            Console.ReadKey();
+
+            // 초기화(인벤토리, 던전)
+            InitDataSetting();
+            MainView();
         }
-
-        Console.WriteLine();
-
-
-        ConsoleUtility.HeightPadding();
-
-        Console.WriteLine("=================================================");
-        Console.WriteLine("              PRESS ANYKEY TO START              ");
-        Console.WriteLine("=================================================");
-        Console.ReadKey();
-
-        // 초기화(인벤토리, 던전)
-        InitDataSetting();
-        MainView();
+        else
+        {
+            Console.WriteLine("\n          닉네임을 입력해주세요.");
+            Thread.Sleep(300);
+            StartView();
+        }       
     }
 
     /// <summary>
