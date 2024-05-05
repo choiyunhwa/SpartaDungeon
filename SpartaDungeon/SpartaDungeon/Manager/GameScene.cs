@@ -195,7 +195,7 @@ public class GameScene
 
         Console.WriteLine("  1. 상태 보기");
         Console.WriteLine("  2. 인벤토리");
-        Console.WriteLine("  3. 전투 시작");
+        Console.WriteLine($"  3. 전투 시작 (현재 진행 :{player.CurrentDungenon} 층)");
         Console.WriteLine("  4. 퀘스트 확인");
         ConsoleUtility.HeightPadding();
 
@@ -214,7 +214,7 @@ public class GameScene
             case 3:
                 if (player.CurrentHp > 0)
                 {
-                    battleScene.InitSettingDungeon(player);
+                    battleScene.InitSettingDungeon(player, player.CurrentDungenon);
                     BattleView();
                 }
                 else
@@ -595,6 +595,7 @@ public class GameScene
     {
         int temp = skillDamage;
         int[] randem = RandomEnemy;
+        ConsoleColor color;
 
         Console.Clear();
         Console.WriteLine();
@@ -630,21 +631,19 @@ public class GameScene
                     switch (battleScene.orderEnemy.eAttackInfor)
                     {
                         case EAttackInfor.NONE:
-                            Console.ForegroundColor = ConsoleColor.Yellow;
                             damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
-                            Console.ResetColor();
                             break;
                         case EAttackInfor.BASIC:
                             damageTxt = "";
                             break;
                         case EAttackInfor.CRITICAL:
-                            Console.ForegroundColor = ConsoleColor.Red;
                             damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
-                            Console.ResetColor();
                             break;
                     }
 
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(damageTxt);
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -652,21 +651,19 @@ public class GameScene
                     switch (player.eAttackInfor)
                     {
                         case EAttackInfor.NONE:
-                            Console.ForegroundColor = ConsoleColor.Yellow;
                             damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
-                            Console.ResetColor();
                             break;
                         case EAttackInfor.BASIC:
                             damageTxt = "";
                             break;
                         case EAttackInfor.CRITICAL:
-                            Console.ForegroundColor = ConsoleColor.Red;
                             damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
-                            Console.ResetColor();
+
                             break;
                     }
-
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(damageTxt);
+                    Console.ResetColor();
                 }
             }
 
@@ -693,21 +690,18 @@ public class GameScene
                 switch (battleScene.orderEnemy.eAttackInfor)
                 {
                     case EAttackInfor.NONE:
-                        Console.ForegroundColor = ConsoleColor.Yellow;
                         damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
-                        Console.ResetColor();
                         break;
                     case EAttackInfor.BASIC:
                         damageTxt = "";
                         break;
                     case EAttackInfor.CRITICAL:
-                        Console.ForegroundColor = ConsoleColor.Red;
                         damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
-                        Console.ResetColor();
                         break;
                 }
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(damageTxt);
+                Console.ResetColor();
             }
             else
             {
@@ -715,20 +709,18 @@ public class GameScene
                 switch (player.eAttackInfor)
                 {
                     case EAttackInfor.NONE:
-                        Console.ForegroundColor = ConsoleColor.Yellow;
                         damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
-                        Console.ResetColor();
                         break;
                     case EAttackInfor.BASIC:
                         damageTxt = "";
                         break;
                     case EAttackInfor.CRITICAL:
-                        Console.ForegroundColor = ConsoleColor.Red;
                         damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
-                        Console.ResetColor();
                         break;
                 }
-
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(damageTxt);
+                Console.ResetColor();
             }
 
         }

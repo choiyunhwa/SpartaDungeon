@@ -13,6 +13,7 @@
     public int CurrentMP { get; set; }
     public int Gold { get; set; }
     public int Experience { get; set; }
+    public int CurrentDungenon {  get; set; }
     public void GetGold(int coin);
     public void LevelUp();
     public void GainExperience(int exp);

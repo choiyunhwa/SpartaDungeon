@@ -17,7 +17,7 @@ public class Warrior : IPlayer
     public int CurrentMP { get; set; }
     public int Gold { get; set; }
     public int Experience { get; set; }
-
+    public int CurrentDungenon { get; set; }
     public EAttackInfor eAttackInfor { get; set; } 
     public Warrior(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
     {
@@ -31,10 +31,10 @@ public class Warrior : IPlayer
         Gold = gold;
         CurrentHp = MaxHp;
         CurrentMP = MaxMP;
-
         AddAtk = 0;
         AddDef = 0;
         Experience = 0;
+        CurrentDungenon = 0;
         jobskills();
     }
 

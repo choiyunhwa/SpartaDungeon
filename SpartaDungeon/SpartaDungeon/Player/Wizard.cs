@@ -4,7 +4,7 @@ using static TryEquipment;
 
 public class Wizard : IPlayer
 {
- 
+
     public string Name { get; }
     public string Job { get; }
     public int Level { get; set; }
@@ -19,24 +19,27 @@ public class Wizard : IPlayer
 
     public int Gold { get; set; }
     public int Experience { get; set; }
+    public int CurrentDungenon { get; set; }
+
     public EAttackInfor eAttackInfor { get; set; }
 
     public Wizard(string name, string job, int level, float atk, float def, int mexHp, int mexmana, int gold)
-        {
-            Name = name;
-            Job = job;
-            Level = level;
-            Atk = atk;
-            Def = def;
-            MaxHp = mexHp;
-            MaxMP = mexmana;
-            Gold = gold;
-            CurrentHp = MaxHp;
-            CurrentMP = MaxMP;
-            AddAtk = 0;
-            AddDef = 0;
-            Experience = 0;
-            jobskills();
+    {
+        Name = name;
+        Job = job;
+        Level = level;
+        Atk = atk;
+        Def = def;
+        MaxHp = mexHp;
+        MaxMP = mexmana;
+        Gold = gold;
+        CurrentHp = MaxHp;
+        CurrentMP = MaxMP;
+        AddAtk = 0;
+        AddDef = 0;
+        Experience = 0;
+        CurrentDungenon = 0;
+        jobskills();
     }
 
     public void GetGold(int coin)
@@ -81,7 +84,7 @@ public class Wizard : IPlayer
         GameScene.SkillList.Add(new Skill("에너지 볼트", 3, 1, 10, "공격력 * 3 로 하나의 적을 공격합니다. ◈2레벨에 해금◈", 2, false, false));
         GameScene.SkillList.Add(new Skill("메직 클로", 10, 2, 15, "공격력 * 2 로 2명의 적을 랜덤으로 공격합니다. ◈3레벨에 해금◈", 3, true, false));
         GameScene.SkillList.Add(new Skill("콜드 빔", 10, 3, 20, "공격력 * 2 로 3명의 적을 랜덤으로 공격합니다. ◈4레벨에 해금◈", 4, true, false));
-        GameScene.SkillList.Add(new Skill("썬더 볼트", 4, 1, 20, "공격력 * 4 로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5 , false, true));
+        GameScene.SkillList.Add(new Skill("썬더 볼트", 4, 1, 20, "공격력 * 4 로 하나의 적을 공격합니다. (50%의 확률로 공격에 실패) ◈5레벨에 해금◈", 5, false, true));
     }
 
     /// <summary>
@@ -94,7 +97,7 @@ public class Wizard : IPlayer
         Random rand = new Random();
         int currentAtk = (int)Math.Ceiling(Atk);
         eAttackInfor = EAttackInfor.BASIC;
-        float damage = rand.Next(currentAtk - 1, currentAtk + 1);        
+        float damage = rand.Next(currentAtk - 1, currentAtk + 1);
 
         if (rand.NextDouble() <= 0.15) //15%로 발생
         {

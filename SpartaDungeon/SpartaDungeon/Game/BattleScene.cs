@@ -63,8 +63,6 @@ public class BattleScene
         enemys.Add(new Voidling());
         enemys.Add(new SiegeMinion());
         enemys.Add(new Dragon());
-
-
     }
 
 
@@ -73,23 +71,30 @@ public class BattleScene
     /// </summary>
     /// <param name="player"> Player Data </param>
     /// <author> ChoiYunHwa </author>
-    public void InitSettingDungeon(IPlayer player)
+    public void InitSettingDungeon(IPlayer player, int floor)
     {
         isEnding = false; //test용
         tempPlayerHealth = player.CurrentHp;
-        enemyCount = random.Next(1, 5);
         isEnding = false;
         dieEnemyCount = 0;
 
-        if (competeEnemys.Count > 0)
+        if (competeEnemys.Count >= 0)
             competeEnemys.Clear();
 
-        for (int i = 0; i < enemyCount; i++)
+        if(floor < 6)
         {
-            //Select Enemy Deep Copy and Add
-            IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy(); 
-            competeEnemys.Add(choiceEnemy);
+            enemyCount = random.Next(1, floor + 1);
+            for (int i = 0; i < enemyCount; i++)
+            {
+                //Select Enemy Deep Copy and Add
+                IEnemy choiceEnemy = enemys[random.Next(0, enemys.Count)].DeepCopy();
+                competeEnemys.Add(choiceEnemy);
+            }
         }
+        else
+        {
+            competeEnemys.Add(new Baron());
+        }       
 
         enemyNumber = competeEnemys.Count;
     }
