@@ -663,9 +663,8 @@ public class GameScene
                         Battle(0, temp, randem);
                 attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
                 defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;
-                if (battleScene.AttackTurn == true)
-                    battleScene.AttackTurn = false;
+                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;                
+
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
 
@@ -709,6 +708,9 @@ public class GameScene
                     Console.WriteLine(damageTxt);
                     Console.ResetColor();
                 }
+
+                if (battleScene.AttackTurn == true)
+                    battleScene.AttackTurn = false;
             }
 
         }
@@ -718,12 +720,10 @@ public class GameScene
             if (!object.ReferenceEquals(null, battleScene.currentEnemy))
                 if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
                     Battle(0, temp, randem);
+
             attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
             defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;
-
-            if (battleScene.AttackTurn == true)
-                battleScene.AttackTurn = false;
+            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;            
 
             Console.WriteLine($"  {attacker} 의 공격!");
             Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
@@ -767,6 +767,9 @@ public class GameScene
                 Console.ResetColor();
             }
 
+            if (battleScene.AttackTurn == true)
+                battleScene.AttackTurn = false;
+
         }
 
         Console.WriteLine("\n  0. 다음");
@@ -781,14 +784,16 @@ public class GameScene
             ResultBattle();
         }
 
-        if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        if (battleScene.isTurnEnd == false && (battleScene.AttackTurn == true || player.CurrentHp > 0)) //battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
         {
-            Battle(choice, 0, null);
+            Battle(choice, temp, randem);
         }
-        else if (battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        else if (battleScene.isTurnEnd == true && (battleScene.AttackTurn == true || player.CurrentHp > 0))
+        //battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
         {
-            battleScene.currentEnemy = battleScene.competeEnemys.First();
+            battleScene.currentEnemy = null;
             battleScene.AttackTurn = true;
+            battleScene.isTurnEnd = false;
             battleScene.turnCount = 0;
 
             currentView = EScreenView.MAIN_BATTLE;

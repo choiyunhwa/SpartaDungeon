@@ -31,12 +31,7 @@ public class BattleScene
         set { attackTurn = value; }
     }
 
-    private bool isAttack = true;
-
-    public bool IsAttack
-    {
-        get { return isAttack; }
-    }
+    public bool isTurnEnd { get; set; } = false;
 
     private int playerAttackDamage = 0;
 
@@ -73,9 +68,12 @@ public class BattleScene
     /// <author> ChoiYunHwa </author>
     public void InitSettingDungeon(IPlayer player, int floor)
     {
-        isEnding = false; //test용
+        //isEnding = false; //test용
         tempPlayerHealth = player.CurrentHp;
+        attackTurn = true;
         isEnding = false;
+        isTurnEnd = false;
+        turnCount = 0;
         dieEnemyCount = 0;
 
         if (competeEnemys.Count >= 0)
@@ -83,7 +81,7 @@ public class BattleScene
 
         if(floor < 6)
         {
-            enemyCount = random.Next(1, floor + 1);
+            enemyCount = random.Next(floor + 1, (floor + 1) * 2);
             for (int i = 0; i < enemyCount; i++)
             {
                 //Select Enemy Deep Copy and Add
@@ -109,10 +107,6 @@ public class BattleScene
         return (int[])selectedIndexes.ToArray();
     }
 
-
-
-
-
     /// <summary>
     /// Enemys and Player Fight 
     /// </summary>
@@ -120,25 +114,22 @@ public class BattleScene
     /// <param name="choice"> Player InputKey Number</param>
     /// <author> ChoiYunHwa </author>
     public void BattleDungeon(IPlayer player, int choice, int skillDamge)
-    {
-        List<IEnemy> tempEnemyHealth = competeEnemys;
-
-        //int currentAtk = (int)Math.Ceiling(player.Atk);
-        if(skillDamge == 0)
-        {
-            playerAttackDamage = player.Attack();
-            //random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1        
-
-            //Console.WriteLine($"플레이어의 데미지!!{playerAttackDamage}");
-        }
-        else
-        {
-            playerAttackDamage = skillDamge;
-        } 
-
-
+    {   
         if (attackTurn) //Player Turn
         {
+            //int currentAtk = (int)Math.Ceiling(player.Atk);
+            if (skillDamge == 0)
+            {
+                playerAttackDamage = player.Attack();
+                //random.Next(currentAtk - 1, currentAtk + 1); //Player Attack Range -1 ~ +1        
+
+                //Console.WriteLine($"플레이어의 데미지!!{playerAttackDamage}");
+            }
+            else
+            {
+                playerAttackDamage = skillDamge;
+            }
+
             if (choice != 0)
             {
                 orderEnemy = competeEnemys[choice - 1];
@@ -168,16 +159,15 @@ public class BattleScene
                 }
             }
         }
-
         else // Enemy's Turn
         {
-
+                turnCount++;
             if (turnCount <= enemyNumber)
             {
-                if (!competeEnemys[turnCount].Die())
+                currentEnemy = competeEnemys[turnCount - 1];
+                if (!competeEnemys[turnCount - 1].Die())
                 {
-                    currentEnemy = competeEnemys[turnCount];
-                    orderEnemy = competeEnemys[turnCount];
+                    orderEnemy = competeEnemys[turnCount - 1];
                     int enemyDamage = orderEnemy.Attack();
                     player.CurrentHp -= enemyDamage;
 
@@ -196,21 +186,21 @@ public class BattleScene
                 }
                 else
                 {
-                    turnCount++;
+                    //turnCount++;
                     return;
                 }
-                turnCount++;
+                if(turnCount == enemyCount)
+                    isTurnEnd = true;
             }
             else
             {
-                turnCount = 0;
+                //turnCount = 0;
                 attackTurn = true;
             }
         }
 
         if (dieEnemyCount == competeEnemys.Count)
-        {
-            isAttack = false;
+        {  
             isEnding = true;
         }
     }
