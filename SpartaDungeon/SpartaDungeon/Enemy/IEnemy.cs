@@ -11,7 +11,9 @@ public interface IEnemy
     int currentHP { get; set; }
     int maxHP { get; set; }
     int damage { get; set; }
-    bool isDead { get; set; }    
+    bool isDead { get; set; }  
+    
+    int currentDamage { get; set; }
 
     int Attack();
 

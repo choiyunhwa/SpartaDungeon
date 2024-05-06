@@ -93,7 +93,7 @@ public class BattleScene
         }
         else
         {
-            competeEnemys.Add(new Baron());
+            competeEnemys.Add(new Baron().DeepCopy());
         }       
 
         enemyNumber = competeEnemys.Count;
