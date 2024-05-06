@@ -214,8 +214,15 @@ public class GameScene
             case 3:
                 if (player.CurrentHp > 0)
                 {
-                    battleScene.InitSettingDungeon(player, player.CurrentDungenon);
-                    BattleView();
+                    if (player.CurrentDungenon < 6)
+                    {
+                        battleScene.InitSettingDungeon(player, player.CurrentDungenon);
+                        BattleView();
+                    }
+                    else
+                    {
+                        ResetBattleFloorView();
+                    }                    
                 }
                 else
                 {
@@ -458,6 +465,43 @@ public class GameScene
     }
 
     /// <summary>
+    /// Select when you reach the top floor
+    /// </summary>
+    /// <author> ChoiYunHwa </author>
+    private void ResetBattleFloorView()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        ConsoleUtility.HeightPadding();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("   최고 층 도달!");
+        Console.ResetColor();
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("   하지만 이 모험이 끝나지 않았습니다. \n   다시 처음부터 시작하여 더 깊은 곳을 향해 도전하세요.");
+        ConsoleUtility.HeightPadding();
+        Console.WriteLine("  1. 예");
+        Console.WriteLine("  2. 아니요");
+        ConsoleUtility.HeightPadding();
+        // 선택한 결과를 검증함
+        int choice = ConsoleUtility.PromptMenuChoice(1, 2);
+
+        switch(choice) 
+        {
+            case 1:
+                player.CurrentDungenon = 0;
+                battleScene.InitSettingDungeon(player, player.CurrentDungenon);
+                BattleView();
+                break;
+            case 2: 
+                MainView();
+                break;
+        }
+
+    }
+
+
+    /// <summary>
     /// Screen for Battle
     /// </summary>
     /// <author> ChoiYunHwa </author>
@@ -467,9 +511,9 @@ public class GameScene
         Console.WriteLine();
 
         // 제목 색 다름
-        ConsoleUtility.ShowTitle("  Battle!!");
+        ConsoleUtility.ShowTitle("  Battle!!");        
+        Console.WriteLine($"\n   [ {player.CurrentDungenon} 층 ]");
         ConsoleUtility.HeightPadding();
-
         int i = 1;
         foreach (var e in battleScene.competeEnemys) //Add YH 
         {

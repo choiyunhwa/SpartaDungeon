@@ -80,6 +80,12 @@ public class SiegeMinion : IEnemy
     }
     public void CallOnKilled(AllQuestList allQuestList)
     {
-        allQuestList.killseigeMinion.OnKilledEnemy(name);
+        if (allQuestList.acceptedQuestsLis.Count != 0)
+        {
+            foreach (var name in allQuestList.acceptedQuestsLis)
+            {
+                name.OnKilledEnemy(this.name);
+            }
+        }
     }
 }

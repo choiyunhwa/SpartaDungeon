@@ -52,7 +52,6 @@ public class KillVoidling : IQuest
     }
 
     public void OnItemEquipped(string itemName) { }
-    public void OnLevelUp() { }
 
 
     public void CompleteQuest()
