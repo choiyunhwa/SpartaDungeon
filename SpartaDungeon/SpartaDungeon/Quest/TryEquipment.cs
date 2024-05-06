@@ -47,8 +47,6 @@ public class TryEquipment : IQuest
         CompleteQuest();
     }
 
-    public void OnLevelUp() { }
-
     public void CompleteQuest()
     {
         isCompleted = true;

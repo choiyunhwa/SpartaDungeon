@@ -54,7 +54,6 @@ public class KillSeigeMinion : IQuest
     }
 
     public void OnItemEquipped(string itemName) { }
-    public void OnLevelUp() { }
 
     public void CompleteQuest()
     {

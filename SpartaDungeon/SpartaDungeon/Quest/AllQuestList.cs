@@ -13,7 +13,6 @@ public class AllQuestList
     public KillSeigeMinion killseigeMinion { get; set; }
     public KillVoidling killVoidling { get; set; }
     public TryEquipment tryEquipment { get; set; }
-    public TryLevelUp tryLevelUp { get; set; }
     public List<IQuest> questsList { get; set; }
 
     public List<IQuest> acceptedQuestsLis = new List<IQuest>(); //현재 수락한 퀘스트
@@ -30,9 +29,7 @@ public class AllQuestList
 
         tryEquipment = new TryEquipment();
 
-        tryLevelUp = new TryLevelUp();
-
-        questsList = new List<IQuest>() { KillDragon, killMinion, killseigeMinion, killVoidling, tryEquipment, tryLevelUp};
+        questsList = new List<IQuest>() { KillDragon, killMinion, killseigeMinion, killVoidling, tryEquipment};
     }
 
     /// <summary>
