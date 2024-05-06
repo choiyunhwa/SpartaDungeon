@@ -870,7 +870,7 @@ public class GameScene
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 나가기");
-        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
+        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count, EScreenView.QUEST);
 
         switch (choice)
         {
