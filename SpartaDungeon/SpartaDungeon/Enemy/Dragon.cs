@@ -85,7 +85,13 @@ public class Dragon : IEnemy
     }
     public void CallOnKilled(AllQuestList allQuestList)
     {
-        allQuestList.KillDragon.OnKilledEnemy(name);
+        if (allQuestList.acceptedQuestsLis.Count != 0)
+        {
+            foreach (var name in allQuestList.acceptedQuestsLis)
+            {
+                name.OnKilledEnemy(this.name);
+            }
+        }
     }
 }
 

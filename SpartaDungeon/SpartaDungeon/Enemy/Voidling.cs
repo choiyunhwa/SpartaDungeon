@@ -79,7 +79,13 @@ public class Voidling : IEnemy
     }
     public void CallOnKilled(AllQuestList allQuestList)
     {
-        allQuestList.killVoidling.OnKilledEnemy(name);
+        if (allQuestList.acceptedQuestsLis.Count != 0)
+        {
+            foreach (var name in allQuestList.acceptedQuestsLis)
+            {
+                name.OnKilledEnemy(this.name);
+            }
+        }
     }
 }
 
