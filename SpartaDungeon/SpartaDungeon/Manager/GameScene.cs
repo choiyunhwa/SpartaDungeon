@@ -784,6 +784,7 @@ public class GameScene
         if (result == "  Victory")
         {
             Reward reward = new Reward();
+            player.CurrentDungenon++;
             reward.GetReward(battleScene.competeEnemys, player); // 승리 시에만 전투 보상 지급
         }
 
