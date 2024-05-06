@@ -1,5 +1,6 @@
 ﻿
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Xml.Linq;
 
 public class Inventory
@@ -142,9 +143,13 @@ public class Inventory
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
             // 퀘스트 확인
-            if (allQuestList.tryEquipment.isCompleted == false)
+            
+            if (allQuestList.acceptedQuestsLis.Count != 0)
             {
-                allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+                foreach(var name in allQuestList.acceptedQuestsLis) {
+                    name.OnItemEquipped(choice.Name);
+                }
+
             }
             Thread.Sleep(500);
         }
@@ -156,9 +161,12 @@ public class Inventory
             choice.IsEquipped = true;
             Console.WriteLine("  장착했습니다.");
             // 퀘스트 확인
-            if (allQuestList.tryEquipment.isCompleted == false)
+            if (allQuestList.acceptedQuestsLis.Count != 0)
             {
-                allQuestList.tryEquipment.OnItemEquipped(choice.Name);
+                foreach (var name in allQuestList.acceptedQuestsLis)
+                {
+                    name.OnItemEquipped(choice.Name);
+                }
             }
             Thread.Sleep(500);
         }
