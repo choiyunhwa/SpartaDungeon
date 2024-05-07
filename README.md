@@ -72,7 +72,7 @@
 
 |퀘스트 창|퀘스트 수락|퀘스트 수락 후|
 |:------:|:------:|:------:|
-|![Quest1](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest.png)|![Quest2](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest_1.png)|![Quest3](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest_2.png)|
+|![Quest1](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest.png)|![Quest2](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest_2.png)|![Quest3](https://github.com/choiyunhwa/SpartaDungeon/blob/YH/SpartaImg/Sparta_Quest_1.png)|
 |퀘스트 목록 창|선택 퀘스트 상세 내용|퀘스트 수락 후 목록 창|
 
 </div>
