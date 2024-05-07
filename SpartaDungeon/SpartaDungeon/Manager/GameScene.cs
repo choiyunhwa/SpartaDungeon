@@ -663,9 +663,8 @@ public class GameScene
                         Battle(0, temp, randem);
                 attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
                 defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
-                if (battleScene.AttackTurn == true)
-                    battleScene.AttackTurn = false;
+                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;                
+
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
 
@@ -675,13 +674,13 @@ public class GameScene
                     switch (battleScene.orderEnemy.eAttackInfor)
                     {
                         case EAttackInfor.NONE:
-                            damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
+                            damageTxt = $"\n   {battleScene.orderEnemy.name}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
                             break;
                         case EAttackInfor.BASIC:
                             damageTxt = "";
                             break;
                         case EAttackInfor.CRITICAL:
-                            damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
+                            damageTxt = $"\n   {battleScene.orderEnemy.name}의 치명적인 일격!";
                             break;
                     }
 
@@ -695,13 +694,13 @@ public class GameScene
                     switch (player.eAttackInfor)
                     {
                         case EAttackInfor.NONE:
-                            damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
+                            damageTxt = $"\n   {battleScene.orderEnemy.name}가 민첩하게 {player.Name}의 공격을 피했습니다.";
                             break;
                         case EAttackInfor.BASIC:
                             damageTxt = "";
                             break;
                         case EAttackInfor.CRITICAL:
-                            damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
+                            damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy.name}는 치명적인 타격을 입었습니다.";
 
                             break;
                     }
@@ -709,6 +708,9 @@ public class GameScene
                     Console.WriteLine(damageTxt);
                     Console.ResetColor();
                 }
+
+                if (battleScene.AttackTurn == true)
+                    battleScene.AttackTurn = false;
             }
 
         }
@@ -718,12 +720,10 @@ public class GameScene
             if (!object.ReferenceEquals(null, battleScene.currentEnemy))
                 if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
                     Battle(0, temp, randem);
+
             attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
             defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.damage;
-
-            if (battleScene.AttackTurn == true)
-                battleScene.AttackTurn = false;
+            attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;            
 
             Console.WriteLine($"  {attacker} 의 공격!");
             Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
@@ -734,13 +734,13 @@ public class GameScene
                 switch (battleScene.orderEnemy.eAttackInfor)
                 {
                     case EAttackInfor.NONE:
-                        damageTxt = $"\n   {battleScene.orderEnemy}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
+                        damageTxt = $"\n   {battleScene.orderEnemy.name}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
                         break;
                     case EAttackInfor.BASIC:
                         damageTxt = "";
                         break;
                     case EAttackInfor.CRITICAL:
-                        damageTxt = $"\n   {battleScene.orderEnemy}의 치명적인 일격!";
+                        damageTxt = $"\n   {battleScene.orderEnemy.name}의 치명적인 일격!";
                         break;
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -753,19 +753,22 @@ public class GameScene
                 switch (player.eAttackInfor)
                 {
                     case EAttackInfor.NONE:
-                        damageTxt = $"\n   {battleScene.orderEnemy}가 민첩하게 {player.Name}의 공격을 피했습니다.";
+                        damageTxt = $"\n   {battleScene.orderEnemy.name}가 민첩하게 {player.Name}의 공격을 피했습니다.";
                         break;
                     case EAttackInfor.BASIC:
                         damageTxt = "";
                         break;
                     case EAttackInfor.CRITICAL:
-                        damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy}는 치명적인 타격을 입었습니다.";
+                        damageTxt = $"\n   {player.Name}가 강력한 일격을 퍼부었습니다! {battleScene.orderEnemy.name}는 치명적인 타격을 입었습니다.";
                         break;
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(damageTxt);
                 Console.ResetColor();
             }
+
+            if (battleScene.AttackTurn == true)
+                battleScene.AttackTurn = false;
 
         }
 
@@ -781,14 +784,16 @@ public class GameScene
             ResultBattle();
         }
 
-        if (battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        if (battleScene.isTurnEnd == false && (battleScene.AttackTurn == true || player.CurrentHp > 0)) //battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
         {
-            Battle(choice, 0, null);
+            Battle(choice, temp, randem);
         }
-        else if (battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.IsAttack == true || player.CurrentHp > 0))
+        else if (battleScene.isTurnEnd == true && (battleScene.AttackTurn == true || player.CurrentHp > 0))
+        //battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
         {
-            battleScene.currentEnemy = battleScene.competeEnemys.First();
+            battleScene.currentEnemy = null;
             battleScene.AttackTurn = true;
+            battleScene.isTurnEnd = false;
             battleScene.turnCount = 0;
 
             currentView = EScreenView.MAIN_BATTLE;
@@ -865,7 +870,7 @@ public class GameScene
 
         ConsoleUtility.HeightPadding();
         Console.WriteLine("\n  0. 나가기");
-        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count);
+        int choice = ConsoleUtility.PromptMenuChoice(0, allQuestList.questsList.Count, EScreenView.QUEST);
 
         switch (choice)
         {

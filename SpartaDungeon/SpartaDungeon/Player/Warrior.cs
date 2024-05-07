@@ -53,7 +53,7 @@ public class Warrior : IPlayer
             MaxHp += 10;
             CurrentHp = MaxHp;
             CurrentMP = MaxMP;
-            Console.WriteLine($"{Name}님의 레벨이 {Level}로 올랐습니다!");
+            Console.WriteLine($"\n  {Name}님의 레벨이 {Level}로 올랐습니다!");
 
             foreach (Skill skill in GameScene.SkillList)
             {

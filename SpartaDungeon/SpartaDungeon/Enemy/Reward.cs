@@ -27,8 +27,8 @@ public class Reward
             totalExp += reward.exp;
         }
 
-        Console.WriteLine($" 획득한 골드 : {totalGold} Gold");
-        Console.WriteLine($" 획득한 경험치 : {totalExp} Exp");
+        Console.WriteLine($"\n  획득한 골드 : {totalGold} Gold");
+        Console.WriteLine($"  획득한 경험치 : {totalExp} Exp");
 
         player.GetGold(totalGold);
         player.GainExperience(totalExp);
