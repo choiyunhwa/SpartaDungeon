@@ -19,11 +19,6 @@ public class BattleScene
 
     private AllQuestList AllQuestList;
 
-    public BattleScene(AllQuestList allQuestList)
-    {
-        this.AllQuestList = allQuestList;
-    }
-
     public bool AttackTurn
     {
         get { return attackTurn; }
@@ -47,6 +42,12 @@ public class BattleScene
     public IEnemy currentEnemy;
     public int tempPlayerHealth { get; set; } = 0;
     private int enemyNumber = 0;
+
+
+    public BattleScene(AllQuestList allQuestList)
+    {
+        this.AllQuestList = allQuestList;
+    }
 
     /// <summary>
     /// Add Enemy Informaion Setting 
@@ -139,7 +140,7 @@ public class BattleScene
                 if (orderEnemy.currentHP <= 0)
                 {
                     dieEnemyCount++;
-                    competeEnemys[turnCount].CallOnKilled(AllQuestList);
+                    //competeEnemys[turnCount].CallOnKilled(AllQuestList);
                     orderEnemy.currentHP = 0;
                     orderEnemy.isDead = true;
                 }
