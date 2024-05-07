@@ -654,42 +654,59 @@ public class GameScene
 
         if (RandomEnemy != null)
         {
-            for (int i = 0; i < RandomEnemy.Length; i++)
+
+            if (battleScene.AttackTurn == false)
             {
-                ch = RandomEnemy[i];
+
                 battleScene.BattleDungeon(player, ch, skillDamage);
                 if (!object.ReferenceEquals(null, battleScene.currentEnemy))
                     if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
                         Battle(0, temp, randem);
+
                 attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
                 defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
-                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;                
+                attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;
 
                 Console.WriteLine($"  {attacker} 의 공격!");
                 Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
 
-                if (battleScene.AttackTurn == false)
-                {
-                    string damageTxt = "";
-                    switch (battleScene.orderEnemy.eAttackInfor)
-                    {
-                        case EAttackInfor.NONE:
-                            damageTxt = $"\n   {battleScene.orderEnemy.name}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
-                            break;
-                        case EAttackInfor.BASIC:
-                            damageTxt = "";
-                            break;
-                        case EAttackInfor.CRITICAL:
-                            damageTxt = $"\n   {battleScene.orderEnemy.name}의 치명적인 일격!";
-                            break;
-                    }
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(damageTxt);
-                    Console.ResetColor();
-                }
-                else
+                string damageTxt = "";
+                switch (battleScene.orderEnemy.eAttackInfor)
                 {
+                    case EAttackInfor.NONE:
+                        damageTxt = $"\n   {battleScene.orderEnemy.name}의 공격이 빗나갔다. 운이 좋았던 것 같다.";
+                        break;
+                    case EAttackInfor.BASIC:
+                        damageTxt = "";
+                        break;
+                    case EAttackInfor.CRITICAL:
+                        damageTxt = $"\n   {battleScene.orderEnemy.name}의 치명적인 일격!";
+                        break;
+                }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(damageTxt);
+                Console.ResetColor();
+
+            }
+            else if (battleScene.AttackTurn == true)
+            {
+                for (int i = 0; i < RandomEnemy.Length; i++)
+                {
+                    ch = RandomEnemy[i];
+                    battleScene.BattleDungeon(player, ch, skillDamage);
+                    if (!object.ReferenceEquals(null, battleScene.currentEnemy))
+                        if (battleScene.currentEnemy.isDead == true && battleScene.AttackTurn == false)
+                            Battle(0, temp, randem);
+
+                    attacker = battleScene.AttackTurn ? player.Name : battleScene.orderEnemy.name;
+                    defender = battleScene.AttackTurn ? "LV" + battleScene.orderEnemy.level + " " + battleScene.orderEnemy.name : player.Name;
+                    attackerDamage = battleScene.AttackTurn ? battleScene.PlayerAttackDamage : battleScene.orderEnemy.currentDamage;
+
+                    Console.WriteLine($"  {attacker} 의 공격!");
+                    Console.WriteLine($"\n  {defender} 을(를) 맞췄습니다. [데미지 : {attackerDamage}]");
+
                     string damageTxt = "";
                     switch (player.eAttackInfor)
                     {
@@ -708,10 +725,11 @@ public class GameScene
                     Console.WriteLine(damageTxt);
                     Console.ResetColor();
                 }
-
-                if (battleScene.AttackTurn == true)
-                    battleScene.AttackTurn = false;
             }
+
+            if (battleScene.AttackTurn == true)
+                battleScene.AttackTurn = false;
+
 
         }
         else
@@ -786,7 +804,7 @@ public class GameScene
 
         if (battleScene.isTurnEnd == false && (battleScene.AttackTurn == true || player.CurrentHp > 0)) //battleScene.currentEnemy != battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
         {
-            Battle(choice, temp, randem);
+            Battle(choice, 0, null);
         }
         else if (battleScene.isTurnEnd == true && (battleScene.AttackTurn == true || player.CurrentHp > 0))
         //battleScene.currentEnemy == battleScene.competeEnemys.Last() && (battleScene.AttackTurn == true || player.CurrentHp > 0)
